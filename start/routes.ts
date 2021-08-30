@@ -19,7 +19,6 @@
 */
 
 import Route from "@ioc:Adonis/Core/Route";
-import { schema, rules } from "@ioc:Adonis/Core/Validator";
 
 Route.get("/", async () => "Hello, World!");
 
@@ -27,21 +26,12 @@ Route.get("/admin/login", async ({ view }) => {
   return view.render("admin/login");
 });
 
-Route.post("/admin/login", async ({ request, response, view }) => {
-  const userSchema = schema.create({
-    email: schema.string({ trim: true }, [rules.email(), rules.required()]),
-    password: schema.string({ trim: true }, [rules.required()]),
-  });
+Route.post("/admin/login", "UsersController.login");
 
-  try {
-    const payload = await request.validate({ schema: userSchema });
-    console.log(payload);
-    return view.render("admin/login");
-  } catch (err) {
-    response.badRequest(err.messages);
+Route.get("/admin/dashboard", async ({ session, response, view }) => {
+  if (!session.get("id_user")) {
+    return response.redirect("/admin/login");
   }
-});
 
-Route.get("/admin/dashboard", async ({ view }) => {
   return view.render("admin/dashboard");
 });

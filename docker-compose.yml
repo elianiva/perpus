@@ -9,7 +9,18 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: manusia
+      MYSQL_PASSWORD: bernapas
+      MYSQL_DATABASE: perpus
+      MYSQL_ROOT_PASSWORD: foobar
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
 
 volumes:
   dbdata:

@@ -3,7 +3,9 @@
   "commands": [
     "./commands",
     "@adonisjs/core/commands",
-    "@adonisjs/repl/build/commands"
+    "@adonisjs/repl/build/commands",
+    "@adonisjs/lucid/build/commands",
+    "@adonisjs/bouncer/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -20,7 +22,8 @@
       "environment": [
         "web"
       ]
-    }
+    },
+    "./start/bouncer"
   ],
   "providers": [
     "./providers/AppProvider",
@@ -28,7 +31,9 @@
     "@adonisjs/session",
     "@adonisjs/view",
     "@adonisjs/shield",
-    "@eidellev/inertia-adonisjs"
+    "@eidellev/inertia-adonisjs",
+    "@adonisjs/lucid",
+    "@adonisjs/bouncer"
   ],
   "metaFiles": [
     {

@@ -1,16 +1,21 @@
 @layout('layouts/login')
 @set('title', 'Login')
 @set('bodyClass', 'hold-transition login-page')
+@set('error', flashMessages.get('error'))
 
 @section('body')
+
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="/admin/login" class="h1"><b>Admin</b> E-Library</a>
+      <span class="h1"><b>Admin</b> E-Library</span>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Masuk terlebih dahulu</p>
-
+      @if(error)
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+      @endif
       <form action="/admin/login" method="POST">
         <div class="input-group mb-3">
           <input name="email" type="email" class="form-control" placeholder="Email">
@@ -44,7 +49,7 @@
       </form>
 
       <p class="mb-1">
-        <a href="forgot-password.html">Lupa kata sandi</a>
+      <a href="forgot-password.html">Lupa kata sandi</a>
       </p>
     </div>
   </div>
