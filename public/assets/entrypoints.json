@@ -2,7 +2,7 @@
   "entrypoints": {
     "app": {
       "js": [
-        "http://localhost:37677/assets/app.js"
+        "http://localhost:36361/assets/app.js"
       ]
     }
   }

@@ -33,7 +33,8 @@
     "@adonisjs/shield",
     "@eidellev/inertia-adonisjs",
     "@adonisjs/lucid",
-    "@adonisjs/bouncer"
+    "@adonisjs/bouncer",
+    "@adonisjs/auth"
   ],
   "metaFiles": [
     {

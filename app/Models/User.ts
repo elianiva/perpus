@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { BaseModel, beforeSave, column, HasOne, hasOne } from "@ioc:Adonis/Lucid/Orm";
 import Hash from "@ioc:Adonis/Core/Hash";
 import Profil from "./Profil";
+import Role from "./Role";
 
 export default class User extends BaseModel {
   public static table = "user";
@@ -14,6 +15,14 @@ export default class User extends BaseModel {
 
   @column({ serializeAs: null })
   public password: string;
+
+  @column({ serializeAs: "id_role" })
+  public idRole: number;
+
+  @hasOne(() => Role, {
+    foreignKey: "idRole",
+  })
+  public role: HasOne<typeof Role>;
 
   @column({ serializeAs: "id_profil" })
   public idProfil: number;

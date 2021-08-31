@@ -20,18 +20,16 @@
 
 import Route from "@ioc:Adonis/Core/Route";
 
-Route.get("/", async () => "Hello, World!");
-
-Route.get("/admin/login", async ({ view }) => {
-  return view.render("admin/login");
-});
-
-Route.post("/admin/login", "UsersController.login");
-
-Route.get("/admin/dashboard", async ({ session, response, view }) => {
+Route.get("/", async ({ session, response }) => {
   if (!session.get("id_user")) {
     return response.redirect("/admin/login");
   }
-
-  return view.render("admin/dashboard");
+  return response.redirect("/admin/login");
 });
+
+Route.group(() => {
+  Route.get("/login", "UsersController.index");
+  Route.post("/login", "UsersController.login");
+
+  Route.get("/dashboard", "UsersController.dashboard").middleware("auth");
+}).prefix("/admin");

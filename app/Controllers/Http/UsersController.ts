@@ -4,22 +4,45 @@ import User from "App/Models/User";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 
 export default class UsersController {
-  public async login({ request, response, session }: HttpContextContract) {
-    if (session.get("id_user")) {
+  public async index({ view }: HttpContextContract) {
+    // TODO: redirect
+    return view.render("admin/login");
+  }
+
+  public async dashboard({ response, view, auth }: HttpContextContract) {
+    if (!auth.user) {
+      return response.redirect("/admin/login");
+    }
+    return view.render("admin/dashboard", {
+      user: auth.user.toJSON(),
+    });
+  }
+
+  public async login({ request, response, session, auth }: HttpContextContract) {
+    if (auth.user) {
       return response.redirect("/admin/dashboard");
     }
 
     const userSchema = schema.create({
       email: schema.string({ trim: true }, [rules.email(), rules.required()]),
       password: schema.string({ trim: true }, [rules.required()]),
+      remember_me: schema.boolean.optional(),
     });
 
     try {
-      const { email, password } = await request.validate({ schema: userSchema });
+      /* eslint-disable */
+      const { email, password, remember_me } = await request.validate({ schema: userSchema });
 
       const user = await User.findBy("email", email);
       if (!user) {
         session.flash({ error: `Tidak ada user dengan email ${email}` });
+        return response.redirect("/admin/login");
+      }
+
+      await user.load("role");
+      console.log(user.toJSON());
+      if (user.role.nama !== "ADMIN") {
+        session.flash({ error: "Anda bukan admin!" });
         return response.redirect("/admin/login");
       }
 
@@ -29,13 +52,13 @@ export default class UsersController {
         return response.redirect("/admin/login");
       }
 
-      // load the rest of the required data
-      await user.load("profil");
+      // await user.load("profil");
+      // console.log(user.profil);
+      await auth.use("web").login(user, remember_me);
 
-      session.put("id_user", user.idUser);
-      session.put("nama_user", user.profil.nama);
       return response.redirect("/admin/dashboard");
     } catch (err) {
+      console.error(err);
       return response.badRequest(err.messages);
     }
   }

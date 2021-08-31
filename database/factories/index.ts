@@ -2,22 +2,15 @@ import User from "App/Models/User";
 import Factory from "@ioc:Adonis/Lucid/Factory";
 import Profil from "App/Models/Profil";
 import Jurusan from "App/Models/Jurusan";
+import Role from "App/Models/Role";
 
-export const JurusanFactory = Factory.define(Jurusan, ({ faker }) => {
-  return {
-    nama: faker.random.arrayElement([
-      "Akomodasi Perhotelan",
-      "Usaha Perjalanan Wisata",
-      "Tata Boga",
-      "Tata Busana",
-      "Desain Fesyen",
-      "Kecantikan Kulit dan Rambut",
-      "Teknik Komputer dan Jaringan",
-      "Rekayasa Perangkat Lunak",
-      "Multimedia",
-    ]),
-  };
-}).build();
+export const JurusanFactory = Factory.define(Jurusan, () => ({
+  nama: "",
+})).build();
+
+export const RoleFactory = Factory.define(Role, () => ({
+  nama: "",
+})).build();
 
 export const ProfilFactory = Factory.define(Profil, ({ faker }) => {
   return {
@@ -32,5 +25,6 @@ export const UserFactory = Factory.define(User, ({ faker }) => {
   return {
     email: faker.internet.email(),
     password: faker.internet.password(),
+    idRole: faker.datatype.number({ min: 1, max: 2 }),
   };
 }).build();
