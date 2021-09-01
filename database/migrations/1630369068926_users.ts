@@ -5,15 +5,15 @@ export default class Users extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments("id_user").primary().notNullable().unsigned();
-      table.string("email", 32);
+      table.increments("id").primary().notNullable().unsigned();
+      table.string("email");
       table.string("password");
       table.integer("id_role", 1).unsigned();
       table.integer("id_profil").unsigned();
       table.timestamps(true, true);
 
-      table.foreign("id_role").references("id_role").inTable("role");
-      table.foreign("id_profil").references("id_profil").inTable("profil").onDelete("CASCADE");
+      table.foreign("id_role").references("id").inTable("role");
+      table.foreign("id_profil").references("id").inTable("profil").onDelete("CASCADE");
     });
   }
 

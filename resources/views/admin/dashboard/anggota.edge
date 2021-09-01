@@ -1,0 +1,213 @@
+@layout('layouts/dashboard.edge')
+
+@section('body')
+<div class="wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+  </div>
+
+  @include('components/navbar')
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">E-Library</span>
+    </a>
+
+    @!component('components/sidebar', {
+      profil: profil,
+      active: "anggota"
+    })
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Semua Anggota</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a href="{{ route('/admin/dashboard') }}">
+                  Dashboard
+                </a>
+              </li>
+              <li class="breadcrumb-item active">Anggota</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <button class="btn btn-success mb-2">
+                  <b>Tambah Anggota</b>
+                </button>
+                <table id="table" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID.</th>
+                    <th>Email</th>
+                    <th>Nama Lengkap</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Kelas</th>
+                    <th>Jurusan</th>
+                    <th>Aksi</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>ID.</th>
+                    <th>Email</th>
+                    <th>Nama Lengkap</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Kelas</th>
+                    <th>Jurusan</th>
+                    <th>Aksi</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  @!component('components/footer')
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Konfirmasi</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer justify-content-between">
+        <form method="POST" action="/api/anggota/hapus?_method=delete">
+          {{ csrfField() }}
+          <input id="user-id" name="user-id" type="hidden" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+@end
+
+@section('stylesheets')
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+@end
+
+@section('custom_scripts')
+<!-- DataTables  & Plugins -->
+<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/plugins/jszip/jszip.min.js"></script>
+<script src="/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+  $('#table').DataTable({
+      ajax: '/api/anggota',
+      columns: [
+          { data: 'id' },
+          { data: 'email' },
+          { data: 'nama_lengkap' },
+          { data: 'jenis_kelamin' },
+          { data: 'kelas' },
+          { data: 'jurusan' },
+          { data: null },
+      ],
+      columnDefs: [{
+          targets: [-1],
+          render: (data, type, row, meta) => {
+              const id = row.id;
+              return `
+<button
+  type="button"
+  class="btn btn-danger"
+  data-toggle="modal"
+  data-target="#modal-default"
+  data-email="${row.email}"
+  data-id="${row.id}"
+>
+  <i class="fas fa-trash"></i>
+</button>
+<button
+  type="button"
+  class="btn btn-primary"
+  data-toggle="modal"
+  data-target="#modal-default"
+  data-email="${row.email}"
+  data-id="${row.id}"
+>
+  <i class="fas fa-edit"></i>
+</button>
+`
+          }
+      }],
+      paging: true,
+      lengthChange: false,
+      searching: false,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      responsive: true,
+      deferRender: true,
+  }).buttons();
+
+  $('#modal-default').on('show.bs.modal', function(event) {
+      const email = $(event.relatedTarget).data('email');
+      const id = $(event.relatedTarget).data('id');
+      $(this).find('.modal-body').html(`<p class="h5">Yakin hapus data anggota dengan email <b>${email}</b>?</p>`);
+      $(this).find('#user-id').val(id);
+  })
+</script>
+@end

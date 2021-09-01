@@ -1,4 +1,4 @@
-import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, column, HasMany, hasMany } from "@ioc:Adonis/Lucid/Orm";
 import { DateTime } from "luxon";
 import User from "./User";
 
@@ -6,13 +6,15 @@ export default class Role extends BaseModel {
   public static table = "role";
 
   @column({ isPrimary: true })
-  public idRole: number;
+  public id: number;
 
   @column()
   public nama: string;
 
-  @belongsTo(() => User, { localKey: "idRole" })
-  public user: BelongsTo<typeof User>;
+  @hasMany(() => User, {
+    foreignKey: "idRole",
+  })
+  public user: HasMany<typeof User>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

@@ -16,12 +16,18 @@ export default class UserSeeder extends BaseSeeder {
     ]).createMany(9);
 
     await RoleFactory.merge([
-      { idRole: 1, nama: "ADMIN" },
-      { idRole: 2, nama: "SISWA" },
+      { id: 1, nama: "ADMIN" },
+      { id: 2, nama: "SISWA" },
     ]).createMany(2);
 
-    await UserFactory.merge({ password: "foobar", idRole: 2 }).createMany(3, async (user) => {
-      user.idProfil = (await ProfilFactory.create()).idProfil;
+    const AMOUNT = 30;
+    await UserFactory.merge([
+      ...new Array(AMOUNT).fill(0).map((_, i) => ({
+        idRole: i < 5 ? 1 : 2,
+        password: "foobar",
+      })),
+    ]).createMany(AMOUNT, async (user) => {
+      user.idProfil = (await ProfilFactory.create()).id;
     });
   }
 }

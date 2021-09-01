@@ -6,12 +6,12 @@ export default class Jurusan extends BaseModel {
   public static table = "jurusan";
 
   @column({ isPrimary: true })
-  public idJurusan: number;
+  public id: number;
 
   @column()
   public nama: string;
 
-  @hasMany(() => Profil, { foreignKey: "idProfil" })
+  @hasMany(() => Profil, { foreignKey: "idJurusan" })
   public profil: HasMany<typeof Profil>;
 
   @column.dateTime({ autoCreate: true })

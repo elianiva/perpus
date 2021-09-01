@@ -5,7 +5,7 @@ export default class Roles extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.integer("id_role", 1).primary().notNullable().unsigned();
+      table.integer("id", 1).primary().notNullable().unsigned();
       table.string("nama", 32);
       table.timestamps(true, true);
     });

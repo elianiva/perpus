@@ -1,12 +1,13 @@
-import { BaseModel, belongsTo, BelongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, belongsTo, BelongsTo, column, HasOne, hasOne } from "@ioc:Adonis/Lucid/Orm";
 import Jurusan from "App/Models/Jurusan";
 import { DateTime } from "luxon";
+import User from "./User";
 
 export default class Profil extends BaseModel {
   public static table = "profil";
 
   @column({ isPrimary: true })
-  public idProfil: number;
+  public id: number;
 
   @column()
   public nama: string;
@@ -16,6 +17,9 @@ export default class Profil extends BaseModel {
 
   @column()
   public kelas: number;
+
+  @hasOne(() => User, { foreignKey: "idProfil" })
+  public user: HasOne<typeof User>;
 
   @column()
   public idJurusan: number;

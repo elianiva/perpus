@@ -28,8 +28,18 @@ Route.get("/", async ({ session, response }) => {
 });
 
 Route.group(() => {
-  Route.get("/login", "UsersController.index");
-  Route.post("/login", "UsersController.login");
+  Route.get("/login", "LoginController.index");
+  Route.post("/login", "LoginController.login");
 
-  Route.get("/dashboard", "UsersController.dashboard").middleware("auth");
+  Route.post("/logout", "LoginController.logout");
+
+  Route.group(() => {
+    Route.get("/", "DashboardController.index");
+    Route.get("/anggota", "DashboardController.anggota");
+  }).prefix("/dashboard");
 }).prefix("/admin");
+
+Route.group(() => {
+  Route.get("/anggota", "UsersController.show");
+  Route.delete("/anggota/hapus", "UsersController.destroy");
+}).prefix("/api");
