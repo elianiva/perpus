@@ -10,6 +10,9 @@ export default class Profil extends BaseModel {
   public id: number;
 
   @column()
+  public nisn: string;
+
+  @column()
   public nama: string;
 
   @column()

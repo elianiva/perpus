@@ -18,7 +18,7 @@ export default class LoginController {
       return response.redirect("/admin/dashboard");
     }
 
-    const userSchema = schema.create({
+    const loginSchema = schema.create({
       email: schema.string({ trim: true }, [rules.email(), rules.required()]),
       password: schema.string({ trim: true }, [rules.required()]),
       remember_me: schema.boolean.optional(),
@@ -26,7 +26,7 @@ export default class LoginController {
 
     try {
       /* eslint-disable */
-      const { email, password, remember_me } = await request.validate({ schema: userSchema });
+      const { email, password, remember_me } = await request.validate({ schema: loginSchema });
 
       const user = await User.findBy("email", email);
       if (!user) {

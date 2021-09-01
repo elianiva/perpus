@@ -2,10 +2,15 @@
 
 @section('body')
 <div class="wrapper">
-
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    <img
+      class="animation__shake"
+      src="/img/AdminLTELogo.png"
+      alt="AdminLTELogo"
+      height="60"
+      width="60"
+    />
   </div>
 
   @include('components/navbar')
@@ -14,14 +19,16 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img
+        src="/img/AdminLTELogo.png"
+        alt="AdminLTE Logo"
+        class="brand-image img-circle elevation-3"
+        style="opacity: 0.8"
+      />
       <span class="brand-text font-weight-light">E-Library</span>
     </a>
 
-    @!component('components/sidebar', {
-      profil: profil,
-      active: "anggota"
-    })
+    @!component('components/sidebar', { active: "anggota" })
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
@@ -32,19 +39,26 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Semua Anggota</h1>
-          </div><!-- /.col -->
+          </div>
+          <!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-                <a href="{{ route('/admin/dashboard') }}">
-                  Dashboard
-                </a>
+                <a href="{{ route('/admin/dashboard') }}"> Dashboard </a>
               </li>
               <li class="breadcrumb-item active">Anggota</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <a href="{{ route('/admin/dashboard/anggota/tambah') }}">
+          <button class="btn btn-success">
+            <b class="text-white">Tambah Anggota</b>
+          </button>
+        </a>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 
@@ -56,33 +70,29 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <button class="btn btn-success mb-2">
-                  <b>Tambah Anggota</b>
-                </button>
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
-                    <th>ID.</th>
-                    <th>Email</th>
-                    <th>Nama Lengkap</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Kelas</th>
-                    <th>Jurusan</th>
-                    <th>Aksi</th>
-                  </tr>
+                    <tr>
+                      <th>NISN</th>
+                      <th>Email</th>
+                      <th>Nama Lengkap</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Kelas</th>
+                      <th>Jurusan</th>
+                      <th>Aksi</th>
+                    </tr>
                   </thead>
-                  <tbody>
-                  </tbody>
+                  <tbody></tbody>
                   <tfoot>
-                  <tr>
-                    <th>ID.</th>
-                    <th>Email</th>
-                    <th>Nama Lengkap</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Kelas</th>
-                    <th>Jurusan</th>
-                    <th>Aksi</th>
-                  </tr>
+                    <tr>
+                      <th>NISN</th>
+                      <th>Email</th>
+                      <th>Nama Lengkap</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Kelas</th>
+                      <th>Jurusan</th>
+                      <th>Aksi</th>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
@@ -92,7 +102,8 @@
           </div>
         </div>
         <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
@@ -132,10 +143,18 @@
 @end
 
 @section('stylesheets')
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+<link
+  rel="stylesheet"
+  href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+/>
+<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+
+<style>
+.pull-left{ float:left !important; }
+.pull-right{ float:right !important; }
+</style>
 @end
 
 @section('custom_scripts')
@@ -154,20 +173,23 @@
 <script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <script>
-  $('#table').DataTable({
-      ajax: '/api/anggota',
-      columns: [
-          { data: 'id' },
-          { data: 'email' },
-          { data: 'nama_lengkap' },
-          { data: 'jenis_kelamin' },
-          { data: 'kelas' },
-          { data: 'jurusan' },
+  $(document).ready(function () {
+    const table = $("#table")
+      .DataTable({
+        ajax: "/api/anggota",
+        columns: [
+          { data: "nisn" },
+          { data: "email" },
+          { data: "nama_lengkap" },
+          { data: "jenis_kelamin" },
+          { data: "kelas" },
+          { data: "jurusan" },
           { data: null },
-      ],
-      columnDefs: [{
-          targets: [-1],
-          render: (data, type, row, meta) => {
+        ],
+        columnDefs: [
+          {
+            targets: [-1],
+            render: (data, type, row, meta) => {
               const id = row.id;
               return `
 <button
@@ -190,24 +212,46 @@
 >
   <i class="fas fa-edit"></i>
 </button>
-`
+`;
+            },
+          },
+        ],
+        paging: true,
+        lengthChange: false,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+        deferRender: true,
+        dom: '<"pull-left"f><"pull-right"B>tip',
+        buttons: [
+          {
+            extend: 'excel',
+            text: 'Export to Excel',
+            className: 'btn btn-success',
+            exportOptions: {
+              columns: 'th:not(:last-child)'
+            }
+          },
+          {
+            extend: 'pdf',
+            text: 'Export to PDF',
+            className: 'btn btn-danger',
+            exportOptions: {
+              columns: 'th:not(:last-child)'
+            }
           }
-      }],
-      paging: true,
-      lengthChange: false,
-      searching: false,
-      ordering: true,
-      info: true,
-      autoWidth: false,
-      responsive: true,
-      deferRender: true,
-  }).buttons();
+        ]
+      });
 
-  $('#modal-default').on('show.bs.modal', function(event) {
-      const email = $(event.relatedTarget).data('email');
-      const id = $(event.relatedTarget).data('id');
-      $(this).find('.modal-body').html(`<p class="h5">Yakin hapus data anggota dengan email <b>${email}</b>?</p>`);
-      $(this).find('#user-id').val(id);
-  })
+    $("#modal-default").on("show.bs.modal", function (event) {
+      const email = $(event.relatedTarget).data("email");
+      const id = $(event.relatedTarget).data("id");
+      $(this)
+        .find(".modal-body")
+        .html(`<p class="h5">Yakin hapus data anggota dengan email <b>${email}</b>?</p>`);
+      $(this).find("#user-id").val(id);
+    });
+  });
 </script>
 @end

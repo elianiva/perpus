@@ -6,6 +6,7 @@ export default class Profils extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id").primary().notNullable().unsigned();
+      table.string("nisn", 10);
       table.string("nama");
       table.string("sex", 1);
       table.integer("kelas", 2);

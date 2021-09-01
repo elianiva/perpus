@@ -14,6 +14,7 @@ export const RoleFactory = Factory.define(Role, () => ({
 
 export const ProfilFactory = Factory.define(Profil, ({ faker }) => {
   return {
+    nisn: faker.helpers.replaceSymbolWithNumber("##########"),
     nama: `${faker.name.firstName()} ${faker.name.lastName()}`,
     sex: faker.random.arrayElement(["P", "L"]),
     kelas: faker.random.arrayElement([10, 11, 12, 13]),

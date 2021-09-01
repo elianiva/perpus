@@ -1,5 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Database from "@ioc:Adonis/Lucid/Database";
+import Jurusan from "App/Models/Jurusan";
 
 export default class DashboardController {
   public async index({ response, session, view, auth }: HttpContextContract) {
@@ -29,6 +30,21 @@ export default class DashboardController {
       await auth.use("web").authenticate();
       return view.render("admin/dashboard/anggota");
     } catch {
+      session.flash({ error: "Harap login terlebih dahulu" });
+      return response.redirect("/admin/login");
+    }
+  }
+
+  public async tambah({ response, session, auth, view }: HttpContextContract) {
+    try {
+      await auth.use("web").authenticate();
+      const majors = (await Jurusan.all()).map((major) => [major.id, major.nama]);
+
+      return view.render("admin/dashboard/anggota_tambah", {
+        jurusan: majors,
+      });
+    } catch (err) {
+      console.error(err);
       session.flash({ error: "Harap login terlebih dahulu" });
       return response.redirect("/admin/login");
     }

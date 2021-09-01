@@ -4,7 +4,6 @@
 @set('error', flashMessages.get('error'))
 
 @section('body')
-
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
@@ -12,9 +11,7 @@
     </div>
     <div class="card-body">
       @if(error)
-      <div class="alert alert-danger" role="alert">
-        {{error}}
-      </div>
+        <div class="alert alert-danger" role="alert">{{error}}</div>
       @endif
       <form action="/admin/login" method="POST">
         {{ csrfField() }}
@@ -25,7 +22,7 @@
             class="form-control"
             placeholder="Email"
             value="{{flashMessages.get('name', '')}}"
-          >
+          />
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -33,12 +30,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input
-            name="password"
-            type="password"
-            class="form-control"
-            placeholder="Password"
-          >
+          <input name="password" type="password" class="form-control" placeholder="Password" />
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -48,10 +40,8 @@
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
-              <input name="remember_me" type="checkbox" id="remember">
-              <label for="remember">
-                Ingat Saya
-              </label>
+              <input name="remember_me" type="checkbox" id="remember" />
+              <label for="remember"> Ingat Saya </label>
             </div>
           </div>
           <div class="col-4">
@@ -61,7 +51,7 @@
       </form>
 
       <p class="mb-1">
-      <a href="forgot-password.html">Lupa kata sandi</a>
+        <a href="forgot-password.html">Lupa kata sandi</a>
       </p>
     </div>
   </div>

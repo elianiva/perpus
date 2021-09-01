@@ -17,7 +17,7 @@ export default class UserSeeder extends BaseSeeder {
 
     await RoleFactory.merge([
       { id: 1, nama: "ADMIN" },
-      { id: 2, nama: "SISWA" },
+      { id: 2, nama: "ANGGOTA" },
     ]).createMany(2);
 
     const AMOUNT = 30;
