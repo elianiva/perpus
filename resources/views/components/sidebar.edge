@@ -25,16 +25,29 @@
         </li>
         <li class="nav-header">MANAJEMEN ADMIN</li>
         <li class="nav-item">
-          <a href="{{ route('/admin/dashboard/anggota') }}" class=" nav-link {{active == 'admin' ? 'active' : '' }}">
+          <a href="{{ route('/admin/dashboard/admin') }}" class=" nav-link {{active == 'admin' ? 'active' : '' }}">
             <i class="nav-icon fas fa-wrench"></i>
-            <p>Semua Anggota</p>
+            <p>Semua Admin</p>
           </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('/admin/dashboard/admin/form') }}" class=" nav-link {{active == 'tambah' ? 'active' : '' }}">
+            <i class="nav-icon fas fa-plus"></i>
+            <p>Tambah Admin</p>
+          </a>
+        </li>
         </li>
         <li class="nav-header">MANAJEMEN ANGGOTA</li>
         <li class="nav-item">
           <a href="{{ route('/admin/dashboard/anggota') }}" class=" nav-link {{active == 'anggota' ? 'active' : '' }}">
             <i class="nav-icon fas fa-user-friends"></i>
             <p>Semua Anggota</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('/admin/dashboard/anggota/form') }}" class=" nav-link {{active == 'tambah' ? 'active' : '' }}">
+            <i class="nav-icon fas fa-plus"></i>
+            <p>Tambah Anggota</p>
           </a>
         </li>
         <li class="nav-item">

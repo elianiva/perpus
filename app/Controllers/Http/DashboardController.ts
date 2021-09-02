@@ -26,17 +26,30 @@ export default class DashboardController {
     }
   }
 
-  public async anggota({ response, view, auth, session }: HttpContextContract) {
+  private async showPage({ response, view, auth, session }: HttpContextContract, page: string) {
     try {
       await auth.use("web").authenticate();
-      return view.render("admin/dashboard/anggota");
+      return view.render(`admin/dashboard/user`, {
+        currentPage: page,
+      });
     } catch {
       session.flash({ error: "Harap login terlebih dahulu" });
       return response.redirect("/admin/login");
     }
   }
 
-  public async form({ request, response, session, auth, view }: HttpContextContract) {
+  public async anggota(ctx: HttpContextContract) {
+    return this.showPage(ctx, "anggota");
+  }
+
+  public async admin(ctx: HttpContextContract) {
+    return this.showPage(ctx, "admin");
+  }
+
+  private async form(
+    { request, response, session, auth, view }: HttpContextContract,
+    page: string
+  ) {
     const { isEditing, id } = request.qs();
 
     try {
@@ -51,7 +64,8 @@ export default class DashboardController {
         }
 
         await user.load("profil", (profil) => profil.preload("jurusan"));
-        return view.render("admin/dashboard/anggota_form", {
+        return view.render("admin/dashboard/user_form", {
+          currentPage: page,
           isEditing,
           jurusan: majors,
           data: {
@@ -66,13 +80,22 @@ export default class DashboardController {
         });
       }
 
-      return view.render("admin/dashboard/anggota_form", {
+      return view.render("admin/dashboard/user_form", {
         jurusan: majors,
+        currentPage: page,
       });
     } catch (err) {
       console.error(err);
       session.flash({ error: "Harap login terlebih dahulu" });
       return response.redirect("/admin/login");
     }
+  }
+
+  public async formAnggota(ctx: HttpContextContract, page: string) {
+    return this.form(ctx, page);
+  }
+
+  public async formAdmin(ctx: HttpContextContract, page: string) {
+    return this.form(ctx, page);
   }
 }

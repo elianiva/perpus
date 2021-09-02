@@ -38,7 +38,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Semua Anggota</h1>
+            <h1 class="m-0 text-capitalize">Semua {{currentPage}}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -46,7 +46,7 @@
               <li class="breadcrumb-item">
                 <a href="{{ route('/admin/dashboard') }}"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active">Anggota</li>
+              <li class="breadcrumb-item active text-capitalize">{{currentPage}}</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -64,11 +64,11 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">Tambah Anggota Baru</div>
+              <div class="card-header text-capitalize">Tambah {{currentPage}} Baru</div>
               <div class="card-body">
                 <form
                   method="POST"
-                  action="/api/anggota/{{isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah'}}"
+                  action="/api/{{currentPage}}/{{isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah'}}"
                 >
                   {{ csrfField() }}
                   <div class="card-body">
@@ -221,7 +221,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/anggota/hapus?_method=delete">
+        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
           {{ csrfField() }}
           <input id="user-id" name="user-id" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>

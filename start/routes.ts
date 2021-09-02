@@ -36,14 +36,18 @@ Route.group(() => {
   Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/anggota", "DashboardController.anggota");
+    Route.get("/admin", "DashboardController.admin");
 
-    Route.get("/anggota/form", "DashboardController.form");
+    Route.get("/anggota/form", "DashboardController.formAnggota");
+    Route.get("/admin/form", "DashboardController.formAdmin");
   }).prefix("/dashboard");
 }).prefix("/admin");
 
 Route.group(() => {
-  Route.get("/anggota", "UsersController.show");
-  Route.post("/anggota/tambah", "UsersController.create");
-  Route.put("/anggota/edit", "UsersController.update");
-  Route.delete("/anggota/hapus", "UsersController.destroy");
-}).prefix("/api");
+  Route.get("/:type", "UsersController.show");
+  Route.post("/:type/tambah", "UsersController.create");
+  Route.put("/:type/edit", "UsersController.update");
+  Route.delete("/:type/hapus", "UsersController.destroy");
+})
+  .where("type", /(anggota|admin)/)
+  .prefix("/api");

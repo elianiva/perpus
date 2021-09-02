@@ -30,7 +30,7 @@
       <span class="brand-text font-weight-light">E-Library</span>
     </a>
 
-    @!component('components/sidebar', { active: "anggota" })
+    @!component('components/sidebar', { active: currentPage })
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
@@ -192,7 +192,7 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/anggota",
+        ajax: "/api/{{{currentPage}}}",
         columns: [
           { data: "nisn" },
           { data: "email" },

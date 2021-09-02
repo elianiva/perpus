@@ -79,8 +79,10 @@ export default class UsersController {
 
   public async store({}: HttpContextContract) {}
 
-  public async show({ response }: HttpContextContract) {
-    const allUsers = await User.all();
+  public async show({ response, request }: HttpContextContract) {
+    const { type } = request.params();
+    const allUsers = await User.query().where("id_role", type === "admin" ? 1 : 2);
+
     await Promise.all(
       allUsers.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
     );
