@@ -1,6 +1,7 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Database from "@ioc:Adonis/Lucid/Database";
 import Jurusan from "App/Models/Jurusan";
+import User from "App/Models/User";
 
 export default class DashboardController {
   public async index({ response, session, view, auth }: HttpContextContract) {
@@ -20,7 +21,7 @@ export default class DashboardController {
       });
     } catch (err) {
       console.error(err);
-      session.flash({ error: "Harap login terlebih dahulu" });
+      session.flash({ error: "Harap login terlebih dahulu!" });
       return response.redirect("/admin/login");
     }
   }
@@ -35,12 +36,37 @@ export default class DashboardController {
     }
   }
 
-  public async tambah({ response, session, auth, view }: HttpContextContract) {
+  public async form({ request, response, session, auth, view }: HttpContextContract) {
+    const { isEditing, id } = request.qs();
+
     try {
       await auth.use("web").authenticate();
       const majors = (await Jurusan.all()).map((major) => [major.id, major.nama]);
 
-      return view.render("admin/dashboard/anggota_tambah", {
+      if (isEditing) {
+        const user = await User.findBy("id", id);
+        if (!user) {
+          console.error("NOT FOUND");
+          return response.redirect().back();
+        }
+
+        await user.load("profil", (profil) => profil.preload("jurusan"));
+        return view.render("admin/dashboard/anggota_form", {
+          isEditing,
+          jurusan: majors,
+          data: {
+            id: user.id,
+            nisn: user.profil.nisn,
+            email: user.email,
+            nama_lengkap: user.profil.nama,
+            jenis_kelamin: user.profil.sex,
+            kelas: user.profil.kelas,
+            jurusan: user.profil.jurusan.nama,
+          },
+        });
+      }
+
+      return view.render("admin/dashboard/anggota_form", {
         jurusan: majors,
       });
     } catch (err) {

@@ -66,7 +66,10 @@
             <div class="card">
               <div class="card-header">Tambah Anggota Baru</div>
               <div class="card-body">
-                <form method="POST" action="{{ route('/api/anggota/tambah') }}">
+                <form
+                  method="POST"
+                  action="/api/anggota/{{isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah'}}"
+                >
                   {{ csrfField() }}
                   <div class="card-body">
                     <div class="form-group">
@@ -78,6 +81,7 @@
                         class="form-control"
                         placeholder="Masukkan nisn sesuai data kemdikbud"
                         maxlength="10"
+                        value="{{data?.nisn || flashMessages.get('nisn', '')}}"
                       />
                     </div>
                     <div class="row">
@@ -90,6 +94,7 @@
                             type="text"
                             class="form-control"
                             placeholder="Masukkan nisn sesuai data kemdikbud"
+                            value="{{data?.nama_lengkap || flashMessages.get('nama_lengkap', '')}}"
                           />
                         </div>
                       </div>
@@ -102,6 +107,7 @@
                             type="email"
                             class="form-control"
                             placeholder="Masukkan email yang valid"
+                            value="{{data?.email || flashMessages.get('email', '')}}"
                           />
                         </div>
                       </div>
@@ -110,22 +116,41 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <label for="kelas">Kelas</label>
-                          <select name="kelas" id="kelas" class="form-control" style="width: 100%;">
+                          <select
+                            name="kelas"
+                            id="kelas"
+                            class="form-control"
+                            style="width: 100%;"
+                          >
                             <option selected="selected">Kelas</option>
-                            <option value="1">10</option>
-                            <option value="2">11</option>
-                            <option value="3">12</option>
-                            <option value="4">13</option>
+                            @each(n in [10, 11, 12, 13])
+                              <option
+                                value="{{n}}"
+                                {{(data?.kelas || flashMessages.get('kelas', '')) === n ? 'selected' : ''}}
+                              >
+                                {{n}}
+                              </option>
+                            @end
                           </select>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label for="jurusan">Jurusan</label>
-                          <select name="jurusan" id="jurusan" class="form-control" style="width: 100%;">
-                            <option selected="selected">Jurusan</option>
+                          <select
+                            name="jurusan"
+                            id="jurusan"
+                            class="form-control"
+                            style="width: 100%;"
+                          >
+                            <option>Jurusan</option>
                             @each(j in jurusan)
-                              <option value="{{j[0]}}">{{j[1]}}</option>
+                              <option
+                                value="{{j[0]}}"
+                                {{(data?.jurusan || flashMessages.get('jurusan', '')) === j[1] ? 'selected' : ''}}
+                              >
+                                {{j[1]}}
+                              </option>
                             @end
                           </select>
                         </div>
@@ -140,6 +165,7 @@
                           id="lakilaki"
                           name="jenis_kelamin"
                           value="L"
+                          {{data?.jenis_kelamin === 'L' ? 'checked' : ''}}
                         >
                         <label for="lakilaki" class="custom-control-label">Laki Laki</label>
                       </div>
@@ -150,6 +176,7 @@
                           id="perempuan"
                           name="jenis_kelamin"
                           value="P"
+                          {{data?.jenis_kelamin === 'P' ? 'checked' : ''}}
                         >
                         <label for="perempuan" class="custom-control-label">Perempuan</label>
                       </div>

@@ -37,12 +37,13 @@ Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/anggota", "DashboardController.anggota");
 
-    Route.get("/anggota/tambah", "DashboardController.tambah");
+    Route.get("/anggota/form", "DashboardController.form");
   }).prefix("/dashboard");
 }).prefix("/admin");
 
 Route.group(() => {
   Route.get("/anggota", "UsersController.show");
   Route.post("/anggota/tambah", "UsersController.create");
+  Route.put("/anggota/edit", "UsersController.update");
   Route.delete("/anggota/hapus", "UsersController.destroy");
 }).prefix("/api");
