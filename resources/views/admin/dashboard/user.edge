@@ -15,7 +15,7 @@
     />
   </div>
 
-  @include('components/navbar')
+  @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -40,7 +40,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Semua Anggota</h1>
+            <h1 class="m-0 text-capitalize">Semua {{ currentPage }}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -48,14 +48,14 @@
               <li class="breadcrumb-item">
                 <a href="{{ route('/admin/dashboard') }}"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active">Anggota</li>
+              <li class="breadcrumb-item active text-capitalize">{{currentPage}}</li>
             </ol>
           </div>
           <!-- /.col -->
         </div>
-        <a href="{{ route('/admin/dashboard/anggota/form') }}">
+        <a href="{{ route(`/admin/dashboard/${currentPage}/form`) }}">
           <button class="btn btn-success">
-            <b class="text-white">Tambah Anggota</b>
+            <b class="text-white text-capitalize">Tambah {{ currentPage }}</b>
           </button>
         </a>
         <!-- /.row -->
@@ -144,7 +144,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/anggota/hapus?_method=delete">
+        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
           {{ csrfField() }}
           <input id="user-id" name="user-id" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -218,7 +218,7 @@
 >
   <i class="fas fa-trash"></i>
 </button>
-<a href="/admin/dashboard/anggota/form?isEditing=true&id=${row.id}">
+<a href="/admin/dashboard/{{{currentPage}}}/form?isEditing=true&id=${row.id}">
   <button
     type="button"
     class="btn btn-primary"
@@ -265,7 +265,7 @@
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data anggota dengan email <b>${email}</b>?</p>`);
+        .html(`<p class="h5">Yakin hapus data {{{currentPage}}} dengan email <b>${email}</b>?</p>`);
       $(this).find("#user-id").val(id);
     });
   });

@@ -29,8 +29,10 @@ export default class DashboardController {
   private async showPage({ response, view, auth, session }: HttpContextContract, page: string) {
     try {
       await auth.use("web").authenticate();
+      await auth.user?.load("profil");
       return view.render(`admin/dashboard/user`, {
         currentPage: page,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch {
       session.flash({ error: "Harap login terlebih dahulu" });
