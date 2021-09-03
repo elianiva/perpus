@@ -35,12 +35,12 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get("/", "DashboardController.index");
-    Route.get("/anggota", "DashboardController.anggota");
-    Route.get("/admin", "DashboardController.admin");
-
-    Route.get("/anggota/form", "DashboardController.formAnggota");
-    Route.get("/admin/form", "DashboardController.formAdmin");
-  }).prefix("/dashboard");
+    Route.get("/:type", "DashboardController.userTable");
+    Route.get("/:type/form", "DashboardController.userForm");
+  })
+    .prefix("/dashboard")
+    .where("type", /(anggota|admin)/)
+    .middleware("auth");
 }).prefix("/admin");
 
 Route.group(() => {
@@ -50,4 +50,5 @@ Route.group(() => {
   Route.delete("/:type/hapus", "UsersController.destroy");
 })
   .where("type", /(anggota|admin)/)
-  .prefix("/api");
+  .prefix("/api")
+  .middleware("auth");

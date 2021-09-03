@@ -4,9 +4,8 @@ import Jurusan from "App/Models/Jurusan";
 import User from "App/Models/User";
 
 export default class DashboardController {
-  public async index({ response, session, view, auth }: HttpContextContract) {
+  public async index({ response, session, view }: HttpContextContract) {
     try {
-      await auth.use("web").authenticate();
       /* prettier-ignore */
       const adminAmount = await Database.from("user")
         .where("id_role", "=", 1)
@@ -26,12 +25,13 @@ export default class DashboardController {
     }
   }
 
-  private async showPage({ response, view, auth, session }: HttpContextContract, page: string) {
+  public async userTable({ response, request, view, auth, session }: HttpContextContract) {
+    const { type } = request.params();
+
     try {
-      await auth.use("web").authenticate();
-      await auth.user?.load("profil");
+      await auth.user!.load("profil");
       return view.render(`admin/dashboard/user`, {
-        currentPage: page,
+        currentPage: type,
         currentUserName: auth.user?.profil.nama,
       });
     } catch {
@@ -40,22 +40,11 @@ export default class DashboardController {
     }
   }
 
-  public async anggota(ctx: HttpContextContract) {
-    return this.showPage(ctx, "anggota");
-  }
-
-  public async admin(ctx: HttpContextContract) {
-    return this.showPage(ctx, "admin");
-  }
-
-  private async form(
-    { request, response, session, auth, view }: HttpContextContract,
-    page: string
-  ) {
+  public async userForm({ request, response, session, view }: HttpContextContract) {
+    const { type } = request.params();
     const { isEditing, id } = request.qs();
 
     try {
-      await auth.use("web").authenticate();
       const majors = (await Jurusan.all()).map((major) => [major.id, major.nama]);
 
       if (isEditing) {
@@ -67,7 +56,7 @@ export default class DashboardController {
 
         await user.load("profil", (profil) => profil.preload("jurusan"));
         return view.render("admin/dashboard/user_form", {
-          currentPage: page,
+          currentPage: type,
           isEditing,
           jurusan: majors,
           data: {
@@ -84,20 +73,12 @@ export default class DashboardController {
 
       return view.render("admin/dashboard/user_form", {
         jurusan: majors,
-        currentPage: page,
+        currentPage: type,
       });
     } catch (err) {
       console.error(err);
       session.flash({ error: "Harap login terlebih dahulu" });
       return response.redirect("/admin/login");
     }
-  }
-
-  public async formAnggota(ctx: HttpContextContract, page: string) {
-    return this.form(ctx, page);
-  }
-
-  public async formAdmin(ctx: HttpContextContract, page: string) {
-    return this.form(ctx, page);
   }
 }

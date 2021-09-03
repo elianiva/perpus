@@ -1,11 +1,30 @@
-<div class="sidebar">
-  <!-- Sidebar Menu -->
-  <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      <!-- Add icons to the links using the .nav-icon class
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="/admin/dashboard" class="brand-link">
+    <img
+      src="/img/AdminLTELogo.png"
+      alt="AdminLTE Logo"
+      class="brand-image img-circle elevation-3"
+      style="opacity: 0.8"
+    />
+    <span class="brand-text font-weight-light">E-Library</span>
+  </a>
+  <div class="sidebar">
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="{{ route('/admin/dashboard') }}" class="nav-link {{ active == 'dashboard' ? 'active' : '' }}">
+          <a
+            href="{{ route('/admin/dashboard') }}"
+            class="nav-link {{ active == 'dashboard' ? 'active' : '' }}"
+          >
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Dashboard</p>
           </a>
@@ -25,27 +44,35 @@
         </li>
         <li class="nav-header">MANAJEMEN ADMIN</li>
         <li class="nav-item">
-          <a href="{{ route('/admin/dashboard/admin') }}" class=" nav-link {{active == 'admin' ? 'active' : '' }}">
+          <a href="/admin/dashboard/admin" class=" nav-link {{active == 'admin' ? 'active' : '' }}">
             <i class="nav-icon fas fa-wrench"></i>
             <p>Semua Admin</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('/admin/dashboard/admin/form') }}" class=" nav-link {{active == 'tambah' ? 'active' : '' }}">
+          <a
+            href="/admin/dashboard/admin/form"
+            class=" nav-link {{active == 'tambah' ? 'active' : '' }}"
+          >
             <i class="nav-icon fas fa-plus"></i>
             <p>Tambah Admin</p>
           </a>
         </li>
-        </li>
         <li class="nav-header">MANAJEMEN ANGGOTA</li>
         <li class="nav-item">
-          <a href="{{ route('/admin/dashboard/anggota') }}" class=" nav-link {{active == 'anggota' ? 'active' : '' }}">
+          <a
+            href="/admin/dashboard/anggota"
+            class=" nav-link {{active == 'anggota' ? 'active' : '' }}"
+          >
             <i class="nav-icon fas fa-user-friends"></i>
             <p>Semua Anggota</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('/admin/dashboard/anggota/form') }}" class=" nav-link {{active == 'tambah' ? 'active' : '' }}">
+          <a
+            href="/admin/dashboard/anggota/form"
+            class=" nav-link {{active == 'tambah' ? 'active' : '' }}"
+          >
             <i class="nav-icon fas fa-plus"></i>
             <p>Tambah Anggota</p>
           </a>
@@ -54,8 +81,8 @@
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-search"></i>
             <p>
-            Search
-            <i class="fas fa-angle-left right"></i>
+              Search
+              <i class="fas fa-angle-left right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
@@ -73,7 +100,8 @@
             </li>
           </ul>
         </li>
-    </ul>
-  </nav>
-  <!-- /.sidebar-menu -->
-</div>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+</aside>
