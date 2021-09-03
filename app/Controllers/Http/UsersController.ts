@@ -38,7 +38,7 @@ export default class UsersController {
       session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota/");
     } catch (err) {
-      logger.error("THROW: ", err.messages);
+      logger.error("UsersController.create: ", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -92,11 +92,11 @@ export default class UsersController {
         nama_lengkap: user.profil.nama,
         jenis_kelamin: user.profil.sex === "P" ? "Perempuan" : "Laki Laki",
         kelas: user.profil.kelas,
-        jurusan: user.profil.jurusan.nama,
+        jurusan: user.profil.jurusan?.nama || "Jurusan tidak tersedia",
       }));
       return response.send({ data });
     } catch (err) {
-      logger.error("THROW: ", err.messages);
+      logger.error("UsersController.show: ", err.messages);
       return response.badRequest(err.messages);
     }
   }
@@ -111,13 +111,13 @@ export default class UsersController {
         return response.redirect().back();
       }
 
-      session.flash({ msg: `Anggota dengan email ${user.email} berhasil dihapus!` });
       await user.delete();
+      session.flash({ msg: `Anggota dengan email ${user.email} berhasil dihapus!` });
 
       return response.redirect().back();
     } catch (err) {
       session.flash({ error: err.message });
-      logger.error("THROW: ", err.messages);
+      logger.error("UsersController.destroy: ", err.messages);
       return response.redirect().back();
     }
   }

@@ -51,7 +51,7 @@ export default class LoginController {
 
       return response.redirect("/admin/dashboard");
     } catch (err) {
-      logger.error("THROW: ", err.messages);
+      logger.error("LoginController.login: ", err.messages);
       return response.badRequest(err.messages);
     }
   }

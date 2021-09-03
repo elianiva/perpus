@@ -4,7 +4,7 @@ import Jurusan from "App/Models/Jurusan";
 import User from "App/Models/User";
 
 export default class DashboardController {
-  public async index({ response, view, logger }: HttpContextContract) {
+  public async index({ response, view, logger, auth }: HttpContextContract) {
     try {
       /* prettier-ignore */
       const adminAmount = await Database.from("user")
@@ -14,12 +14,14 @@ export default class DashboardController {
         .where("id_role", "=", 2)
         .count("* as total");
 
+      await auth.user!.load("profil");
       return view.render("admin/dashboard/index", {
         total_anggota: membersAmount[0].total,
         total_admin: adminAmount[0].total,
+        currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("THROW: ", err.messages);
+      logger.error("DashboardController.index: ", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -30,10 +32,10 @@ export default class DashboardController {
       await auth.user!.load("profil");
       return view.render(`admin/dashboard/user`, {
         currentPage: type,
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("THROW: ", err.messages);
+      logger.error("DashboardController.userTable: ", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -64,7 +66,7 @@ export default class DashboardController {
             nama_lengkap: user.profil.nama,
             jenis_kelamin: user.profil.sex,
             kelas: user.profil.kelas,
-            jurusan: user.profil.jurusan.nama,
+            jurusan: user.profil.jurusan?.nama,
           },
         });
       }
@@ -74,7 +76,22 @@ export default class DashboardController {
         currentPage: type,
       });
     } catch (err) {
-      logger.error("THROW: ", err.messages);
+      logger.error("DashboardController.userForm: ", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
+
+  public async jurusanTable({ response, view, auth, logger }: HttpContextContract) {
+    try {
+      const jurusan = await Jurusan.all();
+      await auth.user!.load("profil");
+      return view.render(`admin/dashboard/jurusan`, {
+        currentPage: "jurusan",
+        currentUserName: auth.user!.profil.nama,
+        jurusan: jurusan.map(({ id, nama }) => ({ id, nama })),
+      });
+    } catch (err) {
+      logger.error("DashboardController.jurusanTable: ", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }

@@ -35,6 +35,9 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get("/", "DashboardController.index");
+    Route.get("/jurusan", "DashboardController.jurusanTable");
+
+    // fall through
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");
   })
@@ -44,6 +47,8 @@ Route.group(() => {
 }).prefix("/admin");
 
 Route.group(() => {
+  Route.delete("/jurusan/hapus", "JurusansController.destroy");
+
   Route.get("/:type", "UsersController.show");
   Route.post("/:type/tambah", "UsersController.create");
   Route.put("/:type/edit", "UsersController.update");

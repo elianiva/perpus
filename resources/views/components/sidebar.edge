@@ -22,7 +22,7 @@
         with font-awesome or any other icon font library -->
         <li class="nav-item">
           <a
-            href="{{ route('/admin/dashboard') }}"
+            href="/admin/dashboard"
             class="nav-link {{ active == 'dashboard' ? 'active' : '' }}"
           >
             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -31,13 +31,13 @@
         </li>
         <li class="nav-header">MANAJEMEN BUKU</li>
         <li class="nav-item">
-          <a href="pages/calendar.html" class="nav-link">
+          <a href="/admin/dashboard/buku" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
             <p>Semua Buku</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="pages/gallery.html" class="nav-link">
+          <a href="/admin/dashboard/buku/form" class="nav-link">
             <i class="nav-icon fas fa-calendar"></i>
             <p>Peminjaman Buku</p>
           </a>
@@ -77,28 +77,15 @@
             <p>Tambah Anggota</p>
           </a>
         </li>
+        <li class="nav-header">MANAJEMEN JURUSAN</li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-search"></i>
-            <p>
-              Search
-              <i class="fas fa-angle-left right"></i>
-            </p>
+          <a
+            href="/admin/dashboard/jurusan"
+            class=" nav-link {{active == 'jurusan' ? 'active' : '' }}"
+          >
+            <i class="nav-icon fas fa-graduation-cap"></i>
+            <p>Semua Jurusan</p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="pages/search/simple.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Simple Search</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/search/enhanced.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Enhanced</p>
-              </a>
-            </li>
-          </ul>
         </li>
       </ul>
     </nav>

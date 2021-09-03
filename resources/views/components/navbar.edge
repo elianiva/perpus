@@ -17,9 +17,7 @@
         <i class="fas fa-cog"></i>
       </a>
       <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-        <span class="dropdown-item dropdown-header">Pengaturan</span>
-        <div class="dropdown-divider"></div>
-        <form method="POST" action="{{ route('/admin/logout') }}">
+        <form method="POST" action="/admin/logout">
           {{ csrfField() }}
           <button type="submit" class="dropdown-item">
             <i class="fas fa-sign-out-alt mr-2"></i> Keluar

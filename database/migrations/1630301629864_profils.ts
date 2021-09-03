@@ -13,7 +13,7 @@ export default class Profils extends BaseSchema {
       table.integer("id_jurusan").unsigned();
       table.timestamps(true, true);
 
-      table.foreign("id_jurusan").references("id").inTable("jurusan");
+      table.foreign("id_jurusan").references("id").inTable("jurusan").onDelete("SET NULL");
     });
   }
 

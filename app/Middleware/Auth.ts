@@ -65,15 +65,18 @@ export default class AuthMiddleware {
     next: () => Promise<void>,
     customGuards: (keyof GuardsList)[]
   ) {
-    // set error message
-    session.flash({ error: "Harap login terlebih dahulu!" });
-
-    /**
-     * Uses the user defined guards or the default guard mentioned in
-     * the config file
-     */
-    const guards = customGuards.length ? customGuards : [auth.name];
-    await this.authenticate(auth, guards);
-    await next();
+    try {
+      /**
+       * Uses the user defined guards or the default guard mentioned in
+       * the config file
+       */
+      const guards = customGuards.length ? customGuards : [auth.name];
+      await this.authenticate(auth, guards);
+    } catch (err) {
+      // set error message
+      session.flash({ error: "Harap login terlebih dahulu!" });
+    } finally {
+      await next();
+    }
   }
 }
