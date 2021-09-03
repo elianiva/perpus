@@ -13,7 +13,7 @@ export default class LoginController {
     }
   }
 
-  public async login({ request, response, session, auth }: HttpContextContract) {
+  public async login({ request, response, session, auth, logger }: HttpContextContract) {
     if (auth.user) {
       return response.redirect("/admin/dashboard");
     }
@@ -51,7 +51,7 @@ export default class LoginController {
 
       return response.redirect("/admin/dashboard");
     } catch (err) {
-      console.error(err);
+      logger.error("THROW: ", err.messages);
       return response.badRequest(err.messages);
     }
   }

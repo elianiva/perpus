@@ -4,7 +4,7 @@ import Jurusan from "App/Models/Jurusan";
 import User from "App/Models/User";
 
 export default class DashboardController {
-  public async index({ response, session, view }: HttpContextContract) {
+  public async index({ response, view, logger }: HttpContextContract) {
     try {
       /* prettier-ignore */
       const adminAmount = await Database.from("user")
@@ -19,28 +19,26 @@ export default class DashboardController {
         total_admin: adminAmount[0].total,
       });
     } catch (err) {
-      console.error(err);
-      session.flash({ error: "Harap login terlebih dahulu!" });
-      return response.redirect("/admin/login");
+      logger.error("THROW: ", err.messages);
+      return response.badRequest({ error: err.messages });
     }
   }
 
-  public async userTable({ response, request, view, auth, session }: HttpContextContract) {
-    const { type } = request.params();
-
+  public async userTable({ response, request, view, auth, logger }: HttpContextContract) {
     try {
+      const { type } = request.params();
       await auth.user!.load("profil");
       return view.render(`admin/dashboard/user`, {
         currentPage: type,
         currentUserName: auth.user?.profil.nama,
       });
-    } catch {
-      session.flash({ error: "Harap login terlebih dahulu" });
-      return response.redirect("/admin/login");
+    } catch (err) {
+      logger.error("THROW: ", err.messages);
+      return response.badRequest({ error: err.messages });
     }
   }
 
-  public async userForm({ request, response, session, view }: HttpContextContract) {
+  public async userForm({ request, response, view, logger }: HttpContextContract) {
     const { type } = request.params();
     const { isEditing, id } = request.qs();
 
@@ -50,7 +48,7 @@ export default class DashboardController {
       if (isEditing) {
         const user = await User.findBy("id", id);
         if (!user) {
-          console.error("NOT FOUND");
+          logger.error("NOT FOUND", { ctx: { id } });
           return response.redirect().back();
         }
 
@@ -76,9 +74,8 @@ export default class DashboardController {
         currentPage: type,
       });
     } catch (err) {
-      console.error(err);
-      session.flash({ error: "Harap login terlebih dahulu" });
-      return response.redirect("/admin/login");
+      logger.error("THROW: ", err.messages);
+      return response.badRequest({ error: err.messages });
     }
   }
 }

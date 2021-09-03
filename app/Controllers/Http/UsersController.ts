@@ -14,7 +14,7 @@ const userSchema = schema.create({
 });
 
 export default class UsersController {
-  public async create({ request, response, session }: HttpContextContract) {
+  public async create({ request, response, session, logger }: HttpContextContract) {
     try {
       /* eslint-disable */
       const { nisn, nama_lengkap, email, kelas, jurusan, jenis_kelamin } = await request.validate({
@@ -38,12 +38,12 @@ export default class UsersController {
       session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota/");
     } catch (err) {
-      console.error(err);
-      return response.badRequest(err.messages);
+      logger.error("THROW: ", err.messages);
+      return response.badRequest({ error: err.messages });
     }
   }
 
-  public async update({ request, response, session }: HttpContextContract) {
+  public async update({ request, response, session, logger }: HttpContextContract) {
     try {
       /* eslint-disable */
       const { nisn, nama_lengkap, email, kelas, jurusan, jenis_kelamin } = await request.validate({
@@ -72,34 +72,36 @@ export default class UsersController {
       session.flash({ msg: `Berhasil memperbarui data anggota dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota");
     } catch (err) {
-      console.error(err);
+      logger.error(err.messages);
       return response.badRequest(err.messages);
     }
   }
 
-  public async store({}: HttpContextContract) {}
-
-  public async show({ response, request }: HttpContextContract) {
+  public async show({ response, request, logger }: HttpContextContract) {
     const { type } = request.params();
-    const allUsers = await User.query().where("id_role", type === "admin" ? 1 : 2);
+    try {
+      const allUsers = await User.query().where("id_role", type === "admin" ? 1 : 2);
+      await Promise.all(
+        allUsers.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
+      );
 
-    await Promise.all(
-      allUsers.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
-    );
-
-    const data = allUsers.map((user) => ({
-      id: user.id,
-      nisn: user.profil.nisn,
-      email: user.email,
-      nama_lengkap: user.profil.nama,
-      jenis_kelamin: user.profil.sex === "P" ? "Perempuan" : "Laki Laki",
-      kelas: user.profil.kelas,
-      jurusan: user.profil.jurusan.nama,
-    }));
-    return response.send({ data });
+      const data = allUsers.map((user) => ({
+        id: user.id,
+        nisn: user.profil.nisn,
+        email: user.email,
+        nama_lengkap: user.profil.nama,
+        jenis_kelamin: user.profil.sex === "P" ? "Perempuan" : "Laki Laki",
+        kelas: user.profil.kelas,
+        jurusan: user.profil.jurusan.nama,
+      }));
+      return response.send({ data });
+    } catch (err) {
+      logger.error("THROW: ", err.messages);
+      return response.badRequest(err.messages);
+    }
   }
 
-  public async destroy({ request, response, session }: HttpContextContract) {
+  public async destroy({ request, response, session, logger }: HttpContextContract) {
     try {
       const id = request.input("user-id");
       const user = await User.findBy("id", id);
@@ -114,8 +116,8 @@ export default class UsersController {
 
       return response.redirect().back();
     } catch (err) {
-      console.error(err);
       session.flash({ error: err.message });
+      logger.error("THROW: ", err.messages);
       return response.redirect().back();
     }
   }

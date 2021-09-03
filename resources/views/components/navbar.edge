@@ -20,9 +20,10 @@
         <span class="dropdown-item dropdown-header">Pengaturan</span>
         <div class="dropdown-divider"></div>
         <form method="POST" action="{{ route('/admin/logout') }}">
-          <a href="#" class="dropdown-item">
+          {{ csrfField() }}
+          <button type="submit" class="dropdown-item">
             <i class="fas fa-sign-out-alt mr-2"></i> Keluar
-          </a>
+          </button>
         </form>
       </div>
     </li>
