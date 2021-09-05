@@ -1,5 +1,5 @@
 import Hash from "@ioc:Adonis/Core/Hash";
-import { BaseModel, beforeSave, belongsTo, BelongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, beforeSave, belongsTo, BelongsTo, column, HasOne, hasOne } from "@ioc:Adonis/Lucid/Orm";
 import { DateTime } from "luxon";
 import Profil from "./Profil";
 import Role from "./Role";
@@ -24,11 +24,8 @@ export default class User extends BaseModel {
   })
   public role: BelongsTo<typeof Role>;
 
-  @column()
-  public idProfil: number;
-
-  @belongsTo(() => Profil, { foreignKey: "idProfil" })
-  public profil: BelongsTo<typeof Profil>;
+  @hasOne(() => Profil, { foreignKey: "idUser" })
+  public profil: HasOne<typeof Profil>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

@@ -1,7 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import User from "App/Models/User";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
-import Profil from "App/Models/Profil";
+import User from "App/Models/User";
 
 const userSchema = schema.create({
   email: schema.string({ trim: true }, [rules.email(), rules.required()]),
@@ -16,23 +15,24 @@ const userSchema = schema.create({
 export default class UsersController {
   public async create({ request, response, session, logger }: HttpContextContract) {
     try {
+      // TODO(elianiva): make role changeable
       /* eslint-disable */
       const { nisn, nama_lengkap, email, kelas, jurusan, jenis_kelamin } = await request.validate({
         schema: userSchema,
       });
 
-      const profil = await Profil.create({
+      const user = await User.create({
+        email,
+        password: nisn, // default, can be changed later
+        idRole: 2, // anggota
+      });
+
+      await user.related("profil").create({
         nama: nama_lengkap,
         sex: jenis_kelamin,
         nisn,
         kelas,
         idJurusan: jurusan,
-      });
-
-      await profil.related("user").create({
-        email,
-        password: nisn, // default, can be changed later
-        idRole: 2, // anggota
       });
 
       session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${email}` });

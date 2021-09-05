@@ -9,11 +9,9 @@ export default class Users extends BaseSchema {
       table.string("email");
       table.string("password");
       table.integer("id_role", 1).unsigned();
-      table.integer("id_profil").unsigned();
       table.timestamps(true, true);
 
       table.foreign("id_role").references("id").inTable("role");
-      table.foreign("id_profil").references("id").inTable("profil").onDelete("CASCADE");
     });
   }
 

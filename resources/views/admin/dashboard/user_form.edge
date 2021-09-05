@@ -16,7 +16,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar')
+  @!component('components/sidebar', { active: `${currentPage}_form` })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

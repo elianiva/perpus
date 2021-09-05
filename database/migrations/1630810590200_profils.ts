@@ -11,9 +11,11 @@ export default class Profils extends BaseSchema {
       table.string("sex", 1);
       table.integer("kelas", 2);
       table.integer("id_jurusan").unsigned();
+      table.integer("id_user").unsigned();
       table.timestamps(true, true);
 
       table.foreign("id_jurusan").references("id").inTable("jurusan").onDelete("SET NULL");
+      table.foreign("id_user").references("id").inTable("user").onDelete("CASCADE");
     });
   }
 

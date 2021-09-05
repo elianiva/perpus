@@ -40,7 +40,7 @@ export default class DashboardController {
     }
   }
 
-  public async userForm({ request, response, view, logger }: HttpContextContract) {
+  public async userForm({ request, response, view, logger, auth }: HttpContextContract) {
     const { type } = request.params();
     const { isEditing, id } = request.qs();
 
@@ -56,6 +56,7 @@ export default class DashboardController {
 
         await user.load("profil", (profil) => profil.preload("jurusan"));
         return view.render("admin/dashboard/user_form", {
+          currentUserName: auth.user!.profil.nama,
           currentPage: type,
           isEditing,
           jurusan: majors,
@@ -71,9 +72,11 @@ export default class DashboardController {
         });
       }
 
+      await auth.user!.load("profil");
       return view.render("admin/dashboard/user_form", {
         jurusan: majors,
         currentPage: type,
+        currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.userForm: ", err.messages);

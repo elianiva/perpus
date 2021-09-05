@@ -1,4 +1,4 @@
-import { BaseModel, belongsTo, BelongsTo, column, HasOne, hasOne } from "@ioc:Adonis/Lucid/Orm";
+import { BaseModel, belongsTo, BelongsTo, column } from "@ioc:Adonis/Lucid/Orm";
 import Jurusan from "App/Models/Jurusan";
 import { DateTime } from "luxon";
 import User from "./User";
@@ -21,8 +21,11 @@ export default class Profil extends BaseModel {
   @column()
   public kelas: number;
 
-  @hasOne(() => User, { foreignKey: "idProfil" })
-  public user: HasOne<typeof User>;
+  @column()
+  public idUser: number;
+
+  @belongsTo(() => User, { foreignKey: "idUser" })
+  public user: BelongsTo<typeof User>;
 
   @column()
   public idJurusan: number;
