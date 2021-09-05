@@ -6,7 +6,7 @@ export default class Jurusans extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id").primary().notNullable().unsigned();
-      table.string("nama");
+      table.string("nama").unique();
       table.timestamps(true, true);
     });
   }

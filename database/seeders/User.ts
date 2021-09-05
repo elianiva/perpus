@@ -1,5 +1,5 @@
 import BaseSeeder from "@ioc:Adonis/Lucid/Seeder";
-import { JurusanFactory, ProfilFactory, RoleFactory, UserFactory } from "Database/factories";
+import { BukuFactory, JurusanFactory, RoleFactory, UserFactory } from "Database/factories";
 
 export default class UserSeeder extends BaseSeeder {
   public async run() {
@@ -22,5 +22,7 @@ export default class UserSeeder extends BaseSeeder {
 
     const AMOUNT = 30;
     await UserFactory.with("profil").createMany(AMOUNT);
+
+    await BukuFactory.createMany(AMOUNT);
   }
 }

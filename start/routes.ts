@@ -36,8 +36,9 @@ Route.group(() => {
   Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/jurusan", "DashboardController.jurusanTable");
+    Route.get("/buku", "DashboardController.bukuTable");
 
-    // fall through
+    // fall through for /anggota or /admin
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");
   })
@@ -47,6 +48,8 @@ Route.group(() => {
 }).prefix("/admin");
 
 Route.group(() => {
+  Route.post("/jurusan/tambah", "JurusansController.create");
+  Route.put("/jurusan/perbarui", "JurusansController.update");
   Route.delete("/jurusan/hapus", "JurusansController.destroy");
 
   Route.get("/:type", "UsersController.show");

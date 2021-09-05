@@ -26,11 +26,15 @@ export default class DashboardController {
     }
   }
 
+  public async bukuTable({ response, request, view, auth, logger }: HttpContextContract) {
+    return view.render("admin/dashboard/buku");
+  }
+
   public async userTable({ response, request, view, auth, logger }: HttpContextContract) {
     try {
       const { type } = request.params();
       await auth.user!.load("profil");
-      return view.render(`admin/dashboard/user`, {
+      return view.render("admin/dashboard/user", {
         currentPage: type,
         currentUserName: auth.user!.profil.nama,
       });

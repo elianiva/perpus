@@ -3,6 +3,7 @@ import Factory from "@ioc:Adonis/Lucid/Factory";
 import Profil from "App/Models/Profil";
 import Jurusan from "App/Models/Jurusan";
 import Role from "App/Models/Role";
+import Buku from "App/Models/Buku";
 
 export const JurusanFactory = Factory.define(Jurusan, () => ({
   nama: "",
@@ -32,3 +33,13 @@ export const UserFactory = Factory.define(User, ({ faker }) => {
 })
   .relation("profil", () => ProfilFactory)
   .build();
+
+export const BukuFactory = Factory.define(Buku, ({ faker }) => {
+  return {
+    isbn: faker.helpers.replaceSymbolWithNumber("#############"),
+    judul: faker.company.companyName(),
+    pengarang: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    penerbit: faker.company.companyName(),
+    url_cover: faker.image.imageUrl(240, 480),
+  };
+}).build();

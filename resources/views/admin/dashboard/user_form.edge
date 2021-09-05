@@ -69,6 +69,7 @@
                         placeholder="Masukkan nisn sesuai data kemdikbud"
                         maxlength="10"
                         value="{{data?.nisn || flashMessages.get('nisn', '')}}"
+                        autocomplete="off"
                       />
                     </div>
                     <div class="row">
@@ -82,6 +83,7 @@
                             class="form-control"
                             placeholder="Masukkan nisn sesuai data kemdikbud"
                             value="{{data?.nama_lengkap || flashMessages.get('nama_lengkap', '')}}"
+                            autocomplete="off"
                           />
                         </div>
                       </div>
@@ -95,6 +97,7 @@
                             class="form-control"
                             placeholder="Masukkan email yang valid"
                             value="{{data?.email || flashMessages.get('email', '')}}"
+                            autocomplete="off"
                           />
                         </div>
                       </div>

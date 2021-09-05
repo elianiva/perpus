@@ -68,11 +68,20 @@
             @endif
             <div class="card">
               <div class="card-body">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control">
-                  <div class="input-group-append">
-                    <button type="button" class="btn btn-success">Tambah</button>
-                  </div>
+                <form method="POST" action="/api/jurusan/tambah">
+                  {{ csrfField() }}
+                  <div class="input-group mb-3">
+                    <input
+                      name="nama-jurusan"
+                      type="text"
+                      class="form-control"
+                      placeholder="Masukkan nama jurusan..."
+                      autocomplete="off"
+                    >
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-success">Tambah</button>
+                    </div>
+                </form>
                 </div>
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
@@ -90,22 +99,22 @@
                             type="button"
                             class="btn btn-danger"
                             data-toggle="modal"
-                            data-target="#modal-default"
+                            data-target="#modal-confirm"
                             data-jurusan="{{j.nama}}"
                             data-id="{{j.id}}"
                             >
                             <i class="fas fa-trash"></i>
                           </button>
-                          <a href="/admin/dashboard/{{{currentPage}}}/form?isEditing=true&id=${row.id}">
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              data-jurusan="{{j.nama}}"
-                              data-id="{{j.id}}"
-                              >
-                              <i class="fas fa-edit"></i>
-                            </button>
-                          </a>
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#modal-edit"
+                            data-jurusan="{{j.nama}}"
+                            data-id="{{j.id}}"
+                            >
+                            <i class="fas fa-edit"></i>
+                          </button>
                         </td>
                       </tr>
                     @end
@@ -133,7 +142,7 @@
   <!-- /.control-sidebar -->
 </div>
 
-<div class="modal fade" id="modal-default">
+<div class="modal fade" id="modal-confirm">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -146,11 +155,46 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="jurusan-id" name="jurusan-id" type="hidden" />
+          <input id="id-jurusan" name="id-jurusan" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
       </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-edit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Perbarui Jurusan</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/api/{{currentPage}}/perbarui?_method=PUT">
+        {{ csrfField() }}
+        <div class="modal-body">
+          <input id="id-jurusan" name="id-jurusan" type="hidden" />
+          <input
+            name="nama-jurusan"
+            id="input-jurusan"
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Masukkan nama baru"
+            value="{{flashMessages.get('nama_jurusan', '')}}"
+            required
+          />
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Perbarui</button>
+        </div>
+      </form>
     </div>
     <!-- /.modal-content -->
   </div>
@@ -164,13 +208,20 @@
 @section('custom_scripts')
 <script>
   $(document).ready(function () {
-    $("#modal-default").on("show.bs.modal", function (event) {
+    $("#modal-confirm").on("show.bs.modal", function (event) {
       const jurusan = $(event.relatedTarget).data("jurusan");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
         .html(`<p class="h5">Yakin hapus jurusan ${jurusan}?</p>`);
-      $(this).find("#jurusan-id").val(id);
+      $(this).find("#id-jurusan").val(id);
+    });
+
+    $("#modal-edit").on("show.bs.modal", function (event) {
+      const jurusan = $(event.relatedTarget).data("jurusan");
+      const id = $(event.relatedTarget).data("id");
+      $(this).find("#input-jurusan").val(jurusan);
+      $(this).find("#id-jurusan").val(id);
     });
   });
 </script>
