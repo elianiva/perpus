@@ -18,7 +18,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: currentPage })
+  @!component('components/sidebar', { active: "buku" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -27,7 +27,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua {{ currentPage }}</h1>
+            <h1 class="m-0 text-capitalize">Semua Buku</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -35,14 +35,14 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">{{currentPage}}</li>
+              <li class="breadcrumb-item active text-capitalize">Buku</li>
             </ol>
           </div>
           <!-- /.col -->
         </div>
-        <a href="/admin/dashboard/{{currentPage}}/form">
+        <a href="/admin/dashboard/buku/form">
           <button class="btn btn-success">
-            <b class="text-white text-capitalize">Tambah {{ currentPage }}</b>
+            <b class="text-white text-capitalize">Tambah Buku</b>
           </button>
         </a>
         <!-- /.row -->
@@ -76,24 +76,22 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>NISN</th>
-                      <th>Email</th>
-                      <th>Nama Lengkap</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
-                      <th>Jurusan</th>
+                      <th>ISBN</th>
+                      <th>Judul</th>
+                      <th>Nama Pengarang</th>
+                      <th>Penerbit</th>
+                      <th>Cover</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
                   <tfoot>
                     <tr>
-                      <th>NISN</th>
-                      <th>Email</th>
-                      <th>Nama Lengkap</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
-                      <th>Jurusan</th>
+                      <th>ISBN</th>
+                      <th>Judul</th>
+                      <th>Nama Pengarang</th>
+                      <th>Penerbit</th>
+                      <th>Cover</th>
                       <th>Aksi</th>
                     </tr>
                   </tfoot>
@@ -112,15 +110,9 @@
   </div>
   <!-- /.content-wrapper -->
   @!component('components/footer')
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
 
-<div class="modal fade" id="modal-default">
+<div class="modal fade" id="modal-delete">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -131,9 +123,9 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
+        <form method="POST" action="/api/buku/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="user-id" name="user-id" type="hidden" />
+          <input id="id-buku" name="id-buku" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -147,12 +139,14 @@
 
 @section('stylesheets')
 <!-- DataTables -->
-<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 <link
   rel="stylesheet"
-  href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+  href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
 />
-<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+<link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="/plugins/ekko-lightbox/ekko-lightbox.css">
 
 <style>
 .pull-left{ float:left !important; margin-bottom: 1rem !important; }
@@ -174,42 +168,42 @@
 <script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 
 <script>
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{currentPage}}}",
+        serverSide: true,
+        ajax: "/api/buku",
         columns: [
-          { data: "nisn" },
-          { data: "email" },
-          { data: "nama_lengkap" },
-          { data: "jenis_kelamin" },
-          { data: "kelas" },
-          { data: "jurusan" },
+          { data: "isbn" },
+          { data: "judul" },
+          { data: "pengarang" },
+          { data: "penerbit" },
+          { data: "url_cover" },
           { data: null },
         ],
         columnDefs: [
           {
             targets: [-1],
-            render: (data, type, row, meta) => {
+            render: (_data, _type, row) => {
               const id = row.id;
               return `
 <button
   type="button"
   class="btn btn-danger"
   data-toggle="modal"
-  data-target="#modal-default"
-  data-email="${row.email}"
+  data-target="#modal-delete"
   data-id="${row.id}"
 >
   <i class="fas fa-trash"></i>
 </button>
-<a href="/admin/dashboard/{{{currentPage}}}/form?isEditing=true&id=${row.id}">
+<a href="/admin/dashboard/buku/form?isEditing=true&id=${row.id}">
   <button
     type="button"
     class="btn btn-primary"
-    data-email="${row.email}"
     data-id="${row.id}"
   >
     <i class="fas fa-edit"></i>
@@ -217,6 +211,18 @@
 </a>
 `;
             },
+          },
+          {
+            targets: [-2],
+            render: (data, _type, row) => `
+<a href="${/*data*/''}" data-toggle="lightbox" data-title="${row.judul}">
+  <img
+    width="80"
+    height="120"
+    src="${/*data*/''}"
+    alt="cover buku"
+  />
+</a>`,
           },
         ],
         paging: true,
@@ -247,13 +253,20 @@
         ]
       });
 
-    $("#modal-default").on("show.bs.modal", function (event) {
+    $("#modal-delete").on("show.bs.modal", function (event) {
       const email = $(event.relatedTarget).data("email");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data {{{currentPage}}} dengan email <b>${email}</b>?</p>`);
+        .html(`<p class="h5">Yakin hapus data buku dengan email <b>${email}</b>?</p>`);
       $(this).find("#user-id").val(id);
+    });
+
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
     });
   });
 </script>

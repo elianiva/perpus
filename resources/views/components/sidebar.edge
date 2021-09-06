@@ -31,13 +31,20 @@
         </li>
         <li class="nav-header">MANAJEMEN BUKU</li>
         <li class="nav-item">
-          <a href="/admin/dashboard/buku" class="nav-link">
+          <a
+            href="/admin/dashboard/buku"
+            class="nav-link {{ active == 'buku' ? 'active' : '' }}"
+          >
             <i class="nav-icon fas fa-book"></i>
             <p>Semua Buku</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/admin/dashboard/buku/form" class="nav-link">
+          <a
+            href="/admin/dashboard/buku/form"
+            class="nav-link"
+            class="nav-link {{ active == 'peminjaman' ? 'active' : '' }}"
+          >
             <i class="nav-icon fas fa-calendar"></i>
             <p>Peminjaman Buku</p>
           </a>

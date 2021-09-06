@@ -16,8 +16,8 @@ export default class DashboardController {
 
       await auth.user!.load("profil");
       return view.render("admin/dashboard/index", {
-        total_anggota: membersAmount[0].total,
-        total_admin: adminAmount[0].total,
+        totalAnggota: membersAmount[0].total,
+        totalAdmin: adminAmount[0].total,
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
@@ -27,9 +27,53 @@ export default class DashboardController {
   }
 
   public async bukuTable({ response, request, view, auth, logger }: HttpContextContract) {
-    return view.render("admin/dashboard/buku");
+    try {
+      const { type } = request.params();
+      await auth.user!.load("profil");
+      return view.render("admin/dashboard/buku", {
+        currentPage: type,
+        currentUserName: auth.user!.profil.nama,
+      });
+    } catch (err) {
+      logger.error("DashboardController.bukuTable: ", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
   }
 
+  public async bukuForm({ request, response, view, logger, auth }: HttpContextContract) {
+    const { isEditing, id } = request.qs();
+
+    try {
+      if (isEditing) {
+        const user = await User.findBy("id", id);
+        if (!user) {
+          logger.error("NOT FOUND", { ctx: { id } });
+          return response.redirect().back();
+        }
+        return view.render("admin/dashboard/buku_form", {
+          currentUserName: auth.user!.profil.nama,
+          isEditing,
+          data: {
+            id: user.id,
+            isbn: user.profil.nisn,
+            email: user.email,
+            nama_lengkap: user.profil.nama,
+            jenis_kelamin: user.profil.sex,
+            kelas: user.profil.kelas,
+            jurusan: user.profil.jurusan?.nama,
+          },
+        });
+      }
+
+      await auth.user!.load("profil");
+      return view.render("admin/dashboard/buku_form", {
+        currentUserName: auth.user!.profil.nama,
+      });
+    } catch (err) {
+      logger.error("DashboardController.bukuForm: ", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
   public async userTable({ response, request, view, auth, logger }: HttpContextContract) {
     try {
       const { type } = request.params();

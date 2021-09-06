@@ -25,7 +25,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua {{currentPage}}</h1>
+            <h1 class="m-0 text-capitalize">{{isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru`}}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -51,7 +51,7 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header text-capitalize">Tambah {{currentPage}} Baru</div>
+              <div class="card-header text-capitalize">{{isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru`}}</div>
               <div class="card-body">
                 <form
                   method="POST"
@@ -192,54 +192,5 @@
   </div>
   <!-- /.content-wrapper -->
   @!component('components/footer')
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
-
-<div class="modal fade" id="modal-default">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Konfirmasi</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
-          {{ csrfField() }}
-          <input id="user-id" name="user-id" type="hidden" />
-          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-danger">Hapus</button>
-        </form>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-@end
-
-@section('stylesheets')
-@end
-
-@section('custom_scripts')
-
-<script>
-  $(document).ready(() => {
-    $("#modal-default").on("show.bs.modal", function (event) {
-      const email = $(event.relatedTarget).data("email");
-      const id = $(event.relatedTarget).data("id");
-      $(this)
-        .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data anggota dengan email <b>${email}</b>?</p>`);
-      $(this).find("#user-id").val(id);
-    });
-  })
-</script>
 @end

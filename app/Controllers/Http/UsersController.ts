@@ -103,7 +103,7 @@ export default class UsersController {
 
   public async destroy({ request, response, session, logger }: HttpContextContract) {
     try {
-      const id = request.input("user-id");
+      const id = request.input("id-user");
       const user = await User.findBy("id", id);
 
       if (!user) {

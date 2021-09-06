@@ -112,12 +112,6 @@
   </div>
   <!-- /.content-wrapper -->
   @!component('components/footer')
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
 
 <div class="modal fade" id="modal-default">
@@ -133,7 +127,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="user-id" name="user-id" type="hidden" />
+          <input id="id-user" name="id-user" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -147,12 +141,12 @@
 
 @section('stylesheets')
 <!-- DataTables -->
-<link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 <link
   rel="stylesheet"
-  href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+  href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
 />
-<link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+<link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
 
 <style>
 .pull-left{ float:left !important; margin-bottom: 1rem !important; }
@@ -253,7 +247,7 @@
       $(this)
         .find(".modal-body")
         .html(`<p class="h5">Yakin hapus data {{{currentPage}}} dengan email <b>${email}</b>?</p>`);
-      $(this).find("#user-id").val(id);
+      $(this).find("#id-user").val(id);
     });
   });
 </script>
