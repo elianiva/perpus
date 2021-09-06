@@ -17,6 +17,9 @@ export default class BukuMasuk extends BaseModel {
   @column()
   public alasan: string;
 
+  @column()
+  public jumlah: number;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 

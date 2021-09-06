@@ -8,6 +8,7 @@ export default class BukuMasuks extends BaseSchema {
       table.increments("id");
       table.integer("id_buku").unsigned();
       table.string("alasan");
+      table.integer("jumlah");
       table.timestamps(true, true);
 
       table.foreign("id_buku").references("id").inTable("buku");

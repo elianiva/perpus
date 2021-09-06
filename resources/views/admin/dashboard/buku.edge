@@ -175,7 +175,6 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        serverSide: true,
         ajax: "/api/buku",
         columns: [
           { data: "isbn" },

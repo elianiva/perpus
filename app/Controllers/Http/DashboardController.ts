@@ -26,16 +26,26 @@ export default class DashboardController {
     }
   }
 
-  public async bukuTable({ response, request, view, auth, logger }: HttpContextContract) {
+  public async bukuTable({ response, view, auth, logger }: HttpContextContract) {
     try {
-      const { type } = request.params();
       await auth.user!.load("profil");
       return view.render("admin/dashboard/buku", {
-        currentPage: type,
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.bukuTable: ", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
+
+  public async bukuMasukTable({ response, view, auth, logger }: HttpContextContract) {
+    try {
+      await auth.user!.load("profil");
+      return view.render("admin/dashboard/buku_masuk", {
+        currentUserName: auth.user!.profil.nama,
+      });
+    } catch (err) {
+      logger.error("DashboardController.bukuMasukTable: ", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -134,12 +144,11 @@ export default class DashboardController {
 
   public async jurusanTable({ response, view, auth, logger }: HttpContextContract) {
     try {
-      const jurusan = await Jurusan.all();
       await auth.user!.load("profil");
+
       return view.render(`admin/dashboard/jurusan`, {
         currentPage: "jurusan",
         currentUserName: auth.user!.profil.nama,
-        jurusan: jurusan.map(({ id, nama }) => ({ id, nama })),
       });
     } catch (err) {
       logger.error("DashboardController.jurusanTable: ", err.messages);

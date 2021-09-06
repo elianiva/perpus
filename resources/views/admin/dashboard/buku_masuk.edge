@@ -18,7 +18,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: currentPage })
+  @!component('components/sidebar', { active: "buku_masuk" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -27,7 +27,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua {{ currentPage }}</h1>
+            <h1 class="m-0 text-capitalize">Semua Buku Masuk</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -35,16 +35,18 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">{{currentPage}}</li>
+              <li class="breadcrumb-item active text-capitalize">Buku Masuk</li>
             </ol>
           </div>
           <!-- /.col -->
         </div>
-        <a href="/admin/dashboard/{{currentPage}}/form">
-          <button class="btn btn-success">
-            <b class="text-white text-capitalize">Tambah {{ currentPage }}</b>
-          </button>
-        </a>
+        <button
+          class="btn btn-success"
+          data-toggle="modal"
+          data-target="#modal-add"
+        >
+          <b class="text-white text-capitalize">Tambah Jurusan</b>
+        </button>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -76,24 +78,14 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>NISN</th>
-                      <th>Email</th>
-                      <th>Nama Lengkap</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
-                      <th>Jurusan</th>
+                      <th>Nama Jurusan</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
                   <tfoot>
                     <tr>
-                      <th>NISN</th>
-                      <th>Email</th>
-                      <th>Nama Lengkap</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
-                      <th>Jurusan</th>
+                      <th>Nama Jurusan</th>
                       <th>Aksi</th>
                     </tr>
                   </tfoot>
@@ -114,7 +106,7 @@
   @!component('components/footer')
 </div>
 
-<div class="modal fade" id="modal-default">
+<div class="modal fade" id="modal-confirm">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -125,13 +117,83 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
+        <form method="POST" action="/api/jurusan/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id-user" name="id-user" type="hidden" />
+          <input id="id-jurusan" name="id-jurusan" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
       </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-edit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Perbarui Jurusan</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/api/jurusan/perbarui?_method=PUT">
+        {{ csrfField() }}
+        <div class="modal-body">
+          <input id="id-jurusan" name="id-jurusan" type="hidden" />
+          <input
+            name="nama-jurusan"
+            id="input-jurusan"
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Masukkan nama baru"
+            value="{{flashMessages.get('nama_jurusan', '')}}"
+            required
+          />
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Perbarui</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-add">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Tambah Jurusan</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/api/jurusan/tambah">
+        {{ csrfField() }}
+        <div class="modal-body">
+          <input id="id-jurusan" name="id-jurusan" type="hidden" />
+          <input
+            name="nama-jurusan"
+            id="input-jurusan"
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Masukkan nama jurusan"
+            value="{{flashMessages.get('nama_jurusan', '')}}"
+            required
+          />
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Tambah</button>
+        </div>
+      </form>
     </div>
     <!-- /.modal-content -->
   </div>
@@ -171,14 +233,9 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{currentPage}}}",
+        ajax: "/api/jurusan",
         columns: [
-          { data: "nisn" },
-          { data: "email" },
-          { data: "nama_lengkap" },
-          { data: "jenis_kelamin" },
-          { data: "kelas" },
-          { data: "jurusan" },
+          { data: "nama" },
           { data: null },
         ],
         columnDefs: [
@@ -191,22 +248,22 @@
   type="button"
   class="btn btn-danger"
   data-toggle="modal"
-  data-target="#modal-default"
-  data-email="${row.email}"
+  data-target="#modal-confirm"
+  data-jurusan="${row.nama}"
   data-id="${row.id}"
 >
   <i class="fas fa-trash"></i>
 </button>
-<a href="/admin/dashboard/{{{currentPage}}}/form?isEditing=true&id=${row.id}">
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-email="${row.email}"
-    data-id="${row.id}"
-  >
-    <i class="fas fa-edit"></i>
-  </button>
-</a>
+<button
+  type="button"
+  class="btn btn-primary"
+  data-toggle="modal"
+  data-target="#modal-edit"
+  data-jurusan="${row.nama}"
+  data-id="${row.id}"
+>
+  <i class="fas fa-edit"></i>
+</button>
 `;
             },
           },
@@ -215,7 +272,7 @@
         lengthChange: false,
         ordering: true,
         info: true,
-        autoWidth: false,
+        autoWidth: true,
         responsive: true,
         deferRender: true,
         dom: '<"pull-left"f><"pull-right"B>tip',
@@ -239,13 +296,20 @@
         ]
       });
 
-    $("#modal-default").on("show.bs.modal", function (event) {
-      const email = $(event.relatedTarget).data("email");
+    $("#modal-confirm").on("show.bs.modal", function (event) {
+      const jurusan = $(event.relatedTarget).data("jurusan");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data {{{currentPage}}} dengan email <b>${email}</b>?</p>`);
-      $(this).find("#id-user").val(id);
+        .html(`<p class="h5">Yakin hapus jurusan ${jurusan}?</p>`);
+      $(this).find("#id-jurusan").val(id);
+    });
+
+    $("#modal-edit").on("show.bs.modal", function (event) {
+      const jurusan = $(event.relatedTarget).data("jurusan");
+      const id = $(event.relatedTarget).data("id");
+      $(this).find("#input-jurusan").val(jurusan);
+      $(this).find("#id-jurusan").val(id);
     });
   });
 </script>

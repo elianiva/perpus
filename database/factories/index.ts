@@ -34,10 +34,12 @@ export const UserFactory = Factory.define(User, ({ faker }) => ({
 
 export const BukuMasukFactory = Factory.define(BukuMasuk, ({ faker }) => ({
   alasan: faker.random.arrayElement(["Bantuan Pemerintah", "Beli", "Hibah", "Tidak Diketahui"]),
+  jumlah: faker.datatype.number(10),
 })).build();
 
 export const BukuKeluarFactory = Factory.define(BukuKeluar, ({ faker }) => ({
   alasan: faker.random.arrayElement(["Hilang", "Dihibahkan", "Tidak Diketahui"]),
+  jumlah: faker.datatype.number(10),
 })).build();
 
 export const BukuFactory = Factory.define(Buku, ({ faker }) => ({

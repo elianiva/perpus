@@ -2,6 +2,20 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Jurusan from "App/Models/Jurusan";
 
 export default class JurusansController {
+  public async show({ response, session, logger }: HttpContextContract) {
+    try {
+      const jurusan = await Jurusan.all();
+
+      return {
+        data: jurusan.map(({ id, nama }) => ({ id, nama })),
+      };
+    } catch (err) {
+      session.flash({ error: err.message });
+      logger.error("JurusansController.show", err.messages);
+      return response.redirect().back();
+    }
+  }
+
   public async create({ request, response, session, logger }: HttpContextContract) {
     try {
       const name = request.input("nama-jurusan");
