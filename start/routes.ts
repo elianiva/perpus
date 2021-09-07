@@ -37,7 +37,8 @@ Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/jurusan", "DashboardController.jurusanTable");
     Route.get("/buku", "DashboardController.bukuTable");
-    Route.get("/buku_masuk", "DashboardController.bukuTable");
+    Route.get("/buku_masuk", "DashboardController.bukuMasukTable");
+    Route.get("/buku_keluar", "DashboardController.bukuKeluarTable");
     Route.get("/buku/form", "DashboardController.bukuForm");
 
     // fall through for /anggota or /admin
@@ -57,12 +58,12 @@ Route.group(() => {
   Route.put("/jurusan/perbarui", "JurusansController.update");
   Route.delete("/jurusan/hapus", "JurusansController.destroy");
 
-  Route.get("/buku_masuk", "BukuMasuksController.create");
+  Route.get("/buku_masuk", "BukuMasuksController.show");
   Route.post("/buku_masuk/tambah", "BukuMasuksController.create");
   Route.put("/buku_masuk/perbarui", "BukuMasuksController.update");
   Route.delete("/buku_masuk/hapus", "BukuMasuksController.destroy");
 
-  Route.get("/buku_keluar", "BukuKeluarsController.create");
+  Route.get("/buku_keluar", "BukuKeluarsController.show");
   Route.post("/buku_keluar/tambah", "BukuKeluarsController.create");
   Route.put("/buku_keluar/perbarui", "BukuKeluarsController.update");
   Route.delete("/buku_keluar/hapus", "BukuKeluarsController.destroy");

@@ -127,7 +127,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id-user" name="id-user" type="hidden" />
+          <input id="id_user" name="id_user" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -245,7 +245,7 @@
       $(this)
         .find(".modal-body")
         .html(`<p class="h5">Yakin hapus data {{{currentPage}}} dengan email <b>${email}</b>?</p>`);
-      $(this).find("#id-user").val(id);
+      $(this).find("#id_user").val(id);
     });
   });
 </script>

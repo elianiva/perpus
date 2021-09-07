@@ -1,5 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Jurusan from "App/Models/Jurusan";
+import { rules, schema } from "@ioc:Adonis/Core/Validator";
 
 export default class JurusansController {
   public async show({ response, session, logger }: HttpContextContract) {
@@ -18,15 +19,20 @@ export default class JurusansController {
 
   public async create({ request, response, session, logger }: HttpContextContract) {
     try {
-      const name = request.input("nama-jurusan");
-      if (!name) {
+      /* eslint-disable */
+      const { nama_jurusan } = await request.validate({
+        schema: schema.create({
+          nama_jurusan: schema.string({ trim: true }, [rules.required()]),
+        }),
+      });
+      if (!nama_jurusan) {
         session.flash({ error: "Nama jurusan wajib diisi!" });
         return response.redirect().back();
       }
 
-      await Jurusan.create({ nama: name });
+      await Jurusan.create({ nama: nama_jurusan });
 
-      session.flash({ msg: `Jurusan ${name} berhasil ditambahkan` });
+      session.flash({ msg: `Jurusan ${nama_jurusan} berhasil ditambahkan` });
       return response.redirect().back();
     } catch (err) {
       session.flash({ error: err.message });
@@ -37,30 +43,36 @@ export default class JurusansController {
 
   public async update({ request, response, session, logger }: HttpContextContract) {
     try {
-      const id = request.input("id-jurusan");
-      const newName = request.input("nama-jurusan");
-      if (!newName) {
+      /* eslint-disable */
+      const { id_jurusan, nama_jurusan } = await request.validate({
+        schema: schema.create({
+          id_jurusan: schema.string({ trim: true }, [rules.required()]),
+          nama_jurusan: schema.string({ trim: true }, [rules.required()]),
+        }),
+      });
+
+      if (!nama_jurusan) {
         session.flash({ error: "Nama jurusan wajib diisi!" });
         return response.redirect().back();
       }
 
-      const dupe = await Jurusan.findBy("nama", newName);
+      const dupe = await Jurusan.findBy("nama", nama_jurusan);
       if (dupe) {
         session.flash({ error: "Jurusan sudah ada!" });
         return response.redirect().back();
       }
 
-      const jurusan = await Jurusan.findBy("id", id);
+      const jurusan = await Jurusan.findBy("id", id_jurusan);
       if (!jurusan) {
-        session.flash({ error: `Jurusan ${newName} tidak dapat ditemukan!` });
+        session.flash({ error: `Jurusan ${nama_jurusan} tidak dapat ditemukan!` });
         return response.redirect().back();
       }
 
       const prevName = jurusan.nama;
-      jurusan.nama = newName;
+      jurusan.nama = nama_jurusan;
       jurusan.save();
 
-      session.flash({ msg: `Jurusan ${prevName} berhasil diperbarui menjadi ${newName}!` });
+      session.flash({ msg: `Jurusan ${prevName} berhasil diperbarui menjadi ${nama_jurusan}!` });
       return response.redirect().back();
     } catch (err) {
       session.flash({ error: err.message });
@@ -71,11 +83,17 @@ export default class JurusansController {
 
   public async destroy({ request, response, session, logger }: HttpContextContract) {
     try {
-      const id = request.input("id-jurusan");
-      const jurusan = await Jurusan.findBy("id", id);
+      /* eslint-disable */
+      const { id_jurusan } = await request.validate({
+        schema: schema.create({
+          id_jurusan: schema.string({ trim: true }, [rules.required()]),
+        }),
+      });
+
+      const jurusan = await Jurusan.findBy("id", id_jurusan);
 
       if (!jurusan) {
-        session.flash({ error: `Tidak ada user dengan id ${id}` });
+        session.flash({ error: `Tidak ada user dengan id ${id_jurusan}` });
         return response.redirect().back();
       }
 

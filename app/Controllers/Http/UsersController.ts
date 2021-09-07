@@ -103,11 +103,17 @@ export default class UsersController {
 
   public async destroy({ request, response, session, logger }: HttpContextContract) {
     try {
-      const id = request.input("id-user");
-      const user = await User.findBy("id", id);
+      /* eslint-disable */
+      const { id_user } = await request.validate({
+        schema: schema.create({
+          id_user: schema.number([rules.required()]),
+        }),
+      });
+
+      const user = await User.findBy("id", id_user);
 
       if (!user) {
-        session.flash({ error: `Tidak ada user dengan id ${id}` });
+        session.flash({ error: `Tidak ada user dengan id ${id_user}` });
         return response.redirect().back();
       }
 

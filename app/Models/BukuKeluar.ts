@@ -2,8 +2,8 @@ import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
 import { DateTime } from "luxon";
 import Buku from "./Buku";
 
-export default class BukuMasuk extends BaseModel {
-  public static table = "buku_masuk";
+export default class BukuKeluar extends BaseModel {
+  public static table = "buku_keluar";
 
   @column({ isPrimary: true })
   public id: number;

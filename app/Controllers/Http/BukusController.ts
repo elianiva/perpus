@@ -1,17 +1,19 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import Buku from "App/Models/Buku";
+import Database from "@ioc:Adonis/Lucid/Database";
 
 export default class BukusController {
   public async show({ response, logger }: HttpContextContract) {
     try {
-      const books = await Buku.all();
+      const books = await Database.from("buku")
+        .select("id", "isbn", "judul", "pengarang", "penerbit", "jumlah", "deskripsi", "url_cover")
+        .groupBy("id")
+        .count("* as total");
+
+      console.log(books[0].total);
 
       return {
-        data: books.map((book) =>
-          book.serialize({
-            fields: ["id", "isbn", "judul", "pengarang", "penerbit", "url_cover"],
-          })
-        ),
+        total: books[0].total,
+        // data: books.map((book) => book.toJSON()),
       };
     } catch (err) {
       console.log(err);

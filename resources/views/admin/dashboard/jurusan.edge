@@ -119,7 +119,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/jurusan/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id-jurusan" name="id-jurusan" type="hidden" />
+          <input id="id_jurusan" name="id_jurusan" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -142,9 +142,9 @@
       <form method="POST" action="/api/jurusan/perbarui?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id-jurusan" name="id-jurusan" type="hidden" />
+          <input id="id_jurusan" name="id_jurusan" type="hidden" />
           <input
-            name="nama-jurusan"
+            name="nama_jurusan"
             id="input-jurusan"
             type="text"
             class="form-control"
@@ -177,9 +177,9 @@
       <form method="POST" action="/api/jurusan/tambah">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id-jurusan" name="id-jurusan" type="hidden" />
+          <input id="id_jurusan" name="id_jurusan" type="hidden" />
           <input
-            name="nama-jurusan"
+            name="nama_jurusan"
             id="input-jurusan"
             type="text"
             class="form-control"
@@ -302,14 +302,14 @@
       $(this)
         .find(".modal-body")
         .html(`<p class="h5">Yakin hapus jurusan ${jurusan}?</p>`);
-      $(this).find("#id-jurusan").val(id);
+      $(this).find("#id_jurusan").val(id);
     });
 
     $("#modal-edit").on("show.bs.modal", function (event) {
       const jurusan = $(event.relatedTarget).data("jurusan");
       const id = $(event.relatedTarget).data("id");
       $(this).find("#input-jurusan").val(jurusan);
-      $(this).find("#id-jurusan").val(id);
+      $(this).find("#id_jurusan").val(id);
     });
   });
 </script>
