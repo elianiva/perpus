@@ -22,7 +22,7 @@ export default class BukuKeluarsController {
         ),
       };
     } catch (err) {
-      logger.error("BukuMasuksController.show: %o", err.messages);
+      logger.error("BukuKeluarsController.show: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
@@ -39,10 +39,10 @@ export default class BukuKeluarsController {
         }),
       });
 
-      const bukuMasuk = await BukuKeluar.create({ idBuku: id_buku, alasan, jumlah });
-      await bukuMasuk.load("buku");
-      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + jumlah;
-      bukuMasuk.buku.save();
+      const bukuKeluar = await BukuKeluar.create({ idBuku: id_buku, alasan, jumlah });
+      await bukuKeluar.load("buku");
+      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - jumlah;
+      bukuKeluar.buku.save();
 
       session.flash({ msg: `Berhasil menambahkan buku dengan alasan "${alasan}"` });
       return response.redirect().back();
@@ -73,8 +73,10 @@ export default class BukuKeluarsController {
       await bukuKeluar.load("buku");
 
       bukuKeluar.alasan = alasan;
+      console.log(bukuKeluar.buku.jumlah);
+      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - bukuKeluar.jumlah + jumlah;
+      console.log(bukuKeluar.buku.jumlah);
       bukuKeluar.jumlah = jumlah;
-      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah + jumlah;
       bukuKeluar.buku.save();
       bukuKeluar.save();
 
@@ -102,7 +104,7 @@ export default class BukuKeluarsController {
       }
       await bukuKeluar.load("buku");
 
-      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah + bukuKeluar.jumlah;
+      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - bukuKeluar.jumlah;
       bukuKeluar.buku.save();
       bukuKeluar.save();
 

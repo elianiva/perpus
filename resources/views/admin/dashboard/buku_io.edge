@@ -146,17 +146,33 @@
       <form method="POST" action="/api/{{currentPage}}/perbarui?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id_{{currentPage}}" name="id_{{currentPage}}" type="hidden" />
-          <input
-            name="nama_{{currentPage}}"
-            id="input_{{currentPage}}"
-            type="text"
-            class="form-control"
-            autocomplete="off"
-            placeholder="Masukkan nama baru"
-            value="{{flashMessages.get(`nama_${currentPage}`, '')}}"
-            required
-          />
+          <input id="id_buku" name="id_buku" type="hidden" />
+          <div class="form-group">
+            <label for="alasan">Alasan</label>
+            <input
+              class="form-control"
+              name="alasan"
+              id="alasan"
+              type="text"
+              autocomplete="off"
+              placeholder="Masukkan alasan"
+              value="{{flashMessages.get('alasan', '')}}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="jumlah">Jumlah</label>
+            <input
+              class="form-control"
+              name="jumlah"
+              id="jumlah"
+              type="number"
+              autocomplete="off"
+              placeholder="Masukkan jumlah"
+              value="{{flashMessages.get('jumlah', '')}}"
+              required
+            />
+          </div>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -216,7 +232,7 @@
               type="number"
               autocomplete="off"
               placeholder="Masukkan jumlah"
-              value="{{flashMessages.get('alasan', '')}}"
+              value="{{flashMessages.get('jumlah', '')}}"
               required
             />
           </div>
@@ -293,8 +309,9 @@
   class="btn btn-primary"
   data-toggle="modal"
   data-target="#modal-edit"
-  data-judul="${row.judul}"
   data-id="${row.id}"
+  data-alasan="${row.alasan}"
+  data-jumlah="${row.jumlah}"
 >
   <i class="fas fa-edit"></i>
 </button>
@@ -340,10 +357,13 @@
     });
 
     $("#modal-edit").on("show.bs.modal", function (event) {
-      const judul = $(event.relatedTarget).data("buku_masuk");
       const id = $(event.relatedTarget).data("id");
-      $(this).find("#input_buku").val(judul);
+      const alasan = $(event.relatedTarget).data("alasan");
+      const jumlah = $(event.relatedTarget).data("jumlah");
+
       $(this).find("#id_buku").val(id);
+      $(this).find("#alasan").val(alasan);
+      $(this).find("#jumlah").val(jumlah);
     });
 
     $("#modal-add").on("show.bs.modal", function (event) {

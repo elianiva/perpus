@@ -41,7 +41,7 @@ export default class BukuMasuksController {
 
       const bukuMasuk = await BukuMasuk.create({ idBuku: id_buku, alasan, jumlah });
       await bukuMasuk.load("buku");
-      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + jumlah;
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - jumlah;
       bukuMasuk.buku.save();
 
       session.flash({ msg: `Berhasil menambahkan buku dengan alasan "${alasan}"` });
@@ -73,8 +73,10 @@ export default class BukuMasuksController {
       await bukuMasuk.load("buku");
 
       bukuMasuk.alasan = alasan;
+      console.log(bukuMasuk.buku.jumlah);
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - bukuMasuk.jumlah + jumlah;
+      console.log(bukuMasuk.buku.jumlah);
       bukuMasuk.jumlah = jumlah;
-      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + jumlah;
       bukuMasuk.buku.save();
       bukuMasuk.save();
 
