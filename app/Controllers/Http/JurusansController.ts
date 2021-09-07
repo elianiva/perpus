@@ -12,7 +12,7 @@ export default class JurusansController {
       };
     } catch (err) {
       session.flash({ error: err.message });
-      logger.error("JurusansController.show", err.messages);
+      logger.error("JurusansController.show: ", err.messages);
       return response.redirect().back();
     }
   }

@@ -10,8 +10,7 @@ export default class BukusController {
         data: books.map((book) => book.toJSON()),
       };
     } catch (err) {
-      console.log(err);
-      logger.error("BukusController.show", err.messages);
+      logger.error("BukusController.show: %o", err.messages);
       return response.redirect().back();
     }
   }

@@ -13,7 +13,7 @@ export default class LoginController {
     }
   }
 
-  public async login({ request, response, session, auth, logger }: HttpContextContract) {
+  public async login({ request, response, session, logger, auth }: HttpContextContract) {
     if (auth.user) {
       return response.redirect("/admin/dashboard");
     }
@@ -31,19 +31,19 @@ export default class LoginController {
       const user = await User.findBy("email", email);
       if (!user) {
         session.flash({ error: `Tidak ada user dengan email ${email}` });
-        return response.redirect("/admin/login");
+        return response.redirect("/login");
       }
 
       await user.load("role");
       if (user.role.nama !== "ADMIN") {
         session.flash({ error: "Anda bukan admin!" });
-        return response.redirect("/admin/login");
+        return response.redirect("/login");
       }
 
       const isPasswordMatch = await Hash.verify(user.password, password);
       if (!isPasswordMatch) {
         session.flash({ error: "Password yang anda masukkan salah!" });
-        return response.redirect("/admin/login");
+        return response.redirect("/login");
       }
 
       await user.load("profil");
@@ -51,13 +51,13 @@ export default class LoginController {
 
       return response.redirect("/admin/dashboard");
     } catch (err) {
-      logger.error("LoginController.login: ", err.messages);
+      logger.error("LoginController.login: %o", err.messages);
       return response.badRequest(err.messages);
     }
   }
 
   public async logout({ response, auth }: HttpContextContract) {
     await auth.use("web").logout();
-    return response.redirect("/admin/login");
+    return response.redirect("/login");
   }
 }

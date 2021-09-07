@@ -18,7 +18,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: "buku_keluar" })
+  @!component('components/sidebar', { active: currentPage })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -27,7 +27,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua Buku Keluar</h1>
+            <h1 class="m-0 text-capitalize">Semua {{ currentPage.split("_").join(" ") }}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -35,7 +35,7 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">Buku Keluar</li>
+              <li class="breadcrumb-item active text-capitalize">Buku {{ currentPage.split("_").join(" ") }}</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -45,7 +45,7 @@
           data-toggle="modal"
           data-target="#modal-add"
         >
-          <b class="text-white text-capitalize">Tambah Buku keluar</b>
+          <b class="text-white text-capitalize">Tambah {{ currentPage.split("_").join(" ") }}</b>
         </button>
         <!-- /.row -->
       </div>
@@ -121,9 +121,9 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/jurusan/hapus?_method=delete">
+        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id_buku_keluar" name="id_buku_keluar" type="hidden" />
+          <input id="id_buku" name="id_buku" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -138,23 +138,23 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Perbarui Jurusan</h4>
+        <h4 class="modal-title">Perbarui {{ currentPage.split("_").join(" ") }}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/jurusan/perbarui?_method=PUT">
+      <form method="POST" action="/api/{{currentPage}}/perbarui?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id_buku_keluar" name="id_buku_keluar" type="hidden" />
+          <input id="id_{{currentPage}}" name="id_{{currentPage}}" type="hidden" />
           <input
-            name="nama_jurusan"
-            id="input_jurusan"
+            name="nama_{{currentPage}}"
+            id="input_{{currentPage}}"
             type="text"
             class="form-control"
             autocomplete="off"
-            placeholder="keluarkan nama baru"
-            value="{{flashMessages.get('nama_jurusan', '')}}"
+            placeholder="Masukkan nama baru"
+            value="{{flashMessages.get(`nama_${currentPage}`, '')}}"
             required
           />
         </div>
@@ -173,25 +173,53 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Tambah Jurusan</h4>
+        <h4 class="modal-title">Tambah {{ currentPage.split("_").join(" ") }}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/jurusan/tambah">
+      <form method="POST" action="/api/{{currentPage}}/tambah">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id_buku_keluar" name="id_buku_keluar" type="hidden" />
-          <input
-            name="nama_jurusan"
-            id="input_jurusan"
-            type="text"
-            class="form-control"
-            autocomplete="off"
-            placeholder="keluarkan nama jurusan"
-            value="{{flashMessages.get('nama_jurusan', '')}}"
-            required
-          />
+          <div class="form-group">
+            <label for="id_buku">Judul Buku</label>
+            <select
+              name="id_buku"
+              id="id_buku"
+              class="form-control"
+              style="width: 100%;"
+            >
+              @each(b in data.buku)
+                <option value="{{b.id}}">{{b.judul}}</option>
+              @end
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="alasan">Alasan</label>
+            <input
+              class="form-control"
+              name="alasan"
+              id="alasan"
+              type="text"
+              autocomplete="off"
+              placeholder="Masukkan alasan"
+              value="{{flashMessages.get('alasan', '')}}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="jumlah">Jumlah</label>
+            <input
+              class="form-control"
+              name="jumlah"
+              id="jumlah"
+              type="number"
+              autocomplete="off"
+              placeholder="Masukkan jumlah"
+              value="{{flashMessages.get('alasan', '')}}"
+              required
+            />
+          </div>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -237,7 +265,7 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/buku_keluar",
+        ajax: "/api/{{{currentPage}}}",
         columns: [
           { data: "judul" },
           { data: "alasan" },
@@ -248,14 +276,14 @@
           {
             targets: [-1],
             render: (data, type, row, meta) => {
-              const id = row.id;
+              console.log(row)
               return `
 <button
   type="button"
   class="btn btn-danger"
   data-toggle="modal"
   data-target="#modal-confirm"
-  data-judul="${row.nama}"
+  data-judul="${row.judul}"
   data-id="${row.id}"
 >
   <i class="fas fa-trash"></i>
@@ -265,7 +293,7 @@
   class="btn btn-primary"
   data-toggle="modal"
   data-target="#modal-edit"
-  data-judul="${row.nama}"
+  data-judul="${row.judul}"
   data-id="${row.id}"
 >
   <i class="fas fa-edit"></i>
@@ -303,19 +331,24 @@
       });
 
     $("#modal-confirm").on("show.bs.modal", function (event) {
-      const judul = $(event.relatedTarget).data("jurusan");
+      const judul = $(event.relatedTarget).data("judul");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus jurusan ${judul}?</p>`);
-      $(this).find("#id_buku_keluar").val(id);
+        .html(`<p class="h5">Yakin hapus data {{ currentPage.split("_").join(" ") }} berjudul ${judul}?</p>`);
+      $(this).find("#id_buku").val(id);
     });
 
     $("#modal-edit").on("show.bs.modal", function (event) {
-      const judul = $(event.relatedTarget).data("jurusan");
+      const judul = $(event.relatedTarget).data("buku_masuk");
       const id = $(event.relatedTarget).data("id");
-      $(this).find("#input_jurusan").val(judul);
-      $(this).find("#id_buku_keluar").val(id);
+      $(this).find("#input_buku").val(judul);
+      $(this).find("#id_buku").val(id);
+    });
+
+    $("#modal-add").on("show.bs.modal", function (event) {
+      const id = $(event.relatedTarget).data("id");
+      $(this).find("#id_buku").val(id);
     });
   });
 </script>

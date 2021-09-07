@@ -8,7 +8,7 @@ export default class Profils extends BaseSchema {
       table.increments("id").primary().notNullable().unsigned();
       table.string("nisn", 10);
       table.string("nama");
-      table.string("sex", 1);
+      table.string("jenis_kelamin", 1);
       table.integer("kelas", 2);
       table.integer("id_jurusan").unsigned();
       table.integer("id_user").unsigned();

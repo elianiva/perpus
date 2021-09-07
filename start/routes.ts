@@ -22,17 +22,16 @@ import Route from "@ioc:Adonis/Core/Route";
 
 Route.get("/", async ({ session, response }) => {
   if (!session.get("id_user")) {
-    return response.redirect("/admin/login");
+    return response.redirect("/login");
   }
-  return response.redirect("/admin/login");
+  return response.redirect("/login");
 });
 
+Route.get("/login", "LoginController.index");
+Route.post("/login", "LoginController.login");
+Route.post("/logout", "LoginController.logout");
+
 Route.group(() => {
-  Route.get("/login", "LoginController.index");
-  Route.post("/login", "LoginController.login");
-
-  Route.post("/logout", "LoginController.logout");
-
   Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/jurusan", "DashboardController.jurusanTable");
@@ -68,11 +67,12 @@ Route.group(() => {
   Route.put("/buku_keluar/perbarui", "BukuKeluarsController.update");
   Route.delete("/buku_keluar/hapus", "BukuKeluarsController.destroy");
 
-  Route.get("/:type", "UsersController.show");
-  Route.post("/:type/tambah", "UsersController.create");
-  Route.put("/:type/edit", "UsersController.update");
-  Route.delete("/:type/hapus", "UsersController.destroy");
+  Route.group(() => {
+    Route.get("/:type", "UsersController.show");
+    Route.post("/:type/tambah", "UsersController.create");
+    Route.put("/:type/edit", "UsersController.update");
+    Route.delete("/:type/hapus", "UsersController.destroy");
+  }).where("type", /(anggota|admin)/);
 })
-  .where("type", /(anggota|admin)/)
   .prefix("/api")
   .middleware("auth");

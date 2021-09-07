@@ -1,10 +1,9 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
-import Buku from "App/Models/Buku";
 import BukuKeluar from "App/Models/BukuKeluar";
 
 export default class BukuKeluarsController {
-  public async show({ response, logger }: HttpContextContract) {
+  public async show({ response, session, logger }: HttpContextContract) {
     try {
       const bukuKeluar = await BukuKeluar.all();
 
@@ -23,7 +22,8 @@ export default class BukuKeluarsController {
         ),
       };
     } catch (err) {
-      logger.error("BukuMasuksController.create: ", err.messages);
+      logger.error("BukuMasuksController.show: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
   }
@@ -39,20 +39,17 @@ export default class BukuKeluarsController {
         }),
       });
 
-      const buku = await Buku.findBy("id", id_buku);
-      if (!buku) {
-        session.flash({ err: `Tidak ada buku dengan id ${id_buku}` });
-        return response.redirect().back();
-      }
+      const bukuMasuk = await BukuKeluar.create({ idBuku: id_buku, alasan, jumlah });
+      await bukuMasuk.load("buku");
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + jumlah;
+      bukuMasuk.buku.save();
 
-      await BukuKeluar.create({ alasan, jumlah });
-      buku.jumlah = buku.jumlah + jumlah;
-      buku.save();
-
-      session.flash({ msg: `Berhasil menambahkan barang dengan alasan "${alasan}"` });
+      session.flash({ msg: `Berhasil menambahkan buku dengan alasan "${alasan}"` });
       return response.redirect().back();
     } catch (err) {
-      logger.error("BukuKeluarsController.create: ", err.messages);
+      console.error(err);
+      logger.error("BukuKeluarsController.create: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
   }
@@ -60,17 +57,17 @@ export default class BukuKeluarsController {
   public async update({ response, request, session, logger }: HttpContextContract) {
     try {
       /* eslint-disable */
-      const { id_buku_keluar, alasan, jumlah } = await request.validate({
+      const { id_buku, alasan, jumlah } = await request.validate({
         schema: schema.create({
-          id_buku_keluar: schema.number([rules.required()]),
+          id_buku: schema.number([rules.required()]),
           alasan: schema.string({ trim: true }, [rules.required()]),
           jumlah: schema.number([rules.required()]),
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.findBy("id", id_buku_keluar);
+      const bukuKeluar = await BukuKeluar.findBy("id", id_buku);
       if (!bukuKeluar) {
-        session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku_keluar}` });
+        session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
         return response.redirect().back();
       }
       await bukuKeluar.load("buku");
@@ -84,22 +81,23 @@ export default class BukuKeluarsController {
       session.flash({ msg: `Berhasil memperbarui buku dengan judul "${bukuKeluar.buku.judul}"` });
       return response.redirect().back();
     } catch (err) {
-      logger.error("BukuKeluarsController.update: ", err.messages);
+      logger.error("BukuKeluarsController.update: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
   }
 
   public async destroy({ response, request, session, logger }: HttpContextContract) {
     try {
-      const { id_buku_keluar } = await request.validate({
+      const { id_buku } = await request.validate({
         schema: schema.create({
-          id_buku_keluar: schema.number([rules.required()]),
+          id_buku: schema.number([rules.required()]),
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.findBy("id", id_buku_keluar);
+      const bukuKeluar = await BukuKeluar.findBy("id", id_buku);
       if (!bukuKeluar) {
-        session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku_keluar}` });
+        session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
         return response.redirect().back();
       }
       await bukuKeluar.load("buku");
@@ -111,7 +109,8 @@ export default class BukuKeluarsController {
       session.flash({ msg: `Berhasil memperbarui buku dengan judul "${bukuKeluar.buku.judul}"` });
       return response.redirect().back();
     } catch (err) {
-      logger.error("BukuKeluarsController.update: ", err.messages);
+      logger.error("BukuKeluarsController.destroy: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
   }

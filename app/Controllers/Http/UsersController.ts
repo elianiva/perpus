@@ -29,7 +29,7 @@ export default class UsersController {
 
       await user.related("profil").create({
         nama: nama_lengkap,
-        sex: jenis_kelamin,
+        jenis_kelamin,
         nisn,
         kelas,
         idJurusan: jurusan,
@@ -38,7 +38,8 @@ export default class UsersController {
       session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota/");
     } catch (err) {
-      logger.error("UsersController.create: ", err.messages);
+      logger.error("UsersController.create: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.badRequest({ error: err.messages });
     }
   }
@@ -64,7 +65,7 @@ export default class UsersController {
       user.profil.nama = nama_lengkap;
       user.profil.kelas = kelas;
       user.profil.idJurusan = jurusan;
-      user.profil.sex = jenis_kelamin;
+      user.profil.jenis_kelamin = jenis_kelamin;
 
       await user.save();
       await user.profil.save();
@@ -72,7 +73,8 @@ export default class UsersController {
       session.flash({ msg: `Berhasil memperbarui data anggota dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota");
     } catch (err) {
-      logger.error(err.messages);
+      logger.error("UsersController.update: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.badRequest(err.messages);
     }
   }
@@ -90,13 +92,13 @@ export default class UsersController {
         nisn: user.profil.nisn,
         email: user.email,
         nama_lengkap: user.profil.nama,
-        jenis_kelamin: user.profil.sex === "P" ? "Perempuan" : "Laki Laki",
+        jenis_kelamin: user.profil.jenis_kelamin === "P" ? "Perempuan" : "Laki Laki",
         kelas: user.profil.kelas,
         jurusan: user.profil.jurusan?.nama || "Jurusan tidak tersedia",
       }));
       return response.send({ data });
     } catch (err) {
-      logger.error("UsersController.show: ", err.messages);
+      logger.error("UsersController.show: %o", err.messages);
       return response.badRequest(err.messages);
     }
   }
@@ -122,8 +124,8 @@ export default class UsersController {
 
       return response.redirect().back();
     } catch (err) {
-      session.flash({ error: err.message });
-      logger.error("UsersController.destroy: ", err.messages);
+      logger.error("UsersController.destroy: %o", err.messages);
+      session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
   }

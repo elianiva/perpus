@@ -80,6 +80,8 @@
                       <th>Judul</th>
                       <th>Nama Pengarang</th>
                       <th>Penerbit</th>
+                      <th>Deskripsi</th>
+                      <th>Jumlah</th>
                       <th>Cover</th>
                       <th>Aksi</th>
                     </tr>
@@ -91,6 +93,8 @@
                       <th>Judul</th>
                       <th>Nama Pengarang</th>
                       <th>Penerbit</th>
+                      <th>Deskripsi</th>
+                      <th>Jumlah</th>
                       <th>Cover</th>
                       <th>Aksi</th>
                     </tr>
@@ -175,13 +179,14 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        serverSide: true,
         ajax: "/api/buku",
         columns: [
           { data: "isbn" },
           { data: "judul" },
           { data: "pengarang" },
           { data: "penerbit" },
+          { data: "deskripsi" },
+          { data: "jumlah" },
           { data: "url_cover" },
           { data: null },
         ],

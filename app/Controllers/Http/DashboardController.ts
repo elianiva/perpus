@@ -1,5 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Database from "@ioc:Adonis/Lucid/Database";
+import Buku from "App/Models/Buku";
 import Jurusan from "App/Models/Jurusan";
 import User from "App/Models/User";
 
@@ -21,7 +22,7 @@ export default class DashboardController {
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("DashboardController.index: ", err.messages);
+      logger.error("DashboardController.index: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -33,33 +34,34 @@ export default class DashboardController {
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("DashboardController.bukuTable: ", err.messages);
+      logger.error("DashboardController.bukuTable: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
 
-  public async bukuMasukTable({ response, view, auth, logger }: HttpContextContract) {
+  private async bukuIO({ response, view, auth, logger }: HttpContextContract, type: string) {
     try {
+      const buku = await Buku.all();
       await auth.user!.load("profil");
-      return view.render("admin/dashboard/buku_masuk", {
+      return view.render(`admin/dashboard/buku_io`, {
         currentUserName: auth.user!.profil.nama,
+        currentPage: type,
+        data: {
+          buku: buku.map((b) => b.serialize({ fields: ["id", "judul"] })),
+        },
       });
     } catch (err) {
-      logger.error("DashboardController.bukuMasukTable: ", err.messages);
+      logger.error(`DashboardController.${type}Table: `, err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
 
-  public async bukuKeluarTable({ response, view, auth, logger }: HttpContextContract) {
-    try {
-      await auth.user!.load("profil");
-      return view.render("admin/dashboard/buku_keluar", {
-        currentUserName: auth.user!.profil.nama,
-      });
-    } catch (err) {
-      logger.error("DashboardController.bukuKeluarTable: ", err.messages);
-      return response.badRequest({ error: err.messages });
-    }
+  public async bukuMasukTable(ctx: HttpContextContract) {
+    return this.bukuIO(ctx, "buku_masuk");
+  }
+
+  public async bukuKeluarTable(ctx: HttpContextContract) {
+    return this.bukuIO(ctx, "buku_keluar");
   }
 
   public async bukuForm({ request, response, view, logger, auth }: HttpContextContract) {
@@ -80,7 +82,7 @@ export default class DashboardController {
             isbn: user.profil.nisn,
             email: user.email,
             nama_lengkap: user.profil.nama,
-            jenis_kelamin: user.profil.sex,
+            jenis_kelamin: user.profil.jenis_kelamin,
             kelas: user.profil.kelas,
             jurusan: user.profil.jurusan?.nama,
           },
@@ -92,7 +94,7 @@ export default class DashboardController {
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("DashboardController.bukuForm: ", err.messages);
+      logger.error("DashboardController.bukuForm: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -105,7 +107,7 @@ export default class DashboardController {
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("DashboardController.userTable: ", err.messages);
+      logger.error("DashboardController.userTable: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -135,7 +137,7 @@ export default class DashboardController {
             nisn: user.profil.nisn,
             email: user.email,
             nama_lengkap: user.profil.nama,
-            jenis_kelamin: user.profil.sex,
+            jenis_kelamin: user.profil.jenis_kelamin,
             kelas: user.profil.kelas,
             jurusan: user.profil.jurusan?.nama,
           },
@@ -149,7 +151,7 @@ export default class DashboardController {
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("DashboardController.userForm: ", err.messages);
+      logger.error("DashboardController.userForm: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
@@ -163,7 +165,7 @@ export default class DashboardController {
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
-      logger.error("DashboardController.jurusanTable: ", err.messages);
+      logger.error("DashboardController.jurusanTable: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
