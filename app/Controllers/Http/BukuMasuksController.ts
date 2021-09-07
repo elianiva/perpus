@@ -23,7 +23,7 @@ export default class BukuMasuksController {
         ),
       };
     } catch (err) {
-      logger.error("BukuMasuksController.create: ", err.messages);
+      logger.error("BukuKeluarsController.create: ", err.messages);
       return response.redirect().back();
     }
   }

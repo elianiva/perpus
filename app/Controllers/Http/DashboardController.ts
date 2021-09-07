@@ -50,6 +50,18 @@ export default class DashboardController {
     }
   }
 
+  public async bukuKeluarTable({ response, view, auth, logger }: HttpContextContract) {
+    try {
+      await auth.user!.load("profil");
+      return view.render("admin/dashboard/buku_keluar", {
+        currentUserName: auth.user!.profil.nama,
+      });
+    } catch (err) {
+      logger.error("DashboardController.bukuKeluarTable: ", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
+
   public async bukuForm({ request, response, view, logger, auth }: HttpContextContract) {
     const { isEditing, id } = request.qs();
 

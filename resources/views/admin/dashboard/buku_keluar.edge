@@ -18,7 +18,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: "buku_masuk" })
+  @!component('components/sidebar', { active: "buku_keluar" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -27,7 +27,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua Buku Masuk</h1>
+            <h1 class="m-0 text-capitalize">Semua Buku Keluar</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -35,7 +35,7 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">Buku Masuk</li>
+              <li class="breadcrumb-item active text-capitalize">Buku Keluar</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -45,7 +45,7 @@
           data-toggle="modal"
           data-target="#modal-add"
         >
-          <b class="text-white text-capitalize">Tambah Buku Masuk</b>
+          <b class="text-white text-capitalize">Tambah Buku keluar</b>
         </button>
         <!-- /.row -->
       </div>
@@ -123,7 +123,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/jurusan/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id_buku_masuk" name="id_buku_masuk" type="hidden" />
+          <input id="id_buku_keluar" name="id_buku_keluar" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -146,14 +146,14 @@
       <form method="POST" action="/api/jurusan/perbarui?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id_buku_masuk" name="id_buku_masuk" type="hidden" />
+          <input id="id_buku_keluar" name="id_buku_keluar" type="hidden" />
           <input
             name="nama_jurusan"
             id="input_jurusan"
             type="text"
             class="form-control"
             autocomplete="off"
-            placeholder="Masukkan nama baru"
+            placeholder="keluarkan nama baru"
             value="{{flashMessages.get('nama_jurusan', '')}}"
             required
           />
@@ -181,14 +181,14 @@
       <form method="POST" action="/api/jurusan/tambah">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id_buku_masuk" name="id_buku_masuk" type="hidden" />
+          <input id="id_buku_keluar" name="id_buku_keluar" type="hidden" />
           <input
             name="nama_jurusan"
             id="input_jurusan"
             type="text"
             class="form-control"
             autocomplete="off"
-            placeholder="Masukkan nama jurusan"
+            placeholder="keluarkan nama jurusan"
             value="{{flashMessages.get('nama_jurusan', '')}}"
             required
           />
@@ -237,7 +237,7 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/buku_masuk",
+        ajax: "/api/buku_keluar",
         columns: [
           { data: "judul" },
           { data: "alasan" },
@@ -308,14 +308,14 @@
       $(this)
         .find(".modal-body")
         .html(`<p class="h5">Yakin hapus jurusan ${judul}?</p>`);
-      $(this).find("#id_buku_masuk").val(id);
+      $(this).find("#id_buku_keluar").val(id);
     });
 
     $("#modal-edit").on("show.bs.modal", function (event) {
       const judul = $(event.relatedTarget).data("jurusan");
       const id = $(event.relatedTarget).data("id");
       $(this).find("#input_jurusan").val(judul);
-      $(this).find("#id_buku_masuk").val(id);
+      $(this).find("#id_buku_keluar").val(id);
     });
   });
 </script>
