@@ -12,7 +12,7 @@ const userSchema = schema.create({
   remember_me: schema.boolean.optional(),
 });
 
-export default class UsersController {
+export default class UserController {
   public async create({ request, response, session, logger }: HttpContextContract) {
     try {
       // TODO(elianiva): make role changeable
@@ -38,7 +38,7 @@ export default class UsersController {
       session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota/");
     } catch (err) {
-      logger.error("UsersController.create: %o", err.messages);
+      logger.error("UserController.create: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.badRequest({ error: err.messages });
     }
@@ -73,7 +73,7 @@ export default class UsersController {
       session.flash({ msg: `Berhasil memperbarui data anggota dengan email ${email}` });
       return response.redirect("/admin/dashboard/anggota");
     } catch (err) {
-      logger.error("UsersController.update: %o", err.messages);
+      logger.error("UserController.update: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.badRequest(err.messages);
     }
@@ -98,7 +98,7 @@ export default class UsersController {
       }));
       return response.send({ data });
     } catch (err) {
-      logger.error("UsersController.show: %o", err.messages);
+      logger.error("UserController.show: %o", err.messages);
       return response.badRequest(err.messages);
     }
   }
@@ -124,7 +124,7 @@ export default class UsersController {
 
       return response.redirect().back();
     } catch (err) {
-      logger.error("UsersController.destroy: %o", err.messages);
+      logger.error("UserController.destroy: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }

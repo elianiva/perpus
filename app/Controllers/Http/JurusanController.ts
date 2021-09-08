@@ -2,7 +2,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Jurusan from "App/Models/Jurusan";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 
-export default class JurusansController {
+export default class JurusanController {
   public async show({ response, session, logger }: HttpContextContract) {
     try {
       const jurusan = await Jurusan.all();
@@ -12,7 +12,7 @@ export default class JurusansController {
       };
     } catch (err) {
       session.flash({ error: err.message });
-      logger.error("JurusansController.show: ", err.messages);
+      logger.error("JurusanController.show: ", err.messages);
       return response.redirect().back();
     }
   }
@@ -36,7 +36,7 @@ export default class JurusansController {
       return response.redirect().back();
     } catch (err) {
       session.flash({ error: err.message });
-      logger.error("JurusansController.create: ", err.messages);
+      logger.error("JurusanController.create: ", err.messages);
       return response.redirect().back();
     }
   }
@@ -76,7 +76,7 @@ export default class JurusansController {
       return response.redirect().back();
     } catch (err) {
       session.flash({ error: err.message });
-      logger.error("JurusansController.update: ", err.messages);
+      logger.error("JurusanController.update: ", err.messages);
       return response.redirect().back();
     }
   }
@@ -103,7 +103,7 @@ export default class JurusansController {
       return response.redirect().back();
     } catch (err) {
       session.flash({ error: err.message });
-      logger.error("JurusansController.destroy: ", err.messages);
+      logger.error("JurusanController.destroy: ", err.messages);
       return response.redirect().back();
     }
   }

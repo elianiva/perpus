@@ -30,7 +30,7 @@ export default class UserSeeder extends BaseSeeder {
     const AMOUNT = 30;
     await UserFactory.with("profil").createMany(AMOUNT);
 
-    const buku = await BukuFactory.createMany(AMOUNT);
+    const buku = await BukuFactory.merge({ url_cover: "placeholder.png" }).createMany(AMOUNT);
     const bookIds = buku.map(({ id }) => id);
     await Promise.all(
       bookIds.map(async (id) => {

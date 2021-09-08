@@ -9,7 +9,7 @@ export default class LoginController {
       await auth.use("web").authenticate();
       return response.redirect("/admin/dashboard");
     } catch {
-      return view.render("admin/login");
+      return view.render("login");
     }
   }
 

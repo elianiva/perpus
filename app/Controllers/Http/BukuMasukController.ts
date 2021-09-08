@@ -1,15 +1,15 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
-import BukuKeluar from "App/Models/BukuKeluar";
+import BukuMasuk from "App/Models/BukuMasuk";
 
-export default class BukuKeluarsController {
+export default class BukuMasukController {
   public async show({ response, session, logger }: HttpContextContract) {
     try {
-      const bukuKeluar = await BukuKeluar.all();
+      const bukuMasuk = await BukuMasuk.all();
 
       return {
         data: await Promise.all(
-          bukuKeluar.map(async (bk) => {
+          bukuMasuk.map(async (bk) => {
             await bk.load("buku");
             return {
               id: bk.id,
@@ -22,7 +22,7 @@ export default class BukuKeluarsController {
         ),
       };
     } catch (err) {
-      logger.error("BukuKeluarsController.show: %o", err.messages);
+      logger.error("BukuMasukController.show: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
@@ -39,16 +39,16 @@ export default class BukuKeluarsController {
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.create({ idBuku: id_buku, alasan, jumlah });
-      await bukuKeluar.load("buku");
-      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - jumlah;
-      bukuKeluar.buku.save();
+      const bukuMasuk = await BukuMasuk.create({ idBuku: id_buku, alasan, jumlah });
+      await bukuMasuk.load("buku");
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - jumlah;
+      bukuMasuk.buku.save();
 
       session.flash({ msg: `Berhasil menambahkan buku dengan alasan "${alasan}"` });
       return response.redirect().back();
     } catch (err) {
       console.error(err);
-      logger.error("BukuKeluarsController.create: %o", err.messages);
+      logger.error("BukuMasukController.create: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
@@ -65,25 +65,25 @@ export default class BukuKeluarsController {
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.findBy("id", id_buku);
-      if (!bukuKeluar) {
+      const bukuMasuk = await BukuMasuk.findBy("id", id_buku);
+      if (!bukuMasuk) {
         session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
         return response.redirect().back();
       }
-      await bukuKeluar.load("buku");
+      await bukuMasuk.load("buku");
 
-      bukuKeluar.alasan = alasan;
-      console.log(bukuKeluar.buku.jumlah);
-      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - bukuKeluar.jumlah + jumlah;
-      console.log(bukuKeluar.buku.jumlah);
-      bukuKeluar.jumlah = jumlah;
-      bukuKeluar.buku.save();
-      bukuKeluar.save();
+      bukuMasuk.alasan = alasan;
+      console.log(bukuMasuk.buku.jumlah);
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - bukuMasuk.jumlah + jumlah;
+      console.log(bukuMasuk.buku.jumlah);
+      bukuMasuk.jumlah = jumlah;
+      bukuMasuk.buku.save();
+      bukuMasuk.save();
 
-      session.flash({ msg: `Berhasil memperbarui buku dengan judul "${bukuKeluar.buku.judul}"` });
+      session.flash({ msg: `Berhasil memperbarui buku dengan judul "${bukuMasuk.buku.judul}"` });
       return response.redirect().back();
     } catch (err) {
-      logger.error("BukuKeluarsController.update: %o", err.messages);
+      logger.error("BukuMasukController.update: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }
@@ -97,21 +97,21 @@ export default class BukuKeluarsController {
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.findBy("id", id_buku);
-      if (!bukuKeluar) {
+      const bukuMasuk = await BukuMasuk.findBy("id", id_buku);
+      if (!bukuMasuk) {
         session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
         return response.redirect().back();
       }
-      await bukuKeluar.load("buku");
+      await bukuMasuk.load("buku");
 
-      bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - bukuKeluar.jumlah;
-      bukuKeluar.buku.save();
-      bukuKeluar.save();
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + bukuMasuk.jumlah;
+      bukuMasuk.buku.save();
+      bukuMasuk.save();
 
-      session.flash({ msg: `Berhasil memperbarui buku dengan judul "${bukuKeluar.buku.judul}"` });
+      session.flash({ msg: `Berhasil memperbarui buku dengan judul "${bukuMasuk.buku.judul}"` });
       return response.redirect().back();
     } catch (err) {
-      logger.error("BukuKeluarsController.destroy: %o", err.messages);
+      logger.error("BukuMasukController.destroy: %o", err.messages);
       session.flash({ error: "Error dalam sistem" });
       return response.redirect().back();
     }

@@ -36,42 +36,44 @@ Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/jurusan", "DashboardController.jurusanTable");
     Route.get("/buku", "DashboardController.bukuTable");
+    Route.get("/buku/form", "DashboardController.bukuForm");
+
     Route.get("/buku_masuk", "DashboardController.bukuMasukTable");
     Route.get("/buku_keluar", "DashboardController.bukuKeluarTable");
-    Route.get("/buku/form", "DashboardController.bukuForm");
 
     // fall through for /anggota or /admin
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");
   })
-    .prefix("/dashboard")
     .where("type", /(anggota|admin)/)
-    .middleware("auth");
+    .middleware("auth")
+    .prefix("/dashboard");
 }).prefix("/admin");
 
 Route.group(() => {
-  Route.get("/buku", "BukusController.show");
+  Route.get("/buku", "BukuController.show");
+  Route.post("/buku/tambah", "BukuController.create");
 
-  Route.get("/jurusan", "JurusansController.show");
-  Route.post("/jurusan/tambah", "JurusansController.create");
-  Route.put("/jurusan/perbarui", "JurusansController.update");
-  Route.delete("/jurusan/hapus", "JurusansController.destroy");
+  Route.get("/jurusan", "JurusanController.show");
+  Route.post("/jurusan/tambah", "JurusanController.create");
+  Route.put("/jurusan/perbarui", "JurusanController.update");
+  Route.delete("/jurusan/hapus", "JurusanController.destroy");
 
-  Route.get("/buku_masuk", "BukuMasuksController.show");
-  Route.post("/buku_masuk/tambah", "BukuMasuksController.create");
-  Route.put("/buku_masuk/perbarui", "BukuMasuksController.update");
-  Route.delete("/buku_masuk/hapus", "BukuMasuksController.destroy");
+  Route.get("/buku_masuk", "BukuMasukController.show");
+  Route.post("/buku_masuk/tambah", "BukuMasukController.create");
+  Route.put("/buku_masuk/perbarui", "BukuMasukController.update");
+  Route.delete("/buku_masuk/hapus", "BukuMasukController.destroy");
 
-  Route.get("/buku_keluar", "BukuKeluarsController.show");
-  Route.post("/buku_keluar/tambah", "BukuKeluarsController.create");
-  Route.put("/buku_keluar/perbarui", "BukuKeluarsController.update");
-  Route.delete("/buku_keluar/hapus", "BukuKeluarsController.destroy");
+  Route.get("/buku_keluar", "BukuKeluarController.show");
+  Route.post("/buku_keluar/tambah", "BukuKeluarController.create");
+  Route.put("/buku_keluar/perbarui", "BukuKeluarController.update");
+  Route.delete("/buku_keluar/hapus", "BukuKeluarController.destroy");
 
   Route.group(() => {
-    Route.get("/:type", "UsersController.show");
-    Route.post("/:type/tambah", "UsersController.create");
-    Route.put("/:type/edit", "UsersController.update");
-    Route.delete("/:type/hapus", "UsersController.destroy");
+    Route.get("/:type", "UserController.show");
+    Route.post("/:type/tambah", "UserController.create");
+    Route.put("/:type/edit", "UserController.update");
+    Route.delete("/:type/hapus", "UserController.destroy");
   }).where("type", /(anggota|admin)/);
 })
   .prefix("/api")

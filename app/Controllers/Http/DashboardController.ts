@@ -14,11 +14,19 @@ export default class DashboardController {
       const membersAmount = await Database.from("user")
         .where("id_role", "=", 2)
         .count("* as total");
+      const booksAmount = await Database.from("buku").count("* as total");
+      const inputBooksAmount = await Database.from("buku_masuk").count("* as total");
+      const outputBooksAmount = await Database.from("buku_masuk").count("* as total");
+      const majorsAmount = await Database.from("jurusan").count("* as total");
 
       await auth.user!.load("profil");
       return view.render("admin/dashboard/index", {
+        totalBuku: booksAmount[0].total,
         totalAnggota: membersAmount[0].total,
         totalAdmin: adminAmount[0].total,
+        totalJurusan: majorsAmount[0].total,
+        totalBukuMasuk: inputBooksAmount[0].total,
+        totalBukuKeluar: outputBooksAmount[0].total,
         currentUserName: auth.user!.profil.nama,
       });
     } catch (err) {
@@ -68,28 +76,29 @@ export default class DashboardController {
     const { isEditing, id } = request.qs();
 
     try {
+      await auth.user!.load("profil");
+
       if (isEditing) {
-        const user = await User.findBy("id", id);
-        if (!user) {
-          logger.error("NOT FOUND", { ctx: { id } });
+        const buku = await Buku.findBy("id", id);
+        if (!buku) {
+          logger.error("NOT FOUND: %o", { ctx: { id } });
           return response.redirect().back();
         }
+
         return view.render("admin/dashboard/buku_form", {
           currentUserName: auth.user!.profil.nama,
           isEditing,
           data: {
-            id: user.id,
-            isbn: user.profil.nisn,
-            email: user.email,
-            nama_lengkap: user.profil.nama,
-            jenis_kelamin: user.profil.jenis_kelamin,
-            kelas: user.profil.kelas,
-            jurusan: user.profil.jurusan?.nama,
+            id: buku.id,
+            isbn: buku.isbn,
+            judul: buku.judul,
+            pengarang: buku.pengarang,
+            penerbit: buku.penerbit,
+            deskripsi: buku.deskripsi,
           },
         });
       }
 
-      await auth.user!.load("profil");
       return view.render("admin/dashboard/buku_form", {
         currentUserName: auth.user!.profil.nama,
       });
@@ -122,7 +131,7 @@ export default class DashboardController {
       if (isEditing) {
         const user = await User.findBy("id", id);
         if (!user) {
-          logger.error("NOT FOUND", { ctx: { id } });
+          logger.error("NOT FOUND: %o", { ctx: { id } });
           return response.redirect().back();
         }
 

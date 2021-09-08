@@ -1,0 +1,162 @@
+@layout('layouts/dashboard.edge')
+
+@section('body')
+<div class="wrapper">
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img
+      class="animation__shake"
+      src="/img/AdminLTELogo.png"
+      alt="AdminLTELogo"
+      height="60"
+      width="60"
+    />
+  </div>
+
+  @!component('components/navbar', { currentUserName })
+
+  <!-- Main Sidebar Container -->
+  @!component('components/sidebar', { active: 'buku_form' })
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-capitalize">{{isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru'}}</h1>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard/buku">Buku</a>
+              </li>
+              <li class="breadcrumb-item active text-capitalize">Form</li>
+            </ol>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header text-capitalize">{{isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru'}}</div>
+              <div class="card-body">
+                <form
+                  method="POST"
+                  action="/api/buku/{{isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah'}}"
+                  enctype="multipart/form-data"
+                >
+                  {{ csrfField() }}
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="isbn">ISBN</label>
+                      <input
+                        id="isbn"
+                        name="isbn"
+                        type="text"
+                        class="form-control"
+                        placeholder="Masukkan ISBN dengan benar"
+                        maxlength="13"
+                        value="{{data?.isbn || flashMessages.get('isbn', '')}}"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="judul">Judul</label>
+                      <input
+                        id="judul"
+                        name="judul"
+                        type="text"
+                        class="form-control"
+                        placeholder="Masukkan judul dengan benar"
+                        maxlength="13"
+                        value="{{data?.judul || flashMessages.get('judul', '')}}"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name_lengkap">Pengarang</label>
+                          <input
+                            id="pengarang"
+                            name="pengarang"
+                            type="text"
+                            class="form-control"
+                            placeholder="Masukkan nama pengarang"
+                            value="{{data?.pengarang || flashMessages.get('pengarang', '')}}"
+                            autocomplete="off"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="penerbit">Penerbit</label>
+                          <input
+                            id="penerbit"
+                            name="penerbit"
+                            type="penerbit"
+                            class="form-control"
+                            placeholder="Masukkan nama penerbit"
+                            value="{{data?.penerbit || flashMessages.get('penerbit', '')}}"
+                            autocomplete="off"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="deskripsi">Deskripsi</label>
+                      <textarea
+                        id="deskripsi"
+                        name="deskripsi"
+                        class="form-control"
+                        placeholder="Masukkan deskripsi singkat buku"
+                        value="{{data?.deskripsi || flashMessages.get('deskripsi', '')}}"
+                      ></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="cover">Foto Buku</label>
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="cover" name="cover">
+                          <label class="custom-file-label" for="cover">Choose file</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  @!component('components/footer')
+</div>
+@end

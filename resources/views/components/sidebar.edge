@@ -41,6 +41,15 @@
         </li>
         <li class="nav-item">
           <a
+            href="/admin/dashboard/buku/form"
+            class=" nav-link {{active == 'buku_form' ? 'active' : '' }}"
+          >
+            <i class="nav-icon fas fa-plus"></i>
+            <p>Tambah Buku</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
             href="/admin/dashboard/buku_masuk"
             class="nav-link {{ active == 'buku_masuk' ? 'active' : '' }}"
           >
@@ -65,6 +74,16 @@
           >
             <i class="nav-icon fas fa-calendar"></i>
             <p>Peminjaman Buku</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="/admin/dashboard/buku/form"
+            class="nav-link"
+            class="nav-link {{ active == 'pengembalian' ? 'active' : '' }}"
+          >
+            <i class="nav-icon fas fa-calendar"></i>
+            <p>Pengembalian Buku</p>
           </a>
         </li>
         <li class="nav-header">MANAJEMEN ADMIN</li>
