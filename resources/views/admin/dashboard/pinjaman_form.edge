@@ -61,8 +61,7 @@
                       <select
                         name="id_buku"
                         id="judul-buku"
-                        class="form-control"
-                        style="width: 100%"
+                        class="form-control select2"
                       >
                         <option selected>Buku</option>
                         @each(buku in data.semuaBuku)
@@ -80,8 +79,7 @@
                       <select
                         name="id_anggota"
                         id="nama-anggota"
-                        class="form-control"
-                        style="width: 100%"
+                        class="form-control select2"
                       >
                         <option selected>Nama Anggota</option>
                         @each(anggota in data.semuaAnggota)
@@ -136,12 +134,20 @@
 @section('stylesheets')
 <!-- daterange picker -->
 <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @end
 
 @section('custom_scripts')
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
   $("#durasi").daterangepicker();
+  $(".select2").select2({
+    theme: 'bootstrap4'
+  });
 </script>
 @end

@@ -98,8 +98,7 @@
                           <select
                             name="kelas"
                             id="kelas"
-                            class="form-control"
-                            style="width: 100%;"
+                            class="form-control select2"
                           >
                             <option>Kelas</option>
                             @each(n in [10, 11, 12, 13])
@@ -119,8 +118,7 @@
                           <select
                             name="jurusan"
                             id="jurusan"
-                            class="form-control"
-                            style="width: 100%;"
+                            class="form-control select2"
                           >
                             <option>Jurusan</option>
                             @each(j in jurusan)
@@ -182,4 +180,23 @@
   <!-- /.content-wrapper -->
   @!component('components/footer')
 </div>
+@end
+
+@section('stylesheets')
+<!-- daterange picker -->
+<link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+@end
+
+@section('custom_scripts')
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+
+<script>
+  $(".select2").select2({
+    theme: 'bootstrap4'
+  });
+</script>
 @end
