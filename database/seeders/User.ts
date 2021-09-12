@@ -4,6 +4,7 @@ import {
   BukuKeluarFactory,
   BukuMasukFactory,
   JurusanFactory,
+  PinjamanFactory,
   RoleFactory,
   UserFactory,
 } from "Database/factories";
@@ -28,14 +29,18 @@ export default class UserSeeder extends BaseSeeder {
     ]).createMany(2);
 
     const AMOUNT = 30;
-    await UserFactory.with("profil").createMany(AMOUNT);
+    const users = await UserFactory.with("profil").createMany(AMOUNT);
 
-    const buku = await BukuFactory.merge({ url_cover: "placeholder.png" }).createMany(AMOUNT);
-    const bookIds = buku.map(({ id }) => id);
+    const books = await BukuFactory.merge({ url_cover: "placeholder.png" }).createMany(AMOUNT);
+    const pinjaman = await PinjamanFactory.merge(
+      users.map(({ id }) => ({ idUser: id }))
+    ).createMany(AMOUNT);
+
     await Promise.all(
-      bookIds.map(async (id) => {
-        await BukuKeluarFactory.merge({ idBuku: id }).create();
-        await BukuMasukFactory.merge({ idBuku: id }).create();
+      books.map(async (book, idx) => {
+        await BukuKeluarFactory.merge({ idBuku: book.id }).create();
+        await BukuMasukFactory.merge({ idBuku: book.id }).create();
+        await book.related("pinjaman").attach([pinjaman[idx].id]);
       })
     );
   }

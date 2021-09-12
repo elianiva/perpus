@@ -1,20 +1,18 @@
 import BaseSchema from "@ioc:Adonis/Lucid/Schema";
 
-export default class Bukus extends BaseSchema {
-  protected tableName = "buku";
+export default class Pinjaman extends BaseSchema {
+  protected tableName = "pinjaman";
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id").primary().notNullable().unsigned();
-      table.string("isbn", 13).unique();
-      table.string("judul");
-      table.string("pengarang");
-      table.string("penerbit");
-      table.integer("jumlah");
-      table.string("deskripsi");
-      table.string("url_cover");
-
+      table.integer("status", 1).defaultTo(0);
+      table.date("tgl_pinjam");
+      table.date("tgl_kembali");
+      table.integer("id_user").unsigned();
       table.timestamps(true, true);
+
+      table.foreign("id_user").references("id").inTable("user");
     });
   }
 

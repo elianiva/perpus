@@ -1,0 +1,278 @@
+@layout('layouts/dashboard.edge')
+@set('error', flashMessages.get('error'))
+@set('msg', flashMessages.get('msg'))
+
+@section('body')
+<div class="wrapper">
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img
+      class="animation__shake"
+      src="/img/AdminLTELogo.png"
+      alt="AdminLTELogo"
+      height="60"
+      width="60"
+    />
+  </div>
+
+  @!component('components/navbar', { currentUserName })
+
+  <!-- Main Sidebar Container -->
+  @!component('components/sidebar', { active: "peminjaman" })
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-capitalize">Semua Buku</h1>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard"> Dashboard </a>
+              </li>
+              <li class="breadcrumb-item active text-capitalize">Buku</li>
+            </ol>
+          </div>
+          <!-- /.col -->
+        </div>
+        <a href="/admin/dashboard/buku/form">
+          <button class="btn btn-success">
+            <b class="text-white text-capitalize">Tambah Buku</b>
+          </button>
+        </a>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12">
+            @if(msg)
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                {{ msg }}
+              </div>
+            @endif
+            @if(error)
+              <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Galat!</h5>
+                {{ error }}
+              </div>
+            @endif
+            <div class="card">
+              <div class="card-body">
+                <table id="table" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ISBN</th>
+                      <th>Judul</th>
+                      <th>Nama Pengarang</th>
+                      <th>Penerbit</th>
+                      <th>Deskripsi</th>
+                      <th>Jumlah</th>
+                      <th>Cover</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                  <tfoot>
+                    <tr>
+                      <th>ISBN</th>
+                      <th>Judul</th>
+                      <th>Nama Pengarang</th>
+                      <th>Penerbit</th>
+                      <th>Deskripsi</th>
+                      <th>Jumlah</th>
+                      <th>Cover</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  @!component('components/footer')
+</div>
+
+<div class="modal fade" id="modal-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Konfirmasi</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer justify-content-between">
+        <form method="POST" action="/api/buku/hapus?_method=delete">
+          {{ csrfField() }}
+          <input id="id-buku" name="id-buku" type="hidden" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+@end
+
+@section('stylesheets')
+<!-- DataTables -->
+<link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+<link
+  rel="stylesheet"
+  href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+/>
+<link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="/plugins/ekko-lightbox/ekko-lightbox.css">
+
+<style>
+.pull-left{ float:left !important; margin-bottom: 1rem !important; }
+.pull-right{ float:right !important; margin-bottom: 1rem !important; }
+</style>
+@end
+
+@section('custom_scripts')
+<!-- DataTables  & Plugins -->
+<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/plugins/jszip/jszip.min.js"></script>
+<script src="/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    const table = $("#table")
+      .DataTable({
+        ajax: "/api/buku",
+        columns: [
+          { data: "isbn" },
+          { data: "judul" },
+          { data: "pengarang" },
+          { data: "penerbit" },
+          { data: "deskripsi" },
+          { data: "jumlah" },
+          { data: "url_cover" },
+          { data: null },
+        ],
+        columnDefs: [
+          {
+            targets: [-1],
+            render: (_data, _type, row) => {
+              const id = row.id;
+              return `
+<button
+  type="button"
+  class="btn btn-danger"
+  data-toggle="modal"
+  data-target="#modal-delete"
+  data-id="${row.id}"
+>
+  <i class="fas fa-trash"></i>
+</button>
+<a href="/admin/dashboard/buku/form?isEditing=true&id=${row.id}">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-id="${row.id}"
+  >
+    <i class="fas fa-edit"></i>
+  </button>
+</a>
+`;
+            },
+          },
+          {
+            targets: [-2],
+            render: (data, _type, row) => `
+<a href="${/*data*/''}" data-toggle="lightbox" data-title="${row.judul}">
+  <img
+    width="80"
+    height="120"
+    src="/img/buku/${data}"
+    alt="cover buku"
+  />
+</a>`,
+          },
+        ],
+        paging: true,
+        lengthChange: false,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+        deferRender: true,
+        dom: '<"pull-left"f><"pull-right"B>tip',
+        buttons: [
+          {
+            extend: 'excel',
+            text: 'Export to Excel',
+            className: 'btn btn-success',
+            exportOptions: {
+              columns: 'th:not(:last-child)'
+            }
+          },
+          {
+            extend: 'pdf',
+            text: 'Export to PDF',
+            className: 'btn btn-danger',
+            exportOptions: {
+              columns: 'th:not(:last-child)'
+            }
+          }
+        ]
+      });
+
+    $("#modal-delete").on("show.bs.modal", function (event) {
+      const email = $(event.relatedTarget).data("email");
+      const id = $(event.relatedTarget).data("id");
+      $(this)
+        .find(".modal-body")
+        .html(`<p class="h5">Yakin hapus data buku dengan email <b>${email}</b>?</p>`);
+      $(this).find("#user-id").val(id);
+    });
+
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+  });
+</script>
+@end

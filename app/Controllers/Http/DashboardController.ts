@@ -47,6 +47,18 @@ export default class DashboardController {
     }
   }
 
+  public async pinjamanTable({ response, view, auth, logger }: HttpContextContract) {
+    try {
+      await auth.user!.load("profil");
+      return view.render("admin/dashboard/pinjaman", {
+        currentUserName: auth.user!.profil.nama,
+      });
+    } catch (err) {
+      logger.error("DashboardController.pinjamanTable: %o", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
+
   private async bukuIO({ response, view, auth, logger }: HttpContextContract, type: string) {
     try {
       const buku = await Buku.all();

@@ -3,9 +3,11 @@ import Buku from "App/Models/Buku";
 import BukuKeluar from "App/Models/BukuKeluar";
 import BukuMasuk from "App/Models/BukuMasuk";
 import Jurusan from "App/Models/Jurusan";
+import Pinjaman from "App/Models/Pinjaman";
 import Profil from "App/Models/Profil";
 import Role from "App/Models/Role";
 import User from "App/Models/User";
+import { DateTime } from "luxon";
 
 export const JurusanFactory = Factory.define(Jurusan, () => ({
   nama: "",
@@ -40,6 +42,12 @@ export const BukuMasukFactory = Factory.define(BukuMasuk, ({ faker }) => ({
 export const BukuKeluarFactory = Factory.define(BukuKeluar, ({ faker }) => ({
   alasan: faker.random.arrayElement(["Hilang", "Dihibahkan", "Tidak Diketahui"]),
   jumlah: faker.datatype.number(10),
+})).build();
+
+export const PinjamanFactory = Factory.define(Pinjaman, ({ faker }) => ({
+  status: faker.random.arrayElement([0, 1]),
+  tglPinjam: DateTime.fromObject({ ordinal: faker.datatype.number(364) + 1 }),
+  tglKembali: DateTime.fromObject({ ordinal: faker.datatype.number(364) + 1 }),
 })).build();
 
 export const BukuFactory = Factory.define(Buku, ({ faker }) => ({

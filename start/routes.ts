@@ -41,6 +41,8 @@ Route.group(() => {
     Route.get("/buku_masuk", "DashboardController.bukuMasukTable");
     Route.get("/buku_keluar", "DashboardController.bukuKeluarTable");
 
+    Route.get("/peminjaman", "DashboardController.pinjamanTable");
+
     // fall through for /anggota or /admin
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");
@@ -68,6 +70,8 @@ Route.group(() => {
   Route.post("/buku_keluar/tambah", "BukuKeluarController.create");
   Route.put("/buku_keluar/perbarui", "BukuKeluarController.update");
   Route.delete("/buku_keluar/hapus", "BukuKeluarController.destroy");
+
+  Route.get("/pinjaman", "PinjamanController.show");
 
   Route.group(() => {
     Route.get("/:type", "UserController.show");
