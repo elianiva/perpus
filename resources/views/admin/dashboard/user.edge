@@ -4,17 +4,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -35,12 +24,12 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">{{currentPage}}</li>
+              <li class="breadcrumb-item active text-capitalize">{{ currentPage }}</li>
             </ol>
           </div>
           <!-- /.col -->
         </div>
-        <a href="/admin/dashboard/{{currentPage}}/form">
+        <a href="/admin/dashboard/{{ currentPage }}/form">
           <button class="btn btn-success">
             <b class="text-white text-capitalize">Tambah {{ currentPage }}</b>
           </button>
@@ -125,7 +114,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
+        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=delete">
           {{ csrfField() }}
           <input id="id_user" name="id_user" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -171,7 +160,7 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{currentPage}}}",
+        ajax: "/api/{{{ currentPage }}}",
         columns: [
           { data: "nisn" },
           { data: "email" },
@@ -197,7 +186,7 @@
 >
   <i class="fas fa-trash"></i>
 </button>
-<a href="/admin/dashboard/{{{currentPage}}}/form?isEditing=true&id=${row.id}">
+<a href="/admin/dashboard/{{{ currentPage }}}/form?isEditing=true&id=${row.id}">
   <button
     type="button"
     class="btn btn-primary"
@@ -244,7 +233,7 @@
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data {{{currentPage}}} dengan email <b>${email}</b>?</p>`);
+        .html(`<p class="h5">Yakin hapus data {{{ currentPage }}} dengan email <b>${email}</b>?</p>`);
       $(this).find("#id_user").val(id);
     });
   });

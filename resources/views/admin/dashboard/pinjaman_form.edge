@@ -1,0 +1,147 @@
+@layout('layouts/dashboard.edge')
+
+@section('body')
+<div class="wrapper">
+  @!component('components/navbar', { currentUserName })
+
+  <!-- Main Sidebar Container -->
+  @!component('components/sidebar', { active: 'pinjaman_form' })
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-capitalize">
+              {{ isEditing ? 'Perbarui Peminjaman' : 'Tambah Peminjaman Baru' }}
+            </h1>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard/peminjaman">Peminjaman</a>
+              </li>
+              <li class="breadcrumb-item active text-capitalize">Form</li>
+            </ol>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header text-capitalize">
+                {{ isEditing ? 'Perbarui Peminjaman' : 'Tambah Peminjaman Baru' }}
+              </div>
+              <div class="card-body">
+                <form
+                  method="POST"
+                  action="/api/pinjaman/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
+                  enctype="multipart/form-data"
+                >
+                  {{ csrfField() }}
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="judul-buku">Buku</label>
+                      <select
+                        name="id_buku"
+                        id="judul-buku"
+                        class="form-control"
+                        style="width: 100%"
+                      >
+                        <option selected>Buku</option>
+                        @each(buku in data.semuaBuku)
+                          <option
+                            value="{{ buku.id }}"
+                            {{ (data?.idBuku || flashMessages.get('id_buku', '')) === buku.id ? 'selected' : '' }}
+                          >
+                            {{ buku.judul }}
+                          </option>
+                        @end
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="nama-anggota">Nama Anggota</label>
+                      <select
+                        name="id_anggota"
+                        id="nama-anggota"
+                        class="form-control"
+                        style="width: 100%"
+                      >
+                        <option selected>Nama Anggota</option>
+                        @each(anggota in data.semuaAnggota)
+                          <option
+                            value="{{ anggota.id }}"
+                            {{ (data?.namaAnggota || flashMessages.get('nama_anggota', '')) === anggota.id ? 'selected' : '' }}
+                          >
+                            {{ anggota.nama }}
+                          </option>
+                        @end
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="durasi">Durasi Peminjaman</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="far fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                        <input
+                          id="durasi"
+                          name="durasi"
+                          type="text"
+                          class="form-control float-right"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  @!component('components/footer')
+</div>
+@end
+
+@section('stylesheets')
+<!-- daterange picker -->
+<link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
+@end
+
+@section('custom_scripts')
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script>
+  $("#durasi").daterangepicker();
+</script>
+@end

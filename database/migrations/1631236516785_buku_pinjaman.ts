@@ -5,7 +5,7 @@ export default class BukuPinjaman extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments("id").notNullable().unsigned();
+      table.increments("id").primary().notNullable().unsigned();
       table.integer("id_buku").unsigned();
       table.integer("id_pinjaman").unsigned();
       table.timestamps(true, true);

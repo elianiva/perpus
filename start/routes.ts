@@ -42,15 +42,19 @@ Route.group(() => {
     Route.get("/buku_keluar", "DashboardController.bukuKeluarTable");
 
     Route.get("/peminjaman", "DashboardController.pinjamanTable");
+    Route.get("/peminjaman/form", "DashboardController.pinjamanForm");
+
+    Route.get("/pengembalian", "DashboardController.kembaliTable");
 
     // fall through for /anggota or /admin
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");
   })
     .where("type", /(anggota|admin)/)
-    .middleware("auth")
     .prefix("/dashboard");
-}).prefix("/admin");
+})
+  .prefix("/admin")
+  .middleware("auth");
 
 Route.group(() => {
   Route.get("/buku", "BukuController.show");
@@ -72,6 +76,7 @@ Route.group(() => {
   Route.delete("/buku_keluar/hapus", "BukuKeluarController.destroy");
 
   Route.get("/pinjaman", "PinjamanController.show");
+  Route.post("/pinjaman/tambah", "PinjamanController.create");
 
   Route.group(() => {
     Route.get("/:type", "UserController.show");

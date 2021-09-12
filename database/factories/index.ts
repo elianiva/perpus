@@ -46,8 +46,8 @@ export const BukuKeluarFactory = Factory.define(BukuKeluar, ({ faker }) => ({
 
 export const PinjamanFactory = Factory.define(Pinjaman, ({ faker }) => ({
   status: faker.random.arrayElement([0, 1]),
-  tglPinjam: DateTime.fromObject({ ordinal: faker.datatype.number(364) + 1 }),
-  tglKembali: DateTime.fromObject({ ordinal: faker.datatype.number(364) + 1 }),
+  tglPinjam: DateTime.fromISO(faker.date.between("2021-08-12", "2021-09-12").toISOString()),
+  tglKembali: DateTime.fromISO(faker.date.between("2021-09-12", "2021-10-12").toISOString()),
 })).build();
 
 export const BukuFactory = Factory.define(Buku, ({ faker }) => ({

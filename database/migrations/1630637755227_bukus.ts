@@ -6,7 +6,7 @@ export default class Bukus extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id").primary().notNullable().unsigned();
-      table.string("isbn", 13).unique();
+      table.string("isbn", 13);
       table.string("judul");
       table.string("pengarang");
       table.string("penerbit");

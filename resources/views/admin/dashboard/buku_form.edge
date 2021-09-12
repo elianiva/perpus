@@ -2,17 +2,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -25,7 +14,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">{{isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru'}}</h1>
+            <h1 class="m-0 text-capitalize">{{ isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru' }}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -54,11 +43,11 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header text-capitalize">{{isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru'}}</div>
+              <div class="card-header text-capitalize">{{ isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru' }}</div>
               <div class="card-body">
                 <form
                   method="POST"
-                  action="/api/buku/{{isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah'}}"
+                  action="/api/buku/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
                   enctype="multipart/form-data"
                 >
                   {{ csrfField() }}
@@ -72,7 +61,7 @@
                         class="form-control"
                         placeholder="Masukkan ISBN dengan benar"
                         maxlength="13"
-                        value="{{data?.isbn || flashMessages.get('isbn', '')}}"
+                        value="{{ data?.isbn || flashMessages.get('isbn', '') }}"
                         autocomplete="off"
                       />
                     </div>
@@ -85,7 +74,7 @@
                         class="form-control"
                         placeholder="Masukkan judul dengan benar"
                         maxlength="13"
-                        value="{{data?.judul || flashMessages.get('judul', '')}}"
+                        value="{{ data?.judul || flashMessages.get('judul', '') }}"
                         autocomplete="off"
                       />
                     </div>
@@ -99,7 +88,7 @@
                             type="text"
                             class="form-control"
                             placeholder="Masukkan nama pengarang"
-                            value="{{data?.pengarang || flashMessages.get('pengarang', '')}}"
+                            value="{{ data?.pengarang || flashMessages.get('pengarang', '') }}"
                             autocomplete="off"
                           />
                         </div>
@@ -113,7 +102,7 @@
                             type="penerbit"
                             class="form-control"
                             placeholder="Masukkan nama penerbit"
-                            value="{{data?.penerbit || flashMessages.get('penerbit', '')}}"
+                            value="{{ data?.penerbit || flashMessages.get('penerbit', '') }}"
                             autocomplete="off"
                           />
                         </div>
@@ -126,7 +115,7 @@
                         name="deskripsi"
                         class="form-control"
                         placeholder="Masukkan deskripsi singkat buku"
-                        value="{{data?.deskripsi || flashMessages.get('deskripsi', '')}}"
+                        value="{{ data?.deskripsi || flashMessages.get('deskripsi', '') }}"
                       ></textarea>
                     </div>
                     <div class="form-group">

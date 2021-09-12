@@ -62,7 +62,7 @@ export default class JurusanController {
         return response.redirect().back();
       }
 
-      const jurusan = await Jurusan.findBy("id", id_jurusan);
+      const jurusan = await Jurusan.find(id_jurusan);
       if (!jurusan) {
         session.flash({ error: `Jurusan ${nama_jurusan} tidak dapat ditemukan!` });
         return response.redirect().back();
@@ -90,7 +90,7 @@ export default class JurusanController {
         }),
       });
 
-      const jurusan = await Jurusan.findBy("id", id_jurusan);
+      const jurusan = await Jurusan.find(id_jurusan);
 
       if (!jurusan) {
         session.flash({ error: `Tidak ada user dengan id ${id_jurusan}` });

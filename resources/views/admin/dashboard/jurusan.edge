@@ -4,17 +4,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -150,7 +139,7 @@
             class="form-control"
             autocomplete="off"
             placeholder="Masukkan nama baru"
-            value="{{flashMessages.get('nama_jurusan', '')}}"
+            value="{{ flashMessages.get('nama_jurusan', '') }}"
             required
           />
         </div>
@@ -185,7 +174,7 @@
             class="form-control"
             autocomplete="off"
             placeholder="Masukkan nama jurusan"
-            value="{{flashMessages.get('nama_jurusan', '')}}"
+            value="{{ flashMessages.get('nama_jurusan', '') }}"
             required
           />
         </div>

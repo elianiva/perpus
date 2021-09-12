@@ -4,17 +4,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -121,7 +110,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{currentPage}}/hapus?_method=delete">
+        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=delete">
           {{ csrfField() }}
           <input id="id_buku" name="id_buku" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -143,7 +132,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{currentPage}}/perbarui?_method=PUT">
+      <form method="POST" action="/api/{{ currentPage }}/perbarui?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
           <input id="id_buku" name="id_buku" type="hidden" />
@@ -156,7 +145,7 @@
               type="text"
               autocomplete="off"
               placeholder="Masukkan alasan"
-              value="{{flashMessages.get('alasan', '')}}"
+              value="{{ flashMessages.get('alasan', '') }}"
               required
             />
           </div>
@@ -169,7 +158,7 @@
               type="number"
               autocomplete="off"
               placeholder="Masukkan jumlah"
-              value="{{flashMessages.get('jumlah', '')}}"
+              value="{{ flashMessages.get('jumlah', '') }}"
               required
             />
           </div>
@@ -194,7 +183,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{currentPage}}/tambah">
+      <form method="POST" action="/api/{{ currentPage }}/tambah">
         {{ csrfField() }}
         <div class="modal-body">
           <div class="form-group">
@@ -206,7 +195,7 @@
               style="width: 100%;"
             >
               @each(b in data.buku)
-                <option value="{{b.id}}">{{b.judul}}</option>
+                <option value="{{ b.id }}">{{ b.judul }}</option>
               @end
             </select>
           </div>
@@ -219,7 +208,7 @@
               type="text"
               autocomplete="off"
               placeholder="Masukkan alasan"
-              value="{{flashMessages.get('alasan', '')}}"
+              value="{{ flashMessages.get('alasan', '') }}"
               required
             />
           </div>
@@ -232,7 +221,7 @@
               type="number"
               autocomplete="off"
               placeholder="Masukkan jumlah"
-              value="{{flashMessages.get('jumlah', '')}}"
+              value="{{ flashMessages.get('jumlah', '') }}"
               required
             />
           </div>
@@ -281,7 +270,7 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{currentPage}}}",
+        ajax: "/api/{{{ currentPage }}}",
         columns: [
           { data: "judul" },
           { data: "alasan" },

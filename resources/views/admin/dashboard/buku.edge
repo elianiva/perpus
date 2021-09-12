@@ -4,17 +4,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -129,7 +118,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/buku/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id-buku" name="id-buku" type="hidden" />
+          <input id="id-buku" name="id_buku" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>

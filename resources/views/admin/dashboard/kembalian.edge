@@ -7,7 +7,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: "peminjaman" })
+  @!component('components/sidebar', { active: "pengembalian" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua Peminjaman</h1>
+            <h1 class="m-0 text-capitalize">Semua Pengembalian</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -24,16 +24,11 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">Peminjaman</li>
+              <li class="breadcrumb-item active text-capitalize">Pengembalian</li>
             </ol>
           </div>
           <!-- /.col -->
         </div>
-        <a href="/admin/dashboard/peminjaman/form">
-          <button class="btn btn-success">
-            <b class="text-white text-capitalize">Tambah Peminjaman</b>
-          </button>
-        </a>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -110,9 +105,9 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/buku/hapus?_method=delete">
+        <form method="POST" action="/api/kembalian/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id-pinjaman" name="id_pinjaman" type="hidden" />
+          <input id="id-kembalian" name="id_kembalian" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -129,6 +124,8 @@
 <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
 <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="/plugins/ekko-lightbox/ekko-lightbox.css" />
 
 <style>
   .pull-left {
@@ -156,6 +153,8 @@
 <script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 
 <script>
   $(document).ready(function () {
@@ -252,8 +251,8 @@
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data buku dengan email <b>${email}</b>?</p>`);
-      $(this).find("#user-id").val(id);
+        .html(`<p class="h5">Yakin hapus data pengembalian?</p>`);
+      $(this).find("#-id").val(id);
     });
 
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {

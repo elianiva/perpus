@@ -2,17 +2,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -50,7 +39,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>{{totalBuku}}</h3>
+                <h3>{{ totalBuku }}</h3>
 
                 <p>Jumlah Buku</p>
               </div>
@@ -67,7 +56,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{totalAnggota}}</h3>
+                <h3>{{ totalAnggota }}</h3>
 
                 <p>Jumlah Anggota</p>
               </div>
@@ -84,7 +73,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{totalAdmin}}</h3>
+                <h3>{{ totalAdmin }}</h3>
 
                 <p>Jumlah Admin</p>
               </div>
@@ -101,7 +90,7 @@
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>{{totalJurusan}}</h3>
+                <h3>{{ totalJurusan }}</h3>
 
                 <p>Jurusan</p>
               </div>
@@ -120,7 +109,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>{{totalBukuKeluar}}</h3>
+                <h3>{{ totalBukuKeluar }}</h3>
 
                 <p>Buku Keluar</p>
               </div>
@@ -137,7 +126,7 @@
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>{{totalBukuMasuk}}</h3>
+                <h3>{{ totalBukuMasuk }}</h3>
 
                 <p>Buku Masuk</p>
               </div>

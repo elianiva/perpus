@@ -41,8 +41,8 @@ export default class Buku extends BaseModel {
     localKey: "id",
     relatedKey: "id",
     pivotTable: "buku_pinjaman",
-    pivotForeignKey: "id_pinjaman",
-    pivotRelatedForeignKey: "id_buku",
+    pivotForeignKey: "id_buku",
+    pivotRelatedForeignKey: "id_pinjaman",
     pivotTimestamps: true,
   })
   public pinjaman: ManyToMany<typeof Pinjaman>;

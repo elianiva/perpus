@@ -2,6 +2,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Database from "@ioc:Adonis/Lucid/Database";
 import Buku from "App/Models/Buku";
 import Jurusan from "App/Models/Jurusan";
+import Pinjaman from "App/Models/Pinjaman";
 import User from "App/Models/User";
 
 export default class DashboardController {
@@ -19,7 +20,7 @@ export default class DashboardController {
       const outputBooksAmount = await Database.from("buku_masuk").count("* as total");
       const majorsAmount = await Database.from("jurusan").count("* as total");
 
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
       return view.render("admin/dashboard/index", {
         totalBuku: booksAmount[0].total,
         totalAnggota: membersAmount[0].total,
@@ -27,7 +28,7 @@ export default class DashboardController {
         totalJurusan: majorsAmount[0].total,
         totalBukuMasuk: inputBooksAmount[0].total,
         totalBukuKeluar: outputBooksAmount[0].total,
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.index: %o", err.messages);
@@ -37,9 +38,9 @@ export default class DashboardController {
 
   public async bukuTable({ response, view, auth, logger }: HttpContextContract) {
     try {
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
       return view.render("admin/dashboard/buku", {
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.bukuTable: %o", err.messages);
@@ -47,11 +48,11 @@ export default class DashboardController {
     }
   }
 
-  public async pinjamanTable({ response, view, auth, logger }: HttpContextContract) {
+  public async pinjamanTable({ auth, view, logger, response }: HttpContextContract) {
     try {
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
       return view.render("admin/dashboard/pinjaman", {
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.pinjamanTable: %o", err.messages);
@@ -59,12 +60,60 @@ export default class DashboardController {
     }
   }
 
+  public async pinjamanForm({ request, response, view, logger, auth }: HttpContextContract) {
+    const { isEditing, id } = request.qs();
+
+    try {
+      await auth.user?.load("profil");
+      const buku = await Buku.all();
+      const anggota = await User.all();
+      await Promise.all(anggota.map(async (a) => await a.load("profil")));
+
+      if (isEditing) {
+        const pinjaman = await Pinjaman.find(id);
+        if (!pinjaman) {
+          logger.error("NOT FOUND: %o", { ctx: { id } });
+          return response.redirect().back();
+        }
+
+        return view.render("admin/dashboard/pinjaman_form", {
+          currentUserName: auth.user?.profil.nama,
+          isEditing,
+          data: {},
+        });
+      }
+
+      return view.render("admin/dashboard/pinjaman_form", {
+        currentUserName: auth.user?.profil.nama,
+        data: {
+          semuaBuku: buku.map(({ id, judul }) => ({ id, judul })),
+          semuaAnggota: anggota.map(({ id, profil: { nama } }) => ({ id, nama })),
+        },
+      });
+    } catch (err) {
+      logger.error("DashboardController.bukuForm: %o", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
+
+  public async kembaliTable({ auth, view, logger, response }: HttpContextContract) {
+    try {
+      await auth.user?.load("profil");
+      return view.render("admin/dashboard/kembalian", {
+        currentUserName: auth.user?.profil.nama,
+      });
+    } catch (err) {
+      logger.error("DashboardController.kembaliTable: %o", err.messages);
+      return response.badRequest({ error: err.messages });
+    }
+  }
+
   private async bukuIO({ response, view, auth, logger }: HttpContextContract, type: string) {
     try {
       const buku = await Buku.all();
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
       return view.render(`admin/dashboard/buku_io`, {
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
         currentPage: type,
         data: {
           buku: buku.map((b) => b.serialize({ fields: ["id", "judul"] })),
@@ -88,17 +137,17 @@ export default class DashboardController {
     const { isEditing, id } = request.qs();
 
     try {
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
 
       if (isEditing) {
-        const buku = await Buku.findBy("id", id);
+        const buku = await Buku.find(id);
         if (!buku) {
           logger.error("NOT FOUND: %o", { ctx: { id } });
           return response.redirect().back();
         }
 
         return view.render("admin/dashboard/buku_form", {
-          currentUserName: auth.user!.profil.nama,
+          currentUserName: auth.user?.profil.nama,
           isEditing,
           data: {
             id: buku.id,
@@ -112,20 +161,21 @@ export default class DashboardController {
       }
 
       return view.render("admin/dashboard/buku_form", {
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.bukuForm: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }
   }
+
   public async userTable({ response, request, view, auth, logger }: HttpContextContract) {
     try {
       const { type } = request.params();
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
       return view.render("admin/dashboard/user", {
         currentPage: type,
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.userTable: %o", err.messages);
@@ -141,7 +191,7 @@ export default class DashboardController {
       const majors = (await Jurusan.all()).map((major) => [major.id, major.nama]);
 
       if (isEditing) {
-        const user = await User.findBy("id", id);
+        const user = await User.find(id);
         if (!user) {
           logger.error("NOT FOUND: %o", { ctx: { id } });
           return response.redirect().back();
@@ -149,7 +199,7 @@ export default class DashboardController {
 
         await user.load("profil", (profil) => profil.preload("jurusan"));
         return view.render("admin/dashboard/user_form", {
-          currentUserName: auth.user!.profil.nama,
+          currentUserName: auth.user?.profil.nama,
           currentPage: type,
           isEditing,
           jurusan: majors,
@@ -165,11 +215,11 @@ export default class DashboardController {
         });
       }
 
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
       return view.render("admin/dashboard/user_form", {
         jurusan: majors,
         currentPage: type,
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.userForm: %o", err.messages);
@@ -179,11 +229,11 @@ export default class DashboardController {
 
   public async jurusanTable({ response, view, auth, logger }: HttpContextContract) {
     try {
-      await auth.user!.load("profil");
+      await auth.user?.load("profil");
 
       return view.render(`admin/dashboard/jurusan`, {
         currentPage: "jurusan",
-        currentUserName: auth.user!.profil.nama,
+        currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
       logger.error("DashboardController.jurusanTable: %o", err.messages);

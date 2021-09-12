@@ -52,7 +52,7 @@ export default class UserController {
       });
       const { id } = request.qs();
 
-      const user = await User.findBy("id", id);
+      const user = await User.find(id);
       if (!user) {
         session.flash({ error: `Tidak ada user dengan id ${id}` });
         return response.redirect("/admin/dashboard/anggota");
@@ -112,7 +112,7 @@ export default class UserController {
         }),
       });
 
-      const user = await User.findBy("id", id_user);
+      const user = await User.find(id_user);
 
       if (!user) {
         session.flash({ error: `Tidak ada user dengan id ${id_user}` });

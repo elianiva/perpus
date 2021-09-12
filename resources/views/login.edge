@@ -11,7 +11,7 @@
     </div>
     <div class="card-body">
       @if(error)
-        <div class="alert alert-danger" role="alert">{{error}}</div>
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
       @endif
       <form action="/login" method="POST">
         {{ csrfField() }}
@@ -21,7 +21,7 @@
             type="email"
             class="form-control"
             placeholder="Email"
-            value="{{flashMessages.get('name', '')}}"
+            value="{{ flashMessages.get('name', '') }}"
             autocomplete="off"
           />
           <div class="input-group-append">

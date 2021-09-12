@@ -2,17 +2,6 @@
 
 @section('body')
 <div class="wrapper">
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img
-      class="animation__shake"
-      src="/img/AdminLTELogo.png"
-      alt="AdminLTELogo"
-      height="60"
-      width="60"
-    />
-  </div>
-
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
@@ -25,7 +14,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">{{isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru`}}</h1>
+            <h1 class="m-0 text-capitalize">{{ isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru` }}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -33,7 +22,7 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">{{currentPage}}</li>
+              <li class="breadcrumb-item active text-capitalize">{{ currentPage }}</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -51,11 +40,11 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header text-capitalize">{{isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru`}}</div>
+              <div class="card-header text-capitalize">{{ isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru` }}</div>
               <div class="card-body">
                 <form
                   method="POST"
-                  action="/api/{{currentPage}}/{{isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah'}}"
+                  action="/api/{{ currentPage }}/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
                 >
                   {{ csrfField() }}
                   <div class="card-body">
@@ -68,7 +57,7 @@
                         class="form-control"
                         placeholder="Masukkan nisn sesuai data kemdikbud"
                         maxlength="10"
-                        value="{{data?.nisn || flashMessages.get('nisn', '')}}"
+                        value="{{ data?.nisn || flashMessages.get('nisn', '') }}"
                         autocomplete="off"
                       />
                     </div>
@@ -82,7 +71,7 @@
                             type="text"
                             class="form-control"
                             placeholder="Masukkan nisn sesuai data kemdikbud"
-                            value="{{data?.nama_lengkap || flashMessages.get('nama_lengkap', '')}}"
+                            value="{{ data?.nama_lengkap || flashMessages.get('nama_lengkap', '') }}"
                             autocomplete="off"
                           />
                         </div>
@@ -96,7 +85,7 @@
                             type="email"
                             class="form-control"
                             placeholder="Masukkan email yang valid"
-                            value="{{data?.email || flashMessages.get('email', '')}}"
+                            value="{{ data?.email || flashMessages.get('email', '') }}"
                             autocomplete="off"
                           />
                         </div>
@@ -112,13 +101,13 @@
                             class="form-control"
                             style="width: 100%;"
                           >
-                            <option selected="selected">Kelas</option>
+                            <option>Kelas</option>
                             @each(n in [10, 11, 12, 13])
                               <option
-                                value="{{n}}"
-                                {{(data?.kelas || flashMessages.get('kelas', '')) === n ? 'selected' : ''}}
+                                value="{{ n }}"
+                                {{ (data?.kelas || flashMessages.get('kelas', '')) === n ? 'selected' : '' }}
                               >
-                                {{n}}
+                                {{ n }}
                               </option>
                             @end
                           </select>
@@ -136,10 +125,10 @@
                             <option>Jurusan</option>
                             @each(j in jurusan)
                               <option
-                                value="{{j[0]}}"
-                                {{(data?.jurusan || flashMessages.get('jurusan', '')) === j[1] ? 'selected' : ''}}
+                                value="{{ j[0] }}"
+                                {{ (data?.jurusan || flashMessages.get('jurusan', '')) === j[1] ? 'selected' : '' }}
                               >
-                                {{j[1]}}
+                                {{ j[1] }}
                               </option>
                             @end
                           </select>
@@ -155,7 +144,7 @@
                           id="lakilaki"
                           name="jenis_kelamin"
                           value="L"
-                          {{data?.jenis_kelamin === 'L' ? 'checked' : ''}}
+                          {{ data?.jenis_kelamin === 'L' ? 'checked' : '' }}
                         >
                         <label for="lakilaki" class="custom-control-label">Laki Laki</label>
                       </div>
@@ -166,7 +155,7 @@
                           id="perempuan"
                           name="jenis_kelamin"
                           value="P"
-                          {{data?.jenis_kelamin === 'P' ? 'checked' : ''}}
+                          {{ data?.jenis_kelamin === 'P' ? 'checked' : '' }}
                         >
                         <label for="perempuan" class="custom-control-label">Perempuan</label>
                       </div>

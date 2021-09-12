@@ -65,7 +65,7 @@ export default class BukuKeluarController {
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.findBy("id", id_buku);
+      const bukuKeluar = await BukuKeluar.find(id_buku);
       if (!bukuKeluar) {
         session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
         return response.redirect().back();
@@ -97,7 +97,7 @@ export default class BukuKeluarController {
         }),
       });
 
-      const bukuKeluar = await BukuKeluar.findBy("id", id_buku);
+      const bukuKeluar = await BukuKeluar.find(id_buku);
       if (!bukuKeluar) {
         session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
         return response.redirect().back();
