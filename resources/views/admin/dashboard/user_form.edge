@@ -47,6 +47,7 @@
                   action="/api/{{ currentPage }}/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
                 >
                   {{ csrfField() }}
+                  <input name="role" type="hidden" value="{{ currentPage === 'admin' ? 1 : 2 }}" />
                   <div class="card-body">
                     <div class="form-group">
                       <label for="nisn">NISN</label>
@@ -60,6 +61,36 @@
                         value="{{ data?.nisn || flashMessages.get('nisn', '') }}"
                         autocomplete="off"
                       />
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="password">Password</label>
+                          <input
+                            id="password"
+                            name="password"
+                            type="text"
+                            class="form-control"
+                            placeholder="Masukkan password"
+                            value="{{ flashMessages.get('password', '') }}"
+                            autocomplete="off"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="password_repeat">Ulangi Password</label>
+                          <input
+                            id="password_repeat"
+                            name="password_repeat"
+                            type="text"
+                            class="form-control"
+                            placeholder="Ulangi password"
+                            value="{{ flashMessages.get('email', '') }}"
+                            autocomplete="off"
+                          />
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
@@ -123,10 +154,10 @@
                             <option>Jurusan</option>
                             @each(j in jurusan)
                               <option
-                                value="{{ j[0] }}"
-                                {{ (data?.jurusan || flashMessages.get('jurusan', '')) === j[1] ? 'selected' : '' }}
+                                value="{{ j.id }}"
+                                {{ (data?.jurusan || flashMessages.get('jurusan', '')) === j.nama ? 'selected' : '' }}
                               >
-                                {{ j[1] }}
+                                {{ j.nama }}
                               </option>
                             @end
                           </select>

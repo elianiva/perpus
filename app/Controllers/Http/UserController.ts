@@ -2,45 +2,53 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import User from "App/Models/User";
 
-const userSchema = schema.create({
+export const userSchema = schema.create({
   email: schema.string({ trim: true }, [rules.email(), rules.required()]),
   nisn: schema.string({ trim: true }, [rules.required()]),
+  password: schema.string({ trim: true }, [rules.required()]),
   nama_lengkap: schema.string({ trim: true }, [rules.required()]),
   kelas: schema.number([rules.required()]),
   jurusan: schema.number([rules.required()]),
   jenis_kelamin: schema.string({ trim: true }, [rules.required()]),
-  remember_me: schema.boolean.optional(),
+  role: schema.number([rules.required()]),
 });
 
 export default class UserController {
-  public async create({ request, response, session, logger }: HttpContextContract) {
+  public static async createUser({ request }: HttpContextContract) {
+    /* eslint-disable */
+    const {
+      nisn,
+      nama_lengkap: nama,
+      email,
+      kelas,
+      jurusan: idJurusan,
+      jenis_kelamin,
+      password,
+      role: idRole,
+    } = await request.validate({
+      schema: userSchema,
+    });
+
+    const user = await User.create({
+      email,
+      password,
+      idRole,
+    });
+
+    await user.related("profil").create({ nama, jenis_kelamin, nisn, kelas, idJurusan });
+
+    return user;
+  }
+
+  public async create(ctx: HttpContextContract) {
     try {
-      // TODO(elianiva): make role changeable
-      /* eslint-disable */
-      const { nisn, nama_lengkap, email, kelas, jurusan, jenis_kelamin } = await request.validate({
-        schema: userSchema,
-      });
-
-      const user = await User.create({
-        email,
-        password: nisn, // default, can be changed later
-        idRole: 2, // anggota
-      });
-
-      await user.related("profil").create({
-        nama: nama_lengkap,
-        jenis_kelamin,
-        nisn,
-        kelas,
-        idJurusan: jurusan,
-      });
-
-      session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${email}` });
-      return response.redirect("/admin/dashboard/anggota/");
+      const user = await UserController.createUser(ctx);
+      ctx.session.flash({ msg: `Berhasil menambahkan anggota baru dengan email ${user.email}` });
+      return ctx.response.redirect("/admin/dashboard/anggota/");
     } catch (err) {
-      logger.error("UserController.create: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
-      return response.badRequest({ error: err.messages });
+      ctx.logger.error("UserController.create: %o", err.messages);
+      ctx.session.flash({ error: "Terdapat kesalahan pada sistem" });
+      return ctx.response.badRequest({ error: err.messages });
     }
   }
 
@@ -74,7 +82,7 @@ export default class UserController {
       return response.redirect("/admin/dashboard/anggota");
     } catch (err) {
       logger.error("UserController.update: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
       return response.badRequest(err.messages);
     }
   }
@@ -125,7 +133,7 @@ export default class UserController {
       return response.redirect().back();
     } catch (err) {
       logger.error("UserController.destroy: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
       return response.redirect().back();
     }
   }

@@ -2,6 +2,8 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Hash from "@ioc:Adonis/Core/Hash";
 import User from "App/Models/User";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
+import UserController from "App/Controllers/Http/UserController";
+import Jurusan from "App/Models/Jurusan";
 
 export default class LoginController {
   public async index({ response, view, auth }: HttpContextContract) {
@@ -21,22 +23,15 @@ export default class LoginController {
     const loginSchema = schema.create({
       email: schema.string({ trim: true }, [rules.email(), rules.required()]),
       password: schema.string({ trim: true }, [rules.required()]),
-      remember_me: schema.boolean.optional(),
     });
 
     try {
       /* eslint-disable */
-      const { email, password, remember_me } = await request.validate({ schema: loginSchema });
+      const { email, password } = await request.validate({ schema: loginSchema });
 
       const user = await User.findBy("email", email);
       if (!user) {
         session.flash({ error: `Tidak ada user dengan email ${email}` });
-        return response.redirect("/login");
-      }
-
-      await user.load("role");
-      if (user.role.nama !== "ADMIN") {
-        session.flash({ error: "Anda bukan admin!" });
         return response.redirect("/login");
       }
 
@@ -47,9 +42,13 @@ export default class LoginController {
       }
 
       await user.load("profil");
-      await auth.use("web").login(user, remember_me);
+      await auth.use("web").login(user);
 
-      return response.redirect("/admin/dashboard");
+      if (user.idRole === 1) {
+        return response.redirect("/admin/dashboard");
+      }
+
+      return response.redirect("/anggota");
     } catch (err) {
       logger.error("LoginController.login: %o", err.messages);
       return response.badRequest(err.messages);
@@ -59,5 +58,31 @@ export default class LoginController {
   public async logout({ response, auth }: HttpContextContract) {
     await auth.use("web").logout();
     return response.redirect("/login");
+  }
+
+  public async registerView({ response, view, logger, session }: HttpContextContract) {
+    try {
+      const majors = await Jurusan.all();
+
+      return view.render("register", {
+        jurusan: majors.map(({ id, nama }) => ({ id, nama })),
+      });
+    } catch (err) {
+      logger.error("LoginController.registerView: %o", err.message);
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
+      return response.redirect("/register");
+    }
+  }
+
+  public async register(ctx: HttpContextContract) {
+    try {
+      await UserController.createUser(ctx);
+      ctx.session.flash({ msg: `Akun berhasil dibuat! Silahkan login` });
+      return ctx.response.redirect("/login");
+    } catch (err) {
+      ctx.logger.error("LoginController.registerView: %o", err.message);
+      ctx.session.flash({ error: "Terdapat kesalahan pada sistem" });
+      return ctx.response.redirect("/login");
+    }
   }
 }

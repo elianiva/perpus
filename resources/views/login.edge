@@ -1,15 +1,19 @@
 @layout('layouts/login')
 @set('title', 'Login')
 @set('bodyClass', 'hold-transition login-page')
+@set('msg', flashMessages.get('msg'))
 @set('error', flashMessages.get('error'))
 
 @section('body')
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <span class="h1"><b>Admin</b> E-Library</span>
+      <span class="h1"><b>E-</b>Library</span>
     </div>
     <div class="card-body">
+      @if(msg)
+        <div class="alert alert-success" role="alert">{{ msg }}</div>
+      @endif
       @if(error)
         <div class="alert alert-danger" role="alert">{{ error }}</div>
       @endif
@@ -21,7 +25,7 @@
             type="email"
             class="form-control"
             placeholder="Email"
-            value="{{ flashMessages.get('name', '') }}"
+            value="{{ flashMessages.get('email', '') }}"
             autocomplete="off"
           />
           <div class="input-group-append">
@@ -34,32 +38,48 @@
           <input
             name="password"
             type="password"
-            class="form-control"
+            class="password form-control"
             autocomplete="off"
-          placeholder="Password" />
-          <div class="input-group-append">
+            placeholder="Password"
+          />
+          <div class="input-group-append" onclick="togglePassVisibility()">
             <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+              <span class="fas fa-eye-slash"></span>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input name="remember_me" type="checkbox" id="remember" />
-              <label for="remember"> Ingat Saya </label>
-            </div>
-          </div>
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
-          </div>
+          <button type="submit" class="btn btn-primary btn-block">Masuk</button>
         </div>
       </form>
 
-      <p class="mb-1">
-        <a href="forgot-password.html">Lupa kata sandi</a>
+      <p class="mb-1 mt-1 text-center">
+        Belum punya akun? <a href="/register">Daftar disini</a>
       </p>
     </div>
   </div>
 </div>
+
+@end
+
+@section('custom_scripts')
+<script>
+  function togglePassVisibility() {
+    const passwordInput = $(".password");
+
+    const isVisible = passwordInput.attr("type") === "text";
+
+    passwordInput.attr("type", isVisible ? "password" : "text");
+
+    if (isVisible) {
+      const eyeIcon = $(".fa-eye");
+      eyeIcon.removeClass("fa-eye")
+      eyeIcon.addClass("fa-eye-slash")
+    } else {
+      const eyeIcon = $(".fa-eye-slash");
+      eyeIcon.removeClass("fa-eye-slash")
+      eyeIcon.addClass("fa-eye")
+    }
+  }
+</script>
 @end

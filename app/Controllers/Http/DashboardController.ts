@@ -188,7 +188,7 @@ export default class DashboardController {
     const { isEditing, id } = request.qs();
 
     try {
-      const majors = (await Jurusan.all()).map((major) => [major.id, major.nama]);
+      const majors = (await Jurusan.all()).map(({ id, nama }) => ({ id, nama }));
 
       if (isEditing) {
         const user = await User.find(id);

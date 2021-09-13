@@ -27,9 +27,16 @@ Route.get("/", async ({ session, response }) => {
   return response.redirect("/login");
 });
 
+Route.get("/register", "LoginController.registerView");
+Route.post("/register", "LoginController.register");
+
 Route.get("/login", "LoginController.index");
 Route.post("/login", "LoginController.login");
 Route.post("/logout", "LoginController.logout");
+
+Route.group(() => {
+  Route.get("/", "AnggotaController.index");
+}).prefix("/anggota");
 
 Route.group(() => {
   Route.group(() => {

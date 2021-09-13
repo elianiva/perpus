@@ -23,7 +23,7 @@ export default class BukuMasukController {
       };
     } catch (err) {
       logger.error("BukuMasukController.show: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
       return response.redirect().back();
     }
   }
@@ -49,7 +49,7 @@ export default class BukuMasukController {
     } catch (err) {
       console.error(err);
       logger.error("BukuMasukController.create: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
       return response.redirect().back();
     }
   }
@@ -84,7 +84,7 @@ export default class BukuMasukController {
       return response.redirect().back();
     } catch (err) {
       logger.error("BukuMasukController.update: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
       return response.redirect().back();
     }
   }
@@ -112,7 +112,7 @@ export default class BukuMasukController {
       return response.redirect().back();
     } catch (err) {
       logger.error("BukuMasukController.destroy: %o", err.messages);
-      session.flash({ error: "Error dalam sistem" });
+      session.flash({ error: "Terdapat kesalahan pada sistem" });
       return response.redirect().back();
     }
   }

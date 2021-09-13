@@ -14,15 +14,19 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/css/adminlte.min.css">
 
-    <!-- jQuery -->
-    <script defer src="/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script defer src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script defer src="/js/adminlte.min.js"></script>
+    @!section('stylesheets')
   </head>
 
   <body class="{{ bodyClass }}">
     @!section('body')
+
+    <!-- jQuery -->
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/js/adminlte.min.js"></script>
+
+    @!section('custom_scripts')
   </body>
 </html>
