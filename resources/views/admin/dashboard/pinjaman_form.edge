@@ -51,7 +51,7 @@
               <div class="card-body">
                 <form
                   method="POST"
-                  action="/api/pinjaman/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
+                  action="/api/peminjaman/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
                   enctype="multipart/form-data"
                 >
                   {{ csrfField() }}
@@ -67,7 +67,7 @@
                         @each(buku in data.semuaBuku)
                           <option
                             value="{{ buku.id }}"
-                            {{ (data?.idBuku || flashMessages.get('id_buku', '')) === buku.id ? 'selected' : '' }}
+                            {{ data?.buku.id === buku.id ? 'selected' : '' }}
                           >
                             {{ buku.judul }}
                           </option>
@@ -85,7 +85,7 @@
                         @each(anggota in data.semuaAnggota)
                           <option
                             value="{{ anggota.id }}"
-                            {{ (data?.namaAnggota || flashMessages.get('nama_anggota', '')) === anggota.id ? 'selected' : '' }}
+                            {{ data?.anggota.id === anggota.id ? 'selected' : '' }}
                           >
                             {{ anggota.nama }}
                           </option>
@@ -105,6 +105,7 @@
                           name="durasi"
                           type="text"
                           class="form-control float-right"
+                          value="{{data?.durasi}}"
                         />
                       </div>
                     </div>

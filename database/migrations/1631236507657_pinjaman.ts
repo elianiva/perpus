@@ -12,7 +12,7 @@ export default class Pinjaman extends BaseSchema {
       table.integer("id_user").unsigned();
       table.timestamps(true, true);
 
-      table.foreign("id_user").references("id").inTable("user");
+      table.foreign("id_user").references("id").inTable("user").onDelete("CASCADE");
     });
   }
 

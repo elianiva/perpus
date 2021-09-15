@@ -11,7 +11,7 @@ export default class BukuKeluars extends BaseSchema {
       table.integer("jumlah");
       table.timestamps(true, true);
 
-      table.foreign("id_buku").references("id").inTable("buku");
+      table.foreign("id_buku").references("id").inTable("buku").onDelete("CASCADE");
     });
   }
 

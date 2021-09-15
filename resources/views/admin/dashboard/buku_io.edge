@@ -132,7 +132,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{ currentPage }}/perbarui?_method=PUT">
+      <form method="POST" action="/api/{{ currentPage }}/edit?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
           <input id="id_buku" name="id_buku" type="hidden" />

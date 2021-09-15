@@ -26,6 +26,7 @@
               placeholder="Masukkan email..."
               value="{{ flashMessages.get('email', '') }}"
               autocomplete="off"
+              required
             />
           </div>
         </div>
@@ -38,6 +39,7 @@
               class="password form-control"
               autocomplete="off"
               placeholder="Masukkan password..."
+              required
             />
             <div class="input-group-append" onclick="togglePassVisibility()">
               <div class="input-group-text">
@@ -55,6 +57,7 @@
               class="password form-control"
               autocomplete="off"
               placeholder="Ulangi password..."
+              required
             />
             <div class="input-group-append" onclick="togglePassVisibility()">
               <div class="input-group-text">
@@ -73,6 +76,7 @@
               placeholder="Nama Lengkap"
               value="{{ flashMessages.get('nama_lengkap', '') }}"
               autocomplete="off"
+              required
             />
           </div>
         </div>
@@ -87,6 +91,7 @@
               value="{{ flashMessages.get('nisn', '') }}"
               autocomplete="off"
               maxlength="10"
+              required
             />
           </div>
         </div>
@@ -120,6 +125,7 @@
                 id="jurusan"
                 class="form-control select2"
                 style="width: 100%";
+                required
               >
                 <option>Jurusan</option>
                 @each(j in jurusan)
@@ -144,6 +150,7 @@
                 id="lakilaki"
                 name="jenis_kelamin"
                 value="L"
+                required
               >
               <label for="lakilaki" class="custom-control-label">Laki Laki</label>
             </div>
@@ -154,6 +161,7 @@
                 id="perempuan"
                 name="jenis_kelamin"
                 value="P"
+                required
               >
               <label for="perempuan" class="custom-control-label">Perempuan</label>
             </div>

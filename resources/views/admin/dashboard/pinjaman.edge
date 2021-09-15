@@ -68,6 +68,7 @@
                   <thead>
                     <tr>
                       <th>Nama Peminjam</th>
+                      <th>Judul Buku</th>
                       <th>Tanggal Pinjam</th>
                       <th>Tanggal Kembali</th>
                       <th>Aksi</th>
@@ -77,6 +78,7 @@
                   <tfoot>
                     <tr>
                       <th>Nama Peminjam</th>
+                      <th>Judul Buku</th>
                       <th>Tanggal Pinjam</th>
                       <th>Tanggal Kembali</th>
                       <th>Aksi</th>
@@ -110,9 +112,9 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/buku/hapus?_method=delete">
+        <form method="POST" action="/api/peminjaman/hapus?type=Pinjaman&_method=delete">
           {{ csrfField() }}
-          <input id="id-pinjaman" name="id_pinjaman" type="hidden" />
+          <input id="id-peminjaman" name="id" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -160,11 +162,17 @@
 <script>
   $(document).ready(function () {
     const table = $("#table").DataTable({
-      ajax: "/api/pinjaman?status=0",
-      columns: [{ data: "nama" }, { data: "tgl_pinjam" }, { data: "tgl_kembali" }, { data: null }],
+      ajax: "/api/peminjaman?status=0",
+      columns: [
+        { data: "nama" },
+        { data: "buku.judul" },
+        { data: "tgl_pinjam" },
+        { data: "tgl_kembali" },
+        { data: null }
+      ],
       columnDefs: [
         {
-          targets: [1],
+          targets: [2],
           render: (data, _type, row) =>
             new Date(data).toLocaleDateString("id-ID", {
               weekday: "long",
@@ -174,7 +182,7 @@
             }),
         },
         {
-          targets: [2],
+          targets: [3],
           render: (data, _type, row) =>
             new Date(data).toLocaleDateString("id-ID", {
               weekday: "long",
@@ -206,15 +214,6 @@
     <i class="fas fa-edit"></i>
   </button>
 </a>
-<button
-  type="button"
-  class="btn btn-info"
-  data-toggle="modal"
-  data-target="#modal-info"
-  data-id="${row.id}"
->
-  <i class="fas fa-info-circle"></i>
-</button>
 `;
           },
         },
@@ -248,12 +247,11 @@
     });
 
     $("#modal-delete").on("show.bs.modal", function (event) {
-      const email = $(event.relatedTarget).data("email");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data buku dengan email <b>${email}</b>?</p>`);
-      $(this).find("#user-id").val(id);
+        .html(`<p class="h5">Yakin hapus data peminjaman?</p>`);
+      $(this).find("#id-peminjaman").val(id);
     });
 
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {

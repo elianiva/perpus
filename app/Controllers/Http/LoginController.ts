@@ -81,8 +81,10 @@ export default class LoginController {
       return ctx.response.redirect("/login");
     } catch (err) {
       ctx.logger.error("LoginController.registerView: %o", err.message);
-      ctx.session.flash({ error: "Terdapat kesalahan pada sistem" });
-      return ctx.response.redirect("/login");
+      ctx.session.flash({
+        error: "Data yang anda masukkan tidak valid, mohon ulangi dengan benar!",
+      });
+      return ctx.response.redirect("/register");
     }
   }
 }

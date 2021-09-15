@@ -118,7 +118,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/buku/hapus?_method=delete">
           {{ csrfField() }}
-          <input id="id-buku" name="id_buku" type="hidden" />
+          <input id="id_buku" name="id_buku" type="hidden" />
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -191,6 +191,7 @@
   data-toggle="modal"
   data-target="#modal-delete"
   data-id="${row.id}"
+  data-judul="${row.judul}"
 >
   <i class="fas fa-trash"></i>
 </button>
@@ -209,7 +210,7 @@
           {
             targets: [-2],
             render: (data, _type, row) => `
-<a href="${/*data*/''}" data-toggle="lightbox" data-title="${row.judul}">
+<a href="/img/buku/${data}" data-toggle="lightbox" data-title="${row.judul}">
   <img
     width="80"
     height="120"
@@ -248,12 +249,12 @@
       });
 
     $("#modal-delete").on("show.bs.modal", function (event) {
-      const email = $(event.relatedTarget).data("email");
+      const judul = $(event.relatedTarget).data("judul");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data buku dengan email <b>${email}</b>?</p>`);
-      $(this).find("#user-id").val(id);
+        .html(`<p class="h5">Yakin hapus data buku dengan judul <b>${judul}</b>?</p>`);
+      $(this).find("#id_buku").val(id);
     });
 
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {

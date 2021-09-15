@@ -76,10 +76,28 @@ export default class DashboardController {
           return response.redirect().back();
         }
 
+        await pinjaman.load("buku");
+        await pinjaman.load("user");
+
+        const startdate = pinjaman.tglPinjam.toFormat("MM/dd/yyyy");
+        const endDate = pinjaman.tglKembali.toFormat("MM/dd/yyyy");
+
         return view.render("admin/dashboard/pinjaman_form", {
           currentUserName: auth.user?.profil.nama,
           isEditing,
-          data: {},
+          data: {
+            id,
+            semuaBuku: buku.map(({ id, judul }) => ({ id, judul })),
+            semuaAnggota: anggota.map(({ id, profil: { nama } }) => ({ id, nama })),
+            buku: {
+              id: pinjaman.buku[0].id,
+              judul: pinjaman.buku[0].judul,
+            },
+            anggota: {
+              id: pinjaman.user.id,
+            },
+            durasi: `${startdate} - ${endDate}`,
+          },
         });
       }
 
@@ -99,7 +117,7 @@ export default class DashboardController {
   public async kembaliTable({ auth, view, logger, response }: HttpContextContract) {
     try {
       await auth.user?.load("profil");
-      return view.render("admin/dashboard/kembalian", {
+      return view.render("admin/dashboard/pengembalian", {
         currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
@@ -199,7 +217,7 @@ export default class DashboardController {
 
         await user.load("profil", (profil) => profil.preload("jurusan"));
         return view.render("admin/dashboard/user_form", {
-          currentUserName: auth.user?.profil.nama,
+          currentUserName: user.profil.nama,
           currentPage: type,
           isEditing,
           jurusan: majors,
@@ -215,13 +233,14 @@ export default class DashboardController {
         });
       }
 
-      await auth.user?.load("profil");
+      await auth.user!.load("profil");
       return view.render("admin/dashboard/user_form", {
         jurusan: majors,
         currentPage: type,
         currentUserName: auth.user?.profil.nama,
       });
     } catch (err) {
+      console.error(err);
       logger.error("DashboardController.userForm: %o", err.messages);
       return response.badRequest({ error: err.messages });
     }

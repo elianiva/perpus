@@ -66,24 +66,28 @@ Route.group(() => {
 Route.group(() => {
   Route.get("/buku", "BukuController.show");
   Route.post("/buku/tambah", "BukuController.create");
+  Route.put("/buku/edit", "BukuController.update");
+  Route.delete("/buku/hapus", "BukuController.destroy");
 
   Route.get("/jurusan", "JurusanController.show");
   Route.post("/jurusan/tambah", "JurusanController.create");
-  Route.put("/jurusan/perbarui", "JurusanController.update");
+  Route.put("/jurusan/edit", "JurusanController.update");
   Route.delete("/jurusan/hapus", "JurusanController.destroy");
 
   Route.get("/buku_masuk", "BukuMasukController.show");
   Route.post("/buku_masuk/tambah", "BukuMasukController.create");
-  Route.put("/buku_masuk/perbarui", "BukuMasukController.update");
+  Route.put("/buku_masuk/edit", "BukuMasukController.update");
   Route.delete("/buku_masuk/hapus", "BukuMasukController.destroy");
 
   Route.get("/buku_keluar", "BukuKeluarController.show");
   Route.post("/buku_keluar/tambah", "BukuKeluarController.create");
-  Route.put("/buku_keluar/perbarui", "BukuKeluarController.update");
+  Route.put("/buku_keluar/edit", "BukuKeluarController.update");
   Route.delete("/buku_keluar/hapus", "BukuKeluarController.destroy");
 
-  Route.get("/pinjaman", "PinjamanController.show");
-  Route.post("/pinjaman/tambah", "PinjamanController.create");
+  Route.get("/peminjaman", "PinjamanController.show");
+  Route.post("/peminjaman/tambah", "PinjamanController.create");
+  Route.put("/peminjaman/edit", "PinjamanController.update");
+  Route.delete("/peminjaman/hapus", "PinjamanController.destroy");
 
   Route.group(() => {
     Route.get("/:type", "UserController.show");

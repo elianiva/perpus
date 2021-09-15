@@ -42,6 +42,10 @@ export default class BukuMasukController {
       const bukuMasuk = await BukuMasuk.create({ idBuku: id_buku, alasan, jumlah });
       await bukuMasuk.load("buku");
       bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - jumlah;
+
+      // prevents negative value
+      if (bukuMasuk.buku.jumlah < 0) bukuMasuk.buku.jumlah = 0;
+
       bukuMasuk.buku.save();
 
       session.flash({ msg: `Berhasil menambahkan buku dengan alasan "${alasan}"` });

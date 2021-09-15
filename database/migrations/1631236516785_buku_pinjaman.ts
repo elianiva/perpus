@@ -10,8 +10,8 @@ export default class BukuPinjaman extends BaseSchema {
       table.integer("id_pinjaman").unsigned();
       table.timestamps(true, true);
 
-      table.foreign("id_buku").references("id").inTable("buku");
-      table.foreign("id_pinjaman").references("id").inTable("pinjaman");
+      table.foreign("id_buku").references("id").inTable("buku").onDelete("CASCADE");
+      table.foreign("id_pinjaman").references("id").inTable("pinjaman").onDelete("CASCADE");
       table.unique(["id_buku", "id_pinjaman"]);
     });
   }
