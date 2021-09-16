@@ -52,7 +52,6 @@
                 <form
                   method="POST"
                   action="/api/peminjaman/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
-                  enctype="multipart/form-data"
                 >
                   {{ csrfField() }}
                   <div class="card-body">
@@ -142,7 +141,6 @@
 
 @section('custom_scripts')
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Select2 -->
 <script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>

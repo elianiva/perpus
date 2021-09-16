@@ -1,57 +1,37 @@
 <nav class="navbar navbar-light bg-white navbar-expand border-bottom" style="border-color: #b0b0b0">
   <div class="container">
-    <a class="navbar-brand"><b>E-</b>library</a>
+    <a href="/anggota" class="navbar-brand"><b>E-</b>library</a>
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
+      <li class="nav-item d-flex align-items-center">
+        <span class="align-middle">Hai, {{ currentUserName }}</span>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="fas fa-shopping-cart"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
+          <span class="badge badge-danger navbar-badge">{{ pinjaman.length }}</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">Lihat semua pinjaman saya</a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width: 600px;">
+          @if(pinjaman)
+            @each(p in pinjaman.slice(0, 3))
+              <a href="#" class="dropdown-item">
+                <div class="media">
+                  <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                      {{ p.buku[0].judul }}
+                    </h3>
+                    <p class="text-sm">{{ p.buku[0].deskripsi.split('').slice(0, 40).join('') }}...</p>
+                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>2 Januari 2021</p>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-divider"></div>
+            @end
+            <a href="/anggota/peminjaman" class="dropdown-item dropdown-footer">Lihat semua pinjaman saya</a>
+          @else
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-footer">Tidak ada pinjaman</span>
+          @end
         </div>
       </li>
       <!-- Dropdown Menu -->

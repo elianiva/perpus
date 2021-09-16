@@ -6,7 +6,7 @@
 @!component('components/navbar_anggota', { currentUserName, pinjaman: data.pinjaman })
 
 <div class="container pt-4">
-  <h2 class="text-center mb-4">Semua Buku</h2>
+  <h2 class="text-center mb-4">Semua Buku Pinjaman Saya</h2>
   <div class="card">
     <div class="card-body">
       <table id="table" class="table table-bordered table-striped">
@@ -121,7 +121,7 @@
 
     const table = $("#table")
       .DataTable({
-        ajax: "/api/buku",
+        ajax: "/api/anggota/peminjaman",
         columns: [
           { data: "isbn" },
           { data: "judul" },

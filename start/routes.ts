@@ -36,6 +36,7 @@ Route.post("/logout", "LoginController.logout");
 
 Route.group(() => {
   Route.get("/", "AnggotaController.index");
+  Route.get("/peminjaman", "AnggotaController.pinjamanView");
 })
   .prefix("/anggota")
   .middleware(["auth", "anggota"]);
@@ -90,6 +91,8 @@ Route.group(() => {
   Route.post("/peminjaman/tambah", "PinjamanController.create");
   Route.put("/peminjaman/edit", "PinjamanController.update");
   Route.delete("/peminjaman/hapus", "PinjamanController.destroy");
+
+  Route.get("/anggota/peminjaman", "AnggotaController.pinjamanData");
 
   Route.group(() => {
     Route.get("/:type", "UserController.show");
