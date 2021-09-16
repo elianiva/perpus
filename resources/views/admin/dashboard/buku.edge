@@ -66,7 +66,7 @@
                   <thead>
                     <tr>
                       <th>ISBN</th>
-                      <th>Judul</th>
+                      <th data-priority="1">Judul</th>
                       <th>Nama Pengarang</th>
                       <th>Penerbit</th>
                       <th>Deskripsi</th>
@@ -79,7 +79,7 @@
                   <tfoot>
                     <tr>
                       <th>ISBN</th>
-                      <th>Judul</th>
+                      <th data-priority="1">Judul</th>
                       <th>Nama Pengarang</th>
                       <th>Penerbit</th>
                       <th>Deskripsi</th>
@@ -174,9 +174,9 @@
           { data: "judul" },
           { data: "pengarang" },
           { data: "penerbit" },
-          { data: "deskripsi" },
+          { data: "deskripsi", className: "none" },
           { data: "jumlah" },
-          { data: "url_cover" },
+          { data: "url_cover", className: "none" },
           { data: null },
         ],
         columnDefs: [

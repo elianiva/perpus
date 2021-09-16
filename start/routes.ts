@@ -36,7 +36,9 @@ Route.post("/logout", "LoginController.logout");
 
 Route.group(() => {
   Route.get("/", "AnggotaController.index");
-}).prefix("/anggota");
+})
+  .prefix("/anggota")
+  .middleware(["auth", "anggota"]);
 
 Route.group(() => {
   Route.group(() => {
@@ -61,7 +63,7 @@ Route.group(() => {
     .prefix("/dashboard");
 })
   .prefix("/admin")
-  .middleware("auth");
+  .middleware(["auth", "admin"]);
 
 Route.group(() => {
   Route.get("/buku", "BukuController.show");
@@ -97,4 +99,4 @@ Route.group(() => {
   }).where("type", /(anggota|admin)/);
 })
   .prefix("/api")
-  .middleware("auth");
+  .middleware(["auth"]);

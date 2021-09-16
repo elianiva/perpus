@@ -67,7 +67,7 @@
                     <tr>
                       <th>NISN</th>
                       <th>Email</th>
-                      <th>Nama Lengkap</th>
+                      <th data-priority="1">Nama Lengkap</th>
                       <th>Jenis Kelamin</th>
                       <th>Kelas</th>
                       <th>Jurusan</th>
@@ -79,7 +79,7 @@
                     <tr>
                       <th>NISN</th>
                       <th>Email</th>
-                      <th>Nama Lengkap</th>
+                      <th data-priority="1">Nama Lengkap</th>
                       <th>Jenis Kelamin</th>
                       <th>Kelas</th>
                       <th>Jurusan</th>
@@ -163,7 +163,7 @@
         ajax: "/api/{{{ currentPage }}}",
         columns: [
           { data: "nisn" },
-          { data: "email" },
+          { data: "email", className: "none" },
           { data: "nama_lengkap" },
           { data: "jenis_kelamin" },
           { data: "kelas" },
