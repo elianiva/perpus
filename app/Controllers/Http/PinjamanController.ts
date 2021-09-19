@@ -158,4 +158,39 @@ export default class PinjamanController {
       return response.redirect().back();
     }
   }
+
+  public async restore({ request, response, session, logger }: HttpContextContract) {
+    try {
+      /* eslint-disable-next-line */
+      const { id: idPinjaman } = await request.validate({
+        schema: schema.create({
+          id: schema.number([rules.required()]),
+        }),
+      });
+
+      const pinjaman = await Pinjaman.find(idPinjaman);
+
+      if (!pinjaman) {
+        session.flash({ error: `Tidak ada pinjaman dengan id ${idPinjaman}` });
+        return response.redirect().back();
+      }
+
+      await pinjaman.load("buku");
+
+      console.log(pinjaman.toJSON());
+
+      pinjaman.status = 1;
+      await pinjaman.save();
+
+      console.log(pinjaman.toJSON());
+
+      session.flash({ msg: "Pinjaman berhasil dikembalikan!" });
+      return response.redirect("/admin/dashboard/peminjaman");
+    } catch (err) {
+      console.error(err);
+      logger.error("PinjamanController.update: %o", err.messages);
+      session.flash({ err: "Kesalahan pada sistem!" });
+      return response.redirect().back();
+    }
+  }
 }

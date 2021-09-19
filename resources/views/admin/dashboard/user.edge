@@ -114,10 +114,10 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=delete">
+        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=DELETE">
           {{ csrfField() }}
           <input id="id_user" name="id_user" type="hidden" />
-          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
       </div>

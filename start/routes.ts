@@ -91,6 +91,7 @@ Route.group(() => {
   Route.post("/peminjaman/tambah", "PinjamanController.create");
   Route.put("/peminjaman/edit", "PinjamanController.update");
   Route.delete("/peminjaman/hapus", "PinjamanController.destroy");
+  Route.put("/peminjaman/kembali", "PinjamanController.restore");
 
   Route.get("/anggota/peminjaman", "AnggotaController.pinjamanData");
 
