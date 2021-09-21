@@ -18,7 +18,7 @@
             <th>Penerbit</th>
             <th>Deskripsi</th>
             <th>Cover</th>
-            <th>Pinjam</th>
+            <th>Tanggal Kembali</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -30,7 +30,7 @@
             <th>Penerbit</th>
             <th>Deskripsi</th>
             <th>Cover</th>
-            <th>Pinjam</th>
+            <th>Tanggal Kembali</th>
           </tr>
         </tfoot>
       </table>
@@ -129,26 +129,19 @@
           { data: "penerbit" },
           { data: "deskripsi", className: "none" },
           { data: "url_cover", className: "none" },
-          { data: null },
+          { data: "tgl_kembali" },
         ],
         columnDefs: [
           {
             targets: [-1],
-            render: (_data, _type, row) => {
-              const id = row.id;
-              return `
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-toggle="modal"
-    data-target="#modal-pinjam"
-    data-id-buku="${row.id}"
-  >
-    <i class="fas fa-plus"></i>
-  </button>
-  `;
+            render: (data, _type, row) =>
+              new Date(data).toLocaleDateString("id-ID", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }),
             },
-          },
           {
             targets: [-2],
             render: (data, _type, row) => `

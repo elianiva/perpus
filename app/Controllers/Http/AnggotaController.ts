@@ -70,6 +70,7 @@ export default class AnggotaController {
               penerbit,
               deskripsi,
               url_cover,
+              tgl_kembali: p.tglKembali,
             };
           })
         ),
