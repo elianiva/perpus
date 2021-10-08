@@ -3,28 +3,26 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import User from "App/Models/User";
 
-export const userSchemaNoPass = schema.create({
+const base = {
   email: schema.string({ trim: true }, [rules.email(), rules.required()]),
   nisn: schema.string({ trim: true }, [rules.required()]),
-  password: schema.string.optional({ trim: true }),
-  password_repeat: schema.string.optional({ trim: true }, [rules.confirmed("password")]),
   nama_lengkap: schema.string({ trim: true }, [rules.required()]),
   kelas: schema.number([rules.required()]),
   jurusan: schema.number([rules.required()]),
   jenis_kelamin: schema.string({ trim: true }, [rules.required()]),
   role: schema.number([rules.required()]),
+};
+
+export const userSchemaNoPass = schema.create({
+  ...base,
+  password: schema.string.optional({ trim: true }),
+  password_repeat: schema.string.optional({ trim: true }, [rules.confirmed("password")]),
 });
 
 export const userSchema = schema.create({
-  email: schema.string({ trim: true }, [rules.email(), rules.required()]),
-  nisn: schema.string({ trim: true }, [rules.required()]),
+  ...base,
   password: schema.string({ trim: true }, [rules.required()]),
   password_repeat: schema.string({ trim: true }, [rules.required(), rules.confirmed("password")]),
-  nama_lengkap: schema.string({ trim: true }, [rules.required()]),
-  kelas: schema.number([rules.required()]),
-  jurusan: schema.number([rules.required()]),
-  jenis_kelamin: schema.string({ trim: true }, [rules.required()]),
-  role: schema.number([rules.required()]),
 });
 
 export default class UserController {
@@ -92,10 +90,8 @@ export default class UserController {
       user.profil.idJurusan = jurusan;
       user.profil.jenis_kelamin = jenis_kelamin;
 
-      console.log(password);
       if (password) {
-        user.password = await Hash.make(password);
-        console.log(user.password);
+        user.password = password;
       }
 
       await user.save();

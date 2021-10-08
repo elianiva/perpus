@@ -77,9 +77,7 @@ export default class BukuKeluarController {
       await bukuKeluar.load("buku");
 
       bukuKeluar.alasan = alasan;
-      console.log(bukuKeluar.buku.jumlah);
       bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah - bukuKeluar.jumlah + jumlah;
-      console.log(bukuKeluar.buku.jumlah);
       bukuKeluar.jumlah = jumlah;
       bukuKeluar.buku.save();
       bukuKeluar.save();

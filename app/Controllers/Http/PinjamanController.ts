@@ -177,12 +177,8 @@ export default class PinjamanController {
 
       await pinjaman.load("buku");
 
-      console.log(pinjaman.toJSON());
-
       pinjaman.status = 1;
       await pinjaman.save();
-
-      console.log(pinjaman.toJSON());
 
       session.flash({ msg: "Pinjaman berhasil dikembalikan!" });
       return response.redirect("/admin/dashboard/peminjaman");

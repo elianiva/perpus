@@ -43,5 +43,13 @@ export default class UserSeeder extends BaseSeeder {
         await book.related("pinjaman").attach([pinjaman[idx].id]);
       })
     );
+
+    // custom users
+    await UserFactory.with("profil")
+      .merge([
+        { email: "admin@asdf.com", password: "admin1234", idRole: 1 },
+        { email: "user@asdf.com", password: "user1234", idRole: 2 },
+      ])
+      .createMany(2);
   }
 }

@@ -41,7 +41,7 @@ export default class BukuMasukController {
 
       const bukuMasuk = await BukuMasuk.create({ idBuku: id_buku, alasan, jumlah });
       await bukuMasuk.load("buku");
-      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - jumlah;
+      bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + jumlah;
 
       // prevents negative value
       if (bukuMasuk.buku.jumlah < 0) bukuMasuk.buku.jumlah = 0;
@@ -77,9 +77,7 @@ export default class BukuMasukController {
       await bukuMasuk.load("buku");
 
       bukuMasuk.alasan = alasan;
-      console.log(bukuMasuk.buku.jumlah);
       bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah - bukuMasuk.jumlah + jumlah;
-      console.log(bukuMasuk.buku.jumlah);
       bukuMasuk.jumlah = jumlah;
       bukuMasuk.buku.save();
       bukuMasuk.save();

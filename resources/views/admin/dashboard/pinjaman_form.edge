@@ -65,8 +65,8 @@
                         <option selected>Buku</option>
                         @each(buku in data.semuaBuku)
                           <option
-                            value="{{ buku.id }}"
-                            {{ data?.buku.id === buku.id ? 'selected' : '' }}
+                            value="{{ buku?.id }}"
+                            {{ data?.buku?.id === buku?.id ? 'selected' : '' }}
                           >
                             {{ buku.judul }}
                           </option>
@@ -83,8 +83,8 @@
                         <option selected>Nama Anggota</option>
                         @each(anggota in data.semuaAnggota)
                           <option
-                            value="{{ anggota.id }}"
-                            {{ data?.anggota.id === anggota.id ? 'selected' : '' }}
+                            value="{{ anggota?.id }}"
+                            {{ data?.anggota?.id === anggota?.id ? 'selected' : '' }}
                           >
                             {{ anggota.nama }}
                           </option>

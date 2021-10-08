@@ -52,6 +52,7 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       const { password } = user;
       user.password = await Hash.make(password);
+      if (password === "admin1234") console.log(password, user.password);
     }
   }
 }
