@@ -1,5 +1,4 @@
 @layout('layouts/dashboard.edge')
-@set('error', flashMessages.get('error'))
 
 @section('body')
 <div class="wrapper">
@@ -43,13 +42,6 @@
         <!-- Main row -->
         <div class="row">
           <div class="col-12">
-            @if(error)
-              <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5><i class="icon fas fa-ban"></i> Galat!</h5>
-                {{ error }}
-              </div>
-            @endif
             <div class="card">
               <div class="card-header text-capitalize">{{ isEditing ? 'Perbarui Buku' : 'Tambah Buku Baru' }}</div>
               <div class="card-body">
@@ -66,11 +58,14 @@
                         id="isbn"
                         name="isbn"
                         type="text"
-                        class="form-control"
+                        class="form-control {{ flashMessages.get('errors.isbn') ? 'is-invalid' : ''}}"
                         placeholder="Masukkan ISBN dengan benar"
-                        value="{{ data?.isbn || flashMessages.get('isbn', '') }}"
+                        value="{{ data?.isbn ?? flashMessages.get('isbn') ?? '' }}"
                         autocomplete="off"
                       />
+                      <div class="invalid-feedback">
+                        {{ flashMessages.get('errors.isbn')?.[0] }}
+                      </div>
                     </div>
                     <div class="form-group">
                       <label for="judul">Judul</label>
@@ -78,26 +73,32 @@
                         id="judul"
                         name="judul"
                         type="text"
-                        class="form-control"
+                        class="form-control {{ flashMessages.get('errors.judul') ? 'is-invalid' : ''}}"
                         placeholder="Masukkan judul dengan benar"
                         maxlength="13"
-                        value="{{ data?.judul || flashMessages.get('judul', '') }}"
+                        value="{{ data?.judul ?? flashMessages.get('judul') ?? '' }}"
                         autocomplete="off"
                       />
+                      <div class="invalid-feedback">
+                        {{ flashMessages.get('errors.judul')?.[0] }}
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="name_lengkap">Pengarang</label>
+                          <label for="pengarang">Pengarang</label>
                           <input
                             id="pengarang"
                             name="pengarang"
                             type="text"
-                            class="form-control"
+                            class="form-control {{ flashMessages.get('errors.pengarang') ? 'is-invalid' : ''}}"
                             placeholder="Masukkan nama pengarang"
-                            value="{{ data?.pengarang || flashMessages.get('pengarang', '') }}"
+                            value="{{ data?.pengarang ?? flashMessages.get('pengarang') ?? '' }}"
                             autocomplete="off"
                           />
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.pengarang')?.[0] }}
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-6">
@@ -107,11 +108,14 @@
                             id="penerbit"
                             name="penerbit"
                             type="penerbit"
-                            class="form-control"
+                            class="form-control {{ flashMessages.get('errors.penerbit') ? 'is-invalid' : ''}}"
                             placeholder="Masukkan nama penerbit"
-                            value="{{ data?.penerbit || flashMessages.get('penerbit', '') }}"
+                            value="{{ data?.penerbit ?? flashMessages.get('penerbit') ?? '' }}"
                             autocomplete="off"
                           />
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.penerbit')?.[0] }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -120,16 +124,22 @@
                       <textarea
                         id="deskripsi"
                         name="deskripsi"
-                        class="form-control"
+                        class="form-control {{ flashMessages.get('errors.deskripsi') ? 'is-invalid' : ''}}"
                         placeholder="Masukkan deskripsi singkat buku"
-                      >{{ data?.deskripsi || flashMessages.get('deskripsi', '') }}</textarea>
+                      >{{ data?.deskripsi ?? flashMessages.get('deskripsi') ?? '' }}</textarea>
+                      <div class="invalid-feedback">
+                        {{ flashMessages.get('errors.deskripsi')?.[0] }}
+                      </div>
                     </div>
                     <div class="form-group">
                       <label for="cover">Foto Buku</label>
-                      <div class="input-group">
+                      <div class="input-group {{ flashMessages.get('errors.cover') ? 'is-invalid' : ''}}">
                         <div class="custom-file">
                           <input type="file" class="custom-file-input" id="cover" name="cover">
                           <label class="custom-file-label" for="cover">Pilih file</label>
+                        </div>
+                        <div class="invalid-feedback">
+                          {{ flashMessages.get('errors.cover')?.[0] }}
                         </div>
                       </div>
                     </div>
