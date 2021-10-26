@@ -17,12 +17,6 @@
   "preloads": [
     "./start/routes",
     "./start/kernel",
-    {
-      "file": "./start/inertia",
-      "environment": [
-        "web"
-      ]
-    },
     "./start/bouncer"
   ],
   "providers": [
@@ -31,7 +25,6 @@
     "@adonisjs/session",
     "@adonisjs/view",
     "@adonisjs/shield",
-    "@eidellev/inertia-adonisjs",
     "@adonisjs/lucid",
     "@adonisjs/bouncer",
     "@adonisjs/auth"
