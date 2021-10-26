@@ -114,7 +114,10 @@
 
 <script>
   $(function() {
-    $("#durasi").daterangepicker();
+    $("#durasi").daterangepicker({
+      // disable previous date
+      isInvalidDate: (e) => e._d < Date.now()
+    });
     $(".select2").select2({
       theme: 'bootstrap4'
     });
