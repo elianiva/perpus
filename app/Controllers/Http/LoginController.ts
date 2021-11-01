@@ -15,7 +15,7 @@ export default class LoginController {
     }
   }
 
-  public async login({ request, response, session, logger, auth }: HttpContextContract) {
+  public async login({ request, response, session, auth }: HttpContextContract) {
     if (auth.user) {
       return response.redirect("/admin/dashboard");
     }
@@ -25,34 +25,29 @@ export default class LoginController {
       password: schema.string({ trim: true }, [rules.required()]),
     });
 
-    try {
-      /* eslint-disable */
-      const { email, password } = await request.validate({ schema: loginSchema });
+    /* eslint-disable */
+    const { email, password } = await request.validate({ schema: loginSchema });
 
-      const user = await User.findBy("email", email);
-      if (!user) {
-        session.flash({ error: `Tidak ada user dengan email ${email}` });
-        return response.redirect("/login");
-      }
-
-      const isPasswordMatch = await Hash.verify(user.password, password);
-      if (!isPasswordMatch) {
-        session.flash({ error: "Password yang anda masukkan salah!" });
-        return response.redirect("/login");
-      }
-
-      await user.load("profil");
-      await auth.use("web").login(user);
-
-      if (user.idRole === 1) {
-        return response.redirect("/admin/dashboard");
-      }
-
-      return response.redirect("/anggota");
-    } catch (err) {
-      logger.error("LoginController.login: %o", err.messages);
-      return response.badRequest(err.messages);
+    const user = await User.findBy("email", email);
+    if (!user) {
+      session.flash({ error: `Tidak ada user dengan email ${email}` });
+      return response.redirect("/login");
     }
+
+    const isPasswordMatch = await Hash.verify(user.password, password);
+    if (!isPasswordMatch) {
+      session.flash({ error: "Password yang anda masukkan salah!" });
+      return response.redirect("/login");
+    }
+
+    await user.load("profil");
+    await auth.use("web").login(user);
+
+    if (user.idRole === 1) {
+      return response.redirect("/admin/dashboard");
+    }
+
+    return response.redirect("/anggota");
   }
 
   public async logout({ response, auth }: HttpContextContract) {

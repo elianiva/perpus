@@ -14,11 +14,13 @@ const bookSchema = schema.create({
 });
 
 export default class BukuController {
-  public async show({}: HttpContextContract) {
-    const books = await Buku.all();
+  public async show({ request }: HttpContextContract) {
+    const noEmpty = request.qs().noEmpty === "true";
+
+    const books = (await Buku.all()).map((book) => book.toJSON());
 
     return {
-      data: books.map((book) => book.toJSON()),
+      data: noEmpty ? books.filter((book) => book.jumlah > 0) : books,
     };
   }
 

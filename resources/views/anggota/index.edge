@@ -15,6 +15,7 @@
             <th>ISBN</th>
             <th data-priotity="1">Judul</th>
             <th>Nama Pengarang</th>
+            <th>Stok</th>
             <th>Penerbit</th>
             <th>Deskripsi</th>
             <th>Cover</th>
@@ -27,6 +28,7 @@
             <th>ISBN</th>
             <th data-priotity="1">Judul</th>
             <th>Nama Pengarang</th>
+            <th>Stok</th>
             <th>Penerbit</th>
             <th>Deskripsi</th>
             <th>Cover</th>
@@ -124,11 +126,12 @@
 
     const table = $("#table")
       .DataTable({
-        ajax: "/api/buku",
+        ajax: "/api/buku?noEmpty=true",
         columns: [
           { data: "isbn" },
           { data: "judul" },
           { data: "pengarang" },
+          { data: "jumlah" },
           { data: "penerbit" },
           { data: "deskripsi", className: "none" },
           { data: "url_cover", className: "none" },
