@@ -123,30 +123,7 @@ export default class PinjamanController {
     return response.redirect("/admin/dashboard/peminjaman");
   }
 
-  public async destroy({ request, response, session }: HttpContextContract) {
-    const { type } = request.qs();
-    /* eslint-disable */
-    const { id: idPinjaman } = await request.validate({
-      schema: schema.create({
-        id: schema.number([rules.required()]),
-      }),
-    });
-
-    const user = await Pinjaman.find(idPinjaman);
-
-    if (!user) {
-      session.flash({ error: `Tidak ada ${type} dengan id ${idPinjaman}` });
-      return response.redirect().back();
-    }
-
-    await user.delete();
-    session.flash({ msg: `${type} berhasil dihapus!` });
-
-    return response.redirect().back();
-  }
-
   public async restore({ request, response, session, auth }: HttpContextContract) {
-    /* eslint-disable-next-line */
     const { id: idPinjaman } = await request.validate({
       schema: schema.create({
         id: schema.number([rules.required()]),

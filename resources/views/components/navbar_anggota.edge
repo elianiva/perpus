@@ -12,9 +12,9 @@
           <span class="badge badge-danger navbar-badge">{{ pinjaman.length }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width: 600px;">
-          @if(pinjaman)
+          @if(pinjaman.length != 0)
             @each(p in pinjaman.slice(0, 3))
-              <a href="#" class="dropdown-item">
+              <span class="dropdown-item bg-transparent text-dark">
                 <div class="media">
                   <div class="media-body">
                     <h3 class="dropdown-item-title">
@@ -31,7 +31,7 @@
                     </p>
                   </div>
                 </div>
-              </a>
+              </span>
               <div class="dropdown-divider"></div>
             @end
             <a href="/anggota/peminjaman" class="dropdown-item dropdown-footer">Lihat semua pinjaman saya</a>

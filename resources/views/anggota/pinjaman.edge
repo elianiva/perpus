@@ -19,6 +19,7 @@
             <th>Deskripsi</th>
             <th>Cover</th>
             <th>Tanggal Kembali</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -31,6 +32,7 @@
             <th>Deskripsi</th>
             <th>Cover</th>
             <th>Tanggal Kembali</th>
+            <th>Status</th>
           </tr>
         </tfoot>
       </table>
@@ -130,10 +132,15 @@
           { data: "deskripsi", className: "none" },
           { data: "url_cover", className: "none" },
           { data: "tgl_kembali" },
+          { data: "status" },
         ],
         columnDefs: [
           {
             targets: [-1],
+            render: (data, _type, row) => data ? "Sudah dikembalikan" : "Belum dikembalikan",
+          },
+          {
+            targets: [-2],
             render: (data, _type, row) =>
               new Date(data).toLocaleDateString("id-ID", {
                 weekday: "long",
@@ -141,9 +148,9 @@
                 month: "long",
                 day: "numeric",
               }),
-            },
+          },
           {
-            targets: [-2],
+            targets: [-3],
             render: (data, _type, row) => `
   <a href="/img/buku/${data}" data-toggle="lightbox" data-title="${row.judul}">
   <img

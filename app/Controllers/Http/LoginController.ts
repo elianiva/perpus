@@ -2,7 +2,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Hash from "@ioc:Adonis/Core/Hash";
 import User from "App/Models/User";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
-import UserController from "App/Controllers/Http/UserController";
+import UserController from "./UserController";
 import Jurusan from "App/Models/Jurusan";
 
 export default class LoginController {
