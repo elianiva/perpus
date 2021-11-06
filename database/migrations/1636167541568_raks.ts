@@ -1,12 +1,13 @@
 import BaseSchema from "@ioc:Adonis/Lucid/Schema";
 
-export default class Roles extends BaseSchema {
-  protected tableName = "role";
+export default class Raks extends BaseSchema {
+  protected tableName = "raks";
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.integer("id", 1).primary().notNullable().unsigned();
-      table.string("nama", 32).notNullable();
+      table.increments("id").notNullable().primary();
+      table.string("no_rak").notNullable();
+
       table.timestamps(true, true);
     });
   }
