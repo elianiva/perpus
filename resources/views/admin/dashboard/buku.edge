@@ -71,7 +71,10 @@
                       <th>Penerbit</th>
                       <th>Deskripsi</th>
                       <th>Jumlah</th>
+                      <th>Rak</th>
                       <th>Cover</th>
+                      <th>Ditambahkan pada</th>
+                      <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -84,7 +87,10 @@
                       <th>Penerbit</th>
                       <th>Deskripsi</th>
                       <th>Jumlah</th>
+                      <th>Rak</th>
                       <th>Cover</th>
+                      <th>Ditambahkan pada</th>
+                      <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
                     </tr>
                   </tfoot>
@@ -176,10 +182,19 @@
           { data: "penerbit" },
           { data: "deskripsi", className: "none" },
           { data: "jumlah" },
+          { data: "rak.no_rak" },
           { data: "url_cover", className: "none" },
+          { data: "created_at", className: "none" },
+          { data: "updated_at", className: "none" },
           { data: null },
         ],
         columnDefs: [
+          {
+            targets: [-2, -3],
+            render: (data) => (new Date(data)).toLocaleDateString("id-ID", {
+              day: 'numeric', month: 'long', year: 'numeric'
+            })
+          },
           {
             targets: [-1],
             render: (_data, _type, row) => {

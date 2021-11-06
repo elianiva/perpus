@@ -1,13 +1,12 @@
 import BaseSchema from "@ioc:Adonis/Lucid/Schema";
 
 export default class Raks extends BaseSchema {
-  protected tableName = "raks";
+  protected tableName = "rak";
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments("id").notNullable().primary();
+      table.increments("id").primary().notNullable();
       table.string("no_rak").notNullable();
-
       table.timestamps(true, true);
     });
   }

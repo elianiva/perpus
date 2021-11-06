@@ -46,9 +46,9 @@
               <div class="icon">
                 <i class="ion ion-ios-box"></i>
               </div>
-              <a href="/admin/dashboard/buku" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/buku" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -63,9 +63,9 @@
               <div class="icon">
                 <i class="ion ion-android-people"></i>
               </div>
-              <a href="/admin/dashboard/anggota" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/anggota" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -80,9 +80,9 @@
               <div class="icon">
                 <i class="ion ion-wrench"></i>
               </div>
-              <a href="/admin/dashboard/admin" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/admin" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -97,9 +97,9 @@
               <div class="icon">
                 <i class="ion ion-link"></i>
               </div>
-              <a href="/admin/dashboard/jurusan" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/jurusan" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -116,9 +116,9 @@
               <div class="icon">
                 <i class="ion ion-ios-upload"></i>
               </div>
-              <a href="/admin/dashboard/buku_keluar" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/buku_keluar" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -133,9 +133,9 @@
               <div class="icon">
                 <i class="ion ion-ios-download"></i>
               </div>
-              <a href="/admin/dashboard/buku_masuk" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/buku_masuk" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -143,16 +143,16 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>12</h3>
+                <h3>{{ sedangDipinjam }}</h3>
 
                 <p>Sedang Dipinjam</p>
               </div>
               <div class="icon">
                 <i class="ion ion-ios-calendar"></i>
               </div>
-              <a href="/admin/dashboard/peminjaman" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/peminjaman" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
@@ -160,24 +160,41 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>31</h3>
+                <h3>{{ sudahDikembalikan }}</h3>
 
                 <p>Sudah Dikembalikan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-ios-calendar"></i>
               </div>
-              <a href="/admin/dashboard/pengembalian" class="small-box-footer"
-                >Info lengkap <i class="fas fa-arrow-circle-right"></i
-              ></a>
+              <a href="/admin/dashboard/pengembalian" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
           </div>
           <!-- ./col -->
         </div>
         <!-- /.row -->
-        <!-- Main row -->
-        <div class="row"></div>
-        <!-- /.row (main row) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ jumlahRak }}</h3>
+
+                <p>Jumlah Rak</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-ios-folder"></i>
+              </div>
+              <a href="/admin/dashboard/pengembalian" class="small-box-footer">
+                Info lengkap <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
     </section>

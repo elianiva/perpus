@@ -45,6 +45,7 @@ Route.group(() => {
   Route.group(() => {
     Route.get("/", "DashboardController.index");
     Route.get("/jurusan", "DashboardController.jurusanTable");
+    Route.get("/rak", "DashboardController.rakTable");
     Route.get("/buku", "DashboardController.bukuTable");
     Route.get("/buku/form", "DashboardController.bukuForm");
 
@@ -76,6 +77,11 @@ Route.group(() => {
   Route.post("/jurusan/tambah", "JurusanController.create");
   Route.put("/jurusan/edit", "JurusanController.update");
   Route.delete("/jurusan/hapus", "JurusanController.destroy");
+
+  Route.get("/rak", "RaksController.show");
+  Route.post("/rak/tambah", "RaksController.create");
+  Route.put("/rak/edit", "RaksController.update");
+  Route.delete("/rak/hapus", "RaksController.destroy");
 
   Route.get("/buku_masuk", "BukuMasukController.show");
   Route.post("/buku_masuk/tambah", "BukuMasukController.create");

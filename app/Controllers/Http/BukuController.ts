@@ -17,7 +17,14 @@ export default class BukuController {
   public async show({ request }: HttpContextContract) {
     const noEmpty = request.qs().noEmpty === "true";
 
-    const books = (await Buku.all()).map((book) => book.toJSON());
+    const books = await Promise.all(
+      (
+        await Buku.all()
+      ).map(async (book) => {
+        await book.load("rak");
+        return book.toJSON();
+      })
+    );
 
     return {
       data: noEmpty ? books.filter((book) => book.jumlah > 0) : books,
@@ -46,7 +53,7 @@ export default class BukuController {
       penerbit,
       deskripsi,
       jumlah: 0,
-      url_cover: filename,
+      urlCover: filename,
     });
 
     session.flash({ msg: `Buku berjudul ${judul} berhasil ditambahkan` });
@@ -94,14 +101,14 @@ export default class BukuController {
 
     if (cover) {
       // remove the old one
-      await unlink(Application.publicPath(`img/buku/${buku.url_cover}`));
+      await unlink(Application.publicPath(`img/buku/${buku.urlCover}`));
 
       // save the file
       const filename = `${isbn}.${cover.extname}`;
       await cover.move(Application.publicPath("img/buku"), {
         name: filename,
       });
-      buku.url_cover = filename;
+      buku.urlCover = filename;
     }
 
     await buku.save();

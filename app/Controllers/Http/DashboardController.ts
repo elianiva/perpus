@@ -16,6 +16,9 @@ export default class DashboardController {
     const inputBooksAmount = await Database.from("buku_masuk").count("* as total");
     const outputBooksAmount = await Database.from("buku_masuk").count("* as total");
     const majorsAmount = await Database.from("jurusan").count("* as total");
+    const borrowed = await Database.from("pinjaman").count("* as total").where({ status: 0 });
+    const returned = await Database.from("pinjaman").count("* as total").where({ status: 0 });
+    const rak = await Database.from("rak").count("* as total");
 
     await auth.user?.load("profil");
     return view.render("admin/dashboard/index", {
@@ -25,6 +28,9 @@ export default class DashboardController {
       totalJurusan: majorsAmount[0].total,
       totalBukuMasuk: inputBooksAmount[0].total,
       totalBukuKeluar: outputBooksAmount[0].total,
+      sedangDipinjam: borrowed[0].total,
+      sudahDikembalikan: returned[0].total,
+      jumlahRak: rak[0].total,
       currentUserName: auth.user?.profil.nama,
     });
   }
@@ -183,7 +189,7 @@ export default class DashboardController {
           nisn: user.profil.nisn,
           email: user.email,
           nama_lengkap: user.profil.nama,
-          jenis_kelamin: user.profil.jenis_kelamin,
+          jenis_kelamin: user.profil.jenisKelamin,
           kelas: user.profil.kelas,
           jurusan: user.profil.jurusan?.nama,
         },
@@ -203,6 +209,15 @@ export default class DashboardController {
 
     return view.render(`admin/dashboard/jurusan`, {
       currentPage: "jurusan",
+      currentUserName: auth.user?.profil.nama,
+    });
+  }
+
+  public async rakTable({ view, auth }: HttpContextContract) {
+    await auth.user?.load("profil");
+
+    return view.render(`admin/dashboard/rak`, {
+      currentPage: "rak",
       currentUserName: auth.user?.profil.nama,
     });
   }

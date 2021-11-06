@@ -80,7 +80,7 @@ export default class UserController {
     user.profil.nama = nama_lengkap;
     user.profil.kelas = kelas;
     user.profil.idJurusan = jurusan;
-    user.profil.jenis_kelamin = jenis_kelamin;
+    user.profil.jenisKelamin = jenis_kelamin;
 
     if (password) {
       user.password = password;
@@ -105,7 +105,7 @@ export default class UserController {
       nisn: user.profil.nisn,
       email: user.email,
       nama_lengkap: user.profil.nama,
-      jenis_kelamin: user.profil.jenis_kelamin === "P" ? "Perempuan" : "Laki Laki",
+      jenis_kelamin: user.profil.jenisKelamin === "P" ? "Perempuan" : "Laki Laki",
       kelas: user.profil.kelas,
       jurusan: user.profil.jurusan?.nama || "Jurusan tidak tersedia",
     }));

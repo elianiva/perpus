@@ -13,8 +13,10 @@ export default class Bukus extends BaseSchema {
       table.integer("jumlah").notNullable();
       table.string("deskripsi").notNullable();
       table.string("url_cover").notNullable();
-
+      table.integer("id_rak").unsigned();
       table.timestamps(true, true);
+
+      table.foreign("id_rak").references("id").inTable("rak").onDelete("CASCADE");
     });
   }
 

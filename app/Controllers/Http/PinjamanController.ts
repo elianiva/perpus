@@ -61,11 +61,12 @@ export default class PinjamanController {
   }
 
   public async show({ request }: HttpContextContract) {
-    const { status } = request.qs();
+    let { status } = request.qs();
+    status = parseInt(status);
 
     let pinjaman = await Pinjaman.all();
     if (status) {
-      pinjaman = pinjaman.filter((p) => p.status === parseInt(status));
+      pinjaman = pinjaman.filter((p) => p.status === status);
     }
 
     return {
@@ -151,5 +152,23 @@ export default class PinjamanController {
 
     session.flash({ msg: "Pinjaman berhasil dikembalikan!" });
     return response.redirect("/admin/dashboard/peminjaman");
+  }
+
+  public async destroy({ request, response, session }: HttpContextContract) {
+    const { id: idPinjaman } = await request.validate({
+      schema: schema.create({
+        id: schema.number([rules.required()]),
+      }),
+    });
+
+    const pinjaman = await Pinjaman.find(idPinjaman);
+    if (!pinjaman) {
+      session.flash({ msg: "Pinjaman gagal dihapus" });
+      return response.redirect().back();
+    }
+    await pinjaman.delete();
+
+    session.flash({ msg: "Pinjaman berhasil dihapus" });
+    return response.redirect().back();
   }
 }

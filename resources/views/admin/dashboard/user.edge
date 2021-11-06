@@ -172,6 +172,10 @@
         ],
         columnDefs: [
           {
+            targets: [3],
+            render: (data, type, row, meta) => data ? "Laki Laki" : "Perempuan"
+          },
+          {
             targets: [-1],
             render: (data, type, row, meta) => {
               const id = row.id;

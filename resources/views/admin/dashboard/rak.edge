@@ -7,7 +7,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: currentPage })
+  @!component('components/sidebar', { active: "rak" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua {{ currentPage.split("_").join(" ") }}</h1>
+            <h1 class="m-0 text-capitalize">Semua Rak</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -24,7 +24,7 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">Buku {{ currentPage.split("_").join(" ") }}</li>
+              <li class="breadcrumb-item active text-capitalize">Rak</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -34,7 +34,7 @@
           data-toggle="modal"
           data-target="#modal-add"
         >
-          <b class="text-white text-capitalize">Tambah {{ currentPage.split("_").join(" ") }}</b>
+          <b class="text-white text-capitalize">Tambah Rak</b>
         </button>
         <!-- /.row -->
       </div>
@@ -67,22 +67,14 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Judul</th>
-                      <th>Alasan</th>
-                      <th>Jumlah</th>
-                      <th>Ditambahkan pada</th>
-                      <th>Terakhir kali diperbarui pada</th>
+                      <th>Nama Rak</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody></tbody>
                   <tfoot>
                     <tr>
-                      <th>Judul</th>
-                      <th>Alasan</th>
-                      <th>Jumlah</th>
-                      <th>Ditambahkan pada</th>
-                      <th>Terakhir kali diperbarui pada</th>
+                      <th>Nama Rak</th>
                       <th>Aksi</th>
                     </tr>
                   </tfoot>
@@ -114,9 +106,9 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=DELETE">
+        <form method="POST" action="/api/rak/hapus?_method=DELETE">
           {{ csrfField() }}
-          <input id="id_buku" name="id_buku" type="hidden" />
+          <input id="id_rak" name="id_rak" type="hidden" />
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Hapus</button>
         </form>
@@ -131,41 +123,25 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Perbarui {{ currentPage.split("_").join(" ") }}</h4>
+        <h4 class="modal-title">Perbarui Rak</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{ currentPage }}/edit?_method=PUT">
+      <form method="POST" action="/api/rak/edit?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
-          <input id="id_buku" name="id_buku" type="hidden" />
-          <div class="form-group">
-            <label for="alasan">Alasan</label>
-            <input
-              class="form-control"
-              name="alasan"
-              id="alasan"
-              type="text"
-              autocomplete="off"
-              placeholder="Masukkan alasan"
-              value="{{ flashMessages.get('alasan', '') }}"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="jumlah">Jumlah</label>
-            <input
-              class="form-control"
-              name="jumlah"
-              id="jumlah"
-              type="number"
-              autocomplete="off"
-              placeholder="Masukkan jumlah"
-              value="{{ flashMessages.get('jumlah', '') }}"
-              required
-            />
-          </div>
+          <input id="id_rak" name="id_rak" type="hidden" />
+          <input
+            name="nama_rak"
+            id="input-rak"
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Masukkan nama baru"
+            value="{{ flashMessages.get('nama_rak', '') }}"
+            required
+          />
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
@@ -182,52 +158,25 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Tambah {{ currentPage.split("_").join(" ") }}</h4>
+        <h4 class="modal-title">Tambah Rak</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{ currentPage }}/tambah">
+      <form method="POST" action="/api/rak/tambah">
         {{ csrfField() }}
         <div class="modal-body">
-          <div class="form-group">
-            <label for="id_buku">Judul Buku</label>
-            <select
-              name="id_buku"
-              id="id_buku"
-              class="form-control select2"
-            >
-              @each(b in data.buku)
-                <option value="{{ b.id }}">{{ b.judul }}</option>
-              @end
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="alasan">Alasan</label>
-            <input
-              class="form-control"
-              name="alasan"
-              id="alasan"
-              type="text"
-              autocomplete="off"
-              placeholder="Masukkan alasan"
-              value="{{ flashMessages.get('alasan', '') }}"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="jumlah">Jumlah</label>
-            <input
-              class="form-control"
-              name="jumlah"
-              id="jumlah"
-              type="number"
-              autocomplete="off"
-              placeholder="Masukkan jumlah"
-              value="{{ flashMessages.get('jumlah', '') }}"
-              required
-            />
-          </div>
+          <input id="id_rak" name="id_rak" type="hidden" />
+          <input
+            name="nama_rak"
+            id="input-rak"
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Masukkan nama rak"
+            value="{{ flashMessages.get('nama_rak', '') }}"
+            required
+          />
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
@@ -249,9 +198,6 @@
   href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
 />
 <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
-<!-- Select2 -->
-<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
 <style>
 .pull-left{ float:left !important; margin-bottom: 1rem !important; }
@@ -271,43 +217,28 @@
 <script src="/plugins/pdfmake/pdfmake.min.js"></script>
 <script src="/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<!-- Select2 -->
-<script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
-  $(".select2").select2({
-    theme: 'bootstrap4'
-  });
-
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{ currentPage }}}",
+        ajax: "/api/rak",
         columns: [
-          { data: "judul" },
-          { data: "alasan" },
-          { data: "jumlah" },
-          { data: "created_at", className: "none" },
-          { data: "updated_at", className: "none" },
+          { data: "no_rak" },
           { data: null },
         ],
         columnDefs: [
           {
-            targets: [-2, -3],
-            render: (data) => (new Date(data)).toLocaleDateString("id-ID", {
-              day: 'numeric', month: 'long', year: 'numeric'
-            })
-          },
-          {
             targets: [-1],
             render: (data, type, row, meta) => {
+              const id = row.id;
               return `
 <button
   type="button"
   class="btn btn-danger"
   data-toggle="modal"
   data-target="#modal-confirm"
-  data-judul="${row.judul}"
+  data-rak="${row.no_rak}"
   data-id="${row.id}"
 >
   <i class="fas fa-trash"></i>
@@ -317,9 +248,8 @@
   class="btn btn-primary"
   data-toggle="modal"
   data-target="#modal-edit"
+  data-rak="${row.no_rak}"
   data-id="${row.id}"
-  data-alasan="${row.alasan}"
-  data-jumlah="${row.jumlah}"
 >
   <i class="fas fa-edit"></i>
 </button>
@@ -331,7 +261,7 @@
         lengthChange: false,
         ordering: true,
         info: true,
-        autoWidth: false,
+        autoWidth: true,
         responsive: true,
         deferRender: true,
         dom: '<"pull-left"f><"pull-right"B>tip',
@@ -356,22 +286,19 @@
       });
 
     $("#modal-confirm").on("show.bs.modal", function (event) {
-      const judul = $(event.relatedTarget).data("judul");
+      const rak = $(event.relatedTarget).data("rak");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data {{ currentPage.split("_").join(" ") }} berjudul ${judul}?</p>`);
-      $(this).find("#id_buku").val(id);
+        .html(`<p class="h5">Yakin hapus rak ${rak}?</p>`);
+      $(this).find("#id_rak").val(id);
     });
 
     $("#modal-edit").on("show.bs.modal", function (event) {
+      const rak = $(event.relatedTarget).data("rak");
       const id = $(event.relatedTarget).data("id");
-      const alasan = $(event.relatedTarget).data("alasan");
-      const jumlah = $(event.relatedTarget).data("jumlah");
-
-      $(this).find("#id_buku").val(id);
-      $(this).find("#alasan").val(alasan);
-      $(this).find("#jumlah").val(jumlah);
+      $(this).find("#input-rak").val(rak);
+      $(this).find("#id_rak").val(id);
     });
   });
 </script>

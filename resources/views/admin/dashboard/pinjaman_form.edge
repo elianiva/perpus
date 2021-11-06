@@ -62,7 +62,6 @@
                         id="judul-buku"
                         class="form-control select2"
                       >
-                        <option selected>Buku</option>
                         @each(buku in data.semuaBuku)
                           <option
                             value="{{ buku?.id }}"
@@ -80,7 +79,6 @@
                         id="nama-anggota"
                         class="form-control select2"
                       >
-                        <option selected>Nama Anggota</option>
                         @each(anggota in data.semuaAnggota)
                           <option
                             value="{{ anggota?.id }}"

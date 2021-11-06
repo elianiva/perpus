@@ -16,7 +16,7 @@ export default class Profil extends BaseModel {
   public nama: string;
 
   @column()
-  public jenis_kelamin: string;
+  public jenisKelamin: number;
 
   @column()
   public kelas: number;

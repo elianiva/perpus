@@ -16,6 +16,8 @@ export default class BukuMasukController {
             judul: bk.buku.judul,
             alasan: bk.alasan,
             jumlah: bk.jumlah,
+            created_at: bk.createdAt,
+            updated_at: bk.updatedAt,
           };
         })
       ),
@@ -23,14 +25,14 @@ export default class BukuMasukController {
   }
 
   public static async add({ id_buku, jumlah, alasan }) {
-    const bukuKeluar = await BukuMasuk.create({ idBuku: id_buku, alasan, jumlah });
-    await bukuKeluar.load("buku");
-    bukuKeluar.buku.jumlah = bukuKeluar.buku.jumlah + jumlah;
+    const bukuMasuk = await BukuMasuk.create({ idBuku: id_buku, alasan, jumlah });
+    await bukuMasuk.load("buku");
+    bukuMasuk.buku.jumlah = bukuMasuk.buku.jumlah + jumlah;
 
     // prevents negative value
-    if (bukuKeluar.buku.jumlah < 0) bukuKeluar.buku.jumlah = 0;
+    if (bukuMasuk.buku.jumlah < 0) bukuMasuk.buku.jumlah = 0;
 
-    await bukuKeluar.buku.save();
+    await bukuMasuk.buku.save();
   }
 
   public async create({ response, request, session }: HttpContextContract) {

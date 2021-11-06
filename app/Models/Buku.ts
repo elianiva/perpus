@@ -1,8 +1,18 @@
 import { DateTime } from "luxon";
-import { BaseModel, column, HasMany, hasMany, manyToMany, ManyToMany } from "@ioc:Adonis/Lucid/Orm";
+import {
+  BaseModel,
+  BelongsTo,
+  belongsTo,
+  column,
+  HasMany,
+  hasMany,
+  manyToMany,
+  ManyToMany,
+} from "@ioc:Adonis/Lucid/Orm";
 import BukuMasuk from "./BukuMasuk";
 import BukuKeluar from "./BukuKeluar";
 import Pinjaman from "./Pinjaman";
+import Rak from "./Rak";
 
 export default class Buku extends BaseModel {
   public static table = "buku";
@@ -29,7 +39,13 @@ export default class Buku extends BaseModel {
   public deskripsi: string;
 
   @column()
-  public url_cover: string;
+  public urlCover: string;
+
+  @column()
+  public idRak: number;
+
+  @belongsTo(() => Rak, { foreignKey: "idRak" })
+  public rak: BelongsTo<typeof Rak>;
 
   @hasMany(() => BukuMasuk, { foreignKey: "idBuku" })
   public bukuMasuk: HasMany<typeof BukuMasuk>;

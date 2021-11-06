@@ -50,7 +50,7 @@ export default class AnggotaController {
         pinjaman.map(async (p) => {
           await p.load("buku");
           /* eslint-disable-next-line */
-          const { isbn, judul, pengarang, penerbit, deskripsi, url_cover } = p.buku[0];
+          const { isbn, judul, pengarang, penerbit, deskripsi, urlCover } = p.buku[0];
 
           return {
             isbn,
@@ -58,7 +58,7 @@ export default class AnggotaController {
             pengarang,
             penerbit,
             deskripsi,
-            url_cover,
+            url_cover: urlCover,
             tgl_kembali: p.tglKembali,
             status: p.status,
           };

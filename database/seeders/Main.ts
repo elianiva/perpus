@@ -4,6 +4,7 @@ import {
   BukuKeluarFactory,
   BukuMasukFactory,
   JurusanFactory,
+  RakFactory,
   PinjamanFactory,
   RoleFactory,
   UserFactory,
@@ -28,10 +29,27 @@ export default class UserSeeder extends BaseSeeder {
       { id: 2, nama: "ANGGOTA" },
     ]).createMany(2);
 
-    const AMOUNT = 30;
+    const noRak = Array(45)
+      .fill(0)
+      .map(() => ["A", "B", "C"])
+      .map((codes, idx) =>
+        codes.map((code) => ({ noRak: idx + 1 < 10 ? `0${idx + 1}${code}` : `${idx + 1}${code}` }))
+      )
+      .flat();
+    const rak = await RakFactory.merge(noRak).createMany(45);
+
+    const AMOUNT = 60;
     const users = await UserFactory.with("profil").createMany(AMOUNT);
 
-    const books = await BukuFactory.merge({ url_cover: "placeholder.png" }).createMany(AMOUNT);
+    const books = await BukuFactory.merge(
+      Array(AMOUNT)
+        .fill(0)
+        .map(() => ({
+          urlCover: "placeholder.png",
+          idRak: rak[Math.floor(Math.random() * 45)].id,
+        }))
+    ).createMany(AMOUNT);
+
     const pinjaman = await PinjamanFactory.merge(
       users.map(({ id }) => ({ idUser: id }))
     ).createMany(AMOUNT);
