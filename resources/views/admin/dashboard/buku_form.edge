@@ -84,7 +84,7 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <div class="form-group">
                           <label for="pengarang">Pengarang</label>
                           <input
@@ -101,7 +101,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <div class="form-group">
                           <label for="penerbit">Penerbit</label>
                           <input
@@ -116,6 +116,20 @@
                           <div class="invalid-feedback">
                             {{ flashMessages.get('errors.penerbit')?.[0] }}
                           </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="id_rak">Nomor Rak</label>
+                          <select
+                            name="id_rak"
+                            id="id_rak"
+                            class="form-control select2"
+                          >
+                            @each(r in data.rak)
+                              <option value="{{ r.id }}">{{ r.noRak }}</option>
+                            @end
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -166,13 +180,25 @@
 </div>
 @end
 
+@section('stylesheets')
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+@end
+
 @section('custom_scripts')
 <!-- bs-custom-file-input -->
 <script src="/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
   $(function () {
     bsCustomFileInput.init();
+  });
+
+  $(".select2").select2({
+    theme: 'bootstrap4'
   });
 </script>
 @end

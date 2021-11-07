@@ -3,6 +3,7 @@ import Database from "@ioc:Adonis/Lucid/Database";
 import Buku from "App/Models/Buku";
 import Jurusan from "App/Models/Jurusan";
 import Pinjaman from "App/Models/Pinjaman";
+import Rak from "App/Models/Rak";
 import User from "App/Models/User";
 
 export default class DashboardController {
@@ -127,6 +128,7 @@ export default class DashboardController {
 
   public async bukuForm({ request, response, view, logger, auth }: HttpContextContract) {
     const { isEditing, id } = request.qs();
+    const rak = await Rak.all();
 
     await auth.user?.load("profil");
 
@@ -139,6 +141,7 @@ export default class DashboardController {
 
       return view.render("admin/dashboard/buku_form", {
         currentUserName: auth.user?.profil.nama,
+        rak: rak.map((r) => r.noRak),
         isEditing,
         data: {
           id: buku.id,
@@ -147,12 +150,16 @@ export default class DashboardController {
           pengarang: buku.pengarang,
           penerbit: buku.penerbit,
           deskripsi: buku.deskripsi,
+          rak: rak.map(({ id, noRak }) => ({ id, noRak })),
         },
       });
     }
 
     return view.render("admin/dashboard/buku_form", {
       currentUserName: auth.user?.profil.nama,
+      data: {
+        rak: rak.map(({ id, noRak }) => ({ id, noRak })),
+      },
     });
   }
 
