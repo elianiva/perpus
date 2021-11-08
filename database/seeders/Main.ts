@@ -6,7 +6,6 @@ import {
   JurusanFactory,
   RakFactory,
   PinjamanFactory,
-  RoleFactory,
   UserFactory,
 } from "Database/factories";
 import { data } from "../dummy/fake.json";
@@ -28,11 +27,6 @@ export default class UserSeeder extends BaseSeeder {
       { nama: "Multimedia" },
     ]).createMany(9);
 
-    await RoleFactory.merge([
-      { id: 1, nama: "ADMIN" },
-      { id: 2, nama: "ANGGOTA" },
-    ]).createMany(2);
-
     const noRak = Array(45)
       .fill(0)
       .map(() => ["A", "B", "C"])
@@ -42,7 +36,9 @@ export default class UserSeeder extends BaseSeeder {
       .flat();
     const rak = await RakFactory.merge(noRak).createMany(JUMLAH_RAK);
 
-    const users = await UserFactory.with("profil").createMany(JUMLAH_BUKU);
+    const users = await UserFactory.with("profil")
+      .merge([{ role: 1 }, { role: 1 }, { role: 1 }, { role: 1 }, { role: 1 }])
+      .createMany(30);
 
     const books = await BukuFactory.merge(
       data.map(
@@ -78,8 +74,8 @@ export default class UserSeeder extends BaseSeeder {
     // custom users
     await UserFactory.with("profil")
       .merge([
-        { email: "admin@asdf.com", password: "admin1234", idRole: 1 },
-        { email: "user@asdf.com", password: "user1234", idRole: 2 },
+        { email: "admin@asdf.com", password: "admin1234", role: 1 },
+        { email: "user@asdf.com", password: "user1234", role: 0 },
       ])
       .createMany(2);
   }

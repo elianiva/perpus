@@ -26,7 +26,7 @@ export default class BukuController {
         const json = book.toJSON();
         return {
           ...json,
-          urlCover: json.urlCover.startsWith("http") ? json.urlCover : `/img/${json.urlCover}`,
+          url_cover: json.url_cover.startsWith("http") ? json.url_cover : `/img/${json.urlCover}`,
         } as ModelObject;
       })
     );

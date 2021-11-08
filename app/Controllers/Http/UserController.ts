@@ -8,7 +8,7 @@ const base = {
   nama_lengkap: schema.string({ trim: true }, [rules.required()]),
   kelas: schema.number([rules.required()]),
   jurusan: schema.number([rules.required()]),
-  jenis_kelamin: schema.string({ trim: true }, [rules.required()]),
+  jenis_kelamin: schema.number([rules.required()]),
   role: schema.number([rules.required()]),
 };
 
@@ -33,9 +33,9 @@ export default class UserController {
       email,
       kelas,
       jurusan: idJurusan,
-      jenis_kelamin,
+      jenis_kelamin: jenisKelamin,
       password,
-      role: idRole,
+      role,
     } = await request.validate({
       schema: userSchema,
     });
@@ -43,10 +43,10 @@ export default class UserController {
     const user = await User.create({
       email,
       password,
-      idRole,
+      role,
     });
 
-    await user.related("profil").create({ nama, jenis_kelamin, nisn, kelas, idJurusan });
+    await user.related("profil").create({ nama, jenisKelamin, nisn, kelas, idJurusan });
 
     return user;
   }
@@ -95,7 +95,7 @@ export default class UserController {
 
   public async show({ response, request }: HttpContextContract) {
     const { type } = request.params();
-    const allUsers = await User.query().where("id_role", type === "admin" ? 1 : 2);
+    const allUsers = await User.query().where("role", type === "admin" ? 1 : 0);
     await Promise.all(
       allUsers.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
     );
@@ -105,10 +105,13 @@ export default class UserController {
       nisn: user.profil.nisn,
       email: user.email,
       nama_lengkap: user.profil.nama,
-      jenis_kelamin: user.profil.jenisKelamin === "P" ? "Perempuan" : "Laki Laki",
+      jenis_kelamin: user.profil.jenisKelamin === 0 ? "Perempuan" : "Laki Laki",
       kelas: user.profil.kelas,
       jurusan: user.profil.jurusan?.nama || "Jurusan tidak tersedia",
+      created_at: user.createdAt,
+      updated_at: user.updatedAt,
     }));
+
     return response.send({ data });
   }
 

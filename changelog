@@ -1,0 +1,4 @@
+ - jenis_kelamin / role / status => string -> boolean
+ - show created_at and updated_at on the table
+ - refactor Buku{Keluar,Masuk} controller
+ - add rak

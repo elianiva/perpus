@@ -6,7 +6,6 @@ import Jurusan from "App/Models/Jurusan";
 import Rak from "App/Models/Rak";
 import Pinjaman from "App/Models/Pinjaman";
 import Profil from "App/Models/Profil";
-import Role from "App/Models/Role";
 import User from "App/Models/User";
 import { DateTime } from "luxon";
 
@@ -16,10 +15,6 @@ export const JurusanFactory = Factory.define(Jurusan, () => ({
 
 export const RakFactory = Factory.define(Rak, () => ({
   noRak: "",
-})).build();
-
-export const RoleFactory = Factory.define(Role, () => ({
-  nama: "",
 })).build();
 
 export const ProfilFactory = Factory.define(Profil, ({ faker }) => ({
@@ -33,7 +28,6 @@ export const ProfilFactory = Factory.define(Profil, ({ faker }) => ({
 export const UserFactory = Factory.define(User, ({ faker }) => ({
   email: faker.internet.email(),
   password: "foobar",
-  idRole: faker.datatype.number({ min: 1, max: 2 }),
 }))
   .relation("profil", () => ProfilFactory)
   .build();

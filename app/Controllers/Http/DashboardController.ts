@@ -10,9 +10,9 @@ export default class DashboardController {
   public async index({ view, auth }: HttpContextContract) {
     /* prettier-ignore */
     const adminAmount = await Database.from("user")
-        .where("id_role", "=", 1)
+        .where("role", "=", 1)
         .count("* as total");
-    const membersAmount = await Database.from("user").where("id_role", "=", 2).count("* as total");
+    const membersAmount = await Database.from("user").where("role", "=", 0).count("* as total");
     const booksAmount = await Database.from("buku").count("* as total");
     const inputBooksAmount = await Database.from("buku_masuk").count("* as total");
     const outputBooksAmount = await Database.from("buku_masuk").count("* as total");

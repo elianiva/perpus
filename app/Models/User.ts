@@ -2,8 +2,6 @@ import Hash from "@ioc:Adonis/Core/Hash";
 import {
   BaseModel,
   beforeSave,
-  belongsTo,
-  BelongsTo,
   column,
   HasMany,
   hasMany,
@@ -13,7 +11,6 @@ import {
 import { DateTime } from "luxon";
 import Pinjaman from "./Pinjaman";
 import Profil from "./Profil";
-import Role from "./Role";
 
 export default class User extends BaseModel {
   public static table = "user";
@@ -28,12 +25,7 @@ export default class User extends BaseModel {
   public password: string;
 
   @column()
-  public idRole: number;
-
-  @belongsTo(() => Role, {
-    foreignKey: "idRole",
-  })
-  public role: BelongsTo<typeof Role>;
+  public role: number;
 
   @hasOne(() => Profil, { foreignKey: "idUser" })
   public profil: HasOne<typeof Profil>;

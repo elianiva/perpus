@@ -71,6 +71,8 @@
                       <th>Jenis Kelamin</th>
                       <th>Kelas</th>
                       <th>Jurusan</th>
+                      <th>Ditambahkan pada</th>
+                      <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -83,6 +85,8 @@
                       <th>Jenis Kelamin</th>
                       <th>Kelas</th>
                       <th>Jurusan</th>
+                      <th>Ditambahkan pada</th>
+                      <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
                     </tr>
                   </tfoot>
@@ -168,12 +172,20 @@
           { data: "jenis_kelamin" },
           { data: "kelas" },
           { data: "jurusan" },
+          { data: "created_at", className: "none" },
+          { data: "updated_at", className: "none" },
           { data: null },
         ],
         columnDefs: [
           {
             targets: [3],
             render: (data, type, row, meta) => data ? "Laki Laki" : "Perempuan"
+          },
+          {
+            targets: [-2, -3],
+            render: (data) => (new Date(data)).toLocaleDateString("id-ID", {
+              day: 'numeric', month: 'long', year: 'numeric'
+            })
           },
           {
             targets: [-1],

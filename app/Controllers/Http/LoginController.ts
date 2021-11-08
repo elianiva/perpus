@@ -43,7 +43,7 @@ export default class LoginController {
     await user.load("profil");
     await auth.use("web").login(user);
 
-    if (user.idRole === 1) {
+    if (user.role === 1) {
       return response.redirect("/admin/dashboard");
     }
 
