@@ -6,13 +6,17 @@ export default class AnggotaController {
   public async index({ view, auth }: HttpContextContract) {
     const books = await Buku.all();
     const pinjaman = await Pinjaman.query().where("id_user", "=", auth.user!.id);
+    const sortedBooks = books
+      .filter((book) => book.jumlah > 0)
+      .map((b) => b.toJSON())
+      .sort((a, b) => (a.judul < b.judul ? -1 : 1));
 
     await auth.user!.load("profil");
     return view.render("anggota/index", {
       currentUserName: auth.user!.profil.nama,
       currentUserId: auth.user!.id,
       data: {
-        buku: books.filter((book) => book.jumlah > 0),
+        buku: sortedBooks,
         pinjaman: await Promise.all(
           pinjaman.map(async (p) => {
             await p.load("buku");
@@ -25,18 +29,31 @@ export default class AnggotaController {
 
   public async pinjamanView({ auth, view }: HttpContextContract) {
     const pinjaman = await Pinjaman.query().where("id_user", "=", auth.user!.id);
+    const bukuPinjaman = await Promise.all(
+      pinjaman.map(async (p) => {
+        await p.load("buku");
+        return p.toJSON();
+      })
+    );
+    const terlambat = bukuPinjaman.filter((b) => {
+      const returnDate = new Date(b.tgl_kembali);
+      const now = new Date(Date.now());
+
+      // normalise to midnight
+      returnDate.setHours(0, 0, 0, 0);
+      now.setHours(0, 0, 0, 0);
+
+      // NOTE(elianiva): set this to `>` to test the error message
+      return returnDate < now;
+    });
 
     await auth.user!.load("profil");
     return view.render("anggota/pinjaman", {
       currentUserName: auth.user!.profil.nama,
       currentUserId: auth.user!.id,
       data: {
-        pinjaman: await Promise.all(
-          pinjaman.map(async (p) => {
-            await p.load("buku");
-            return p.toJSON();
-          })
-        ),
+        pinjaman: bukuPinjaman,
+        terlambat: terlambat,
       },
     });
   }

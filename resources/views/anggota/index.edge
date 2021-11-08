@@ -7,41 +7,43 @@
 
 <div class="container pt-4">
   <h2 class="text-center mb-4">Semua Buku</h2>
-  <div class="card">
-    <div class="card-body">
-      <table id="table" class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>ISBN</th>
-            <th data-priotity="1">Judul</th>
-            <th>Nama Pengarang</th>
-            <th>Stok</th>
-            <th>Penerbit</th>
-            <th>Deskripsi</th>
-            <th>Cover</th>
-            <th>Pinjam</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr>
-            <th>ISBN</th>
-            <th data-priotity="1">Judul</th>
-            <th>Nama Pengarang</th>
-            <th>Stok</th>
-            <th>Penerbit</th>
-            <th>Deskripsi</th>
-            <th>Cover</th>
-            <th>Pinjam</th>
-          </tr>
-        </tfoot>
-      </table>
+  @if(msg)
+    <div class="alert alert-light alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h5><i class="icon fas fa-check"></i> {{ msg }}</h5>
     </div>
+  @endif
+  <div class="books" style="gap: 1rem;">
+    @each(d in data.buku)
+    <div
+      class="book-card card"
+      style="width: 100%"
+      data-id="{{ d.id }}"
+      data-judul="{{ d.judul }}"
+      data-deskripsi="{{ d.deskripsi }}"
+      data-img="{{ d.url_cover }}"
+      data-penerbit="{{ d.penerbit }}"
+      data-pengarang="{{ d.pengarang }}"
+      data-toggle="modal"
+      data-target="#modal-detail"
+    >
+      <img
+        class="book-img card-img-top"
+        src="{{ d.url_cover }}"
+        alt="{{ d.judul }}"
+      />
+      <div class="card-body">
+        <h5 class="card-title d-block">
+          <b>{{ d.judul }}</b>
+        </h5>
+      </div>
+    </div>
+    @end
   </div>
 </div>
 
-<div class="modal fade" id="modal-pinjam">
-  <div class="modal-dialog">
+<div class="modal fade" id="modal-pinjam" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Pinjam Buku</h4>
@@ -85,32 +87,60 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><b>Detail Buku</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex">
+          <img class="mr-4" id="cover-buku" src="" />
+          <div>
+            <h3 class="modal-title" id="judul-buku"><b>Judul Buku</b></h3>
+            <b>Deskripsi Singkat:</b><p id="deskripsi-buku"></p>
+            <b>Penerbit:</b><p id="penerbit-buku"></p>
+            <b>Pengarang:</b><p id="pengarang-buku"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >
+          Kembali
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#modal-pinjam"
+        >
+          Pinjam
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 @end
 
 @section('stylesheets')
-<!-- DataTables -->
-<link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
-<link
-  rel="stylesheet"
-  href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
-/>
 <!-- daterange picker -->
 <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
 <!-- Select2 -->
 <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="/css/anggota.css">
 @end
 
 @section('custom_scripts')
-<!-- DataTables  & Plugins -->
-<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/plugins/jszip/jszip.min.js"></script>
-<script src="/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="/plugins/pdfmake/vfs_fonts.js"></script>
-
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/plugins/select2/js/select2.full.min.js"></script>
 
@@ -120,70 +150,36 @@
       // disable previous date
       isInvalidDate: (e) => e._d < Date.now()
     });
+
     $(".select2").select2({
       theme: 'bootstrap4'
     });
 
-    const table = $("#table")
-      .DataTable({
-        ajax: "/api/buku?noEmpty=true",
-        columns: [
-          { data: "isbn" },
-          { data: "judul" },
-          { data: "pengarang" },
-          { data: "jumlah" },
-          { data: "penerbit" },
-          { data: "deskripsi", className: "none" },
-          { data: "url_cover", className: "none" },
-          { data: null },
-        ],
-        columnDefs: [
-          {
-            targets: [-1],
-            render: (_data, _type, row) => {
-              const id = row.id;
-              return `
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-toggle="modal"
-    data-target="#modal-pinjam"
-    data-id-buku="${row.id}"
-  >
-    <i class="fas fa-plus"></i>
-  </button>
-  `;
-            },
-          },
-          {
-            targets: [-2],
-            render: (data, _type, row) => `
-  <a href="/img/buku/${data}" data-toggle="lightbox" data-title="${row.judul}">
-  <img
-    width="80"
-    height="120"
-    src="/img/buku/${data}"
-    alt="cover buku"
-  />
-  </a>`,
-          },
-        ],
-        paging: true,
-        lengthChange: false,
-        ordering: true,
-        info: true,
-        autoWidth: false,
-        responsive: true,
-        deferRender: true,
-      });
+    $("#modal-detail").on("show.bs.modal", function (event) {
+      const id = $(event.relatedTarget).data("id");
+      const judul = $(event.relatedTarget).data("judul");
+      const desc = $(event.relatedTarget).data("deskripsi");
+      const img = $(event.relatedTarget).data("img");
+      const penerbit = $(event.relatedTarget).data("penerbit");
+      const pengarang = $(event.relatedTarget).data("pengarang");
+      $(this).find("#judul-buku").html(`<b>${judul}</b>`);
+      $(this).find("#deskripsi-buku").text(desc);
+      $(this).find("#cover-buku").attr("src", img);
+      $(this).find("#penerbit-buku").text(penerbit);
+      $(this).find("#pengarang-buku").text(pengarang);
+      $("#modal-pinjam").find("#id_buku").val(id);
+    });
 
     $("#modal-pinjam").on("show.bs.modal", function (event) {
-      const idBuku = $(event.relatedTarget).data("id-buku");
+      $("#modal-detail").modal("hide");
       const idAnggota = "{{{ currentUserId }}}";
-      console.log(idAnggota);
-      $(this).find("#id_buku").val(idBuku);
       $(this).find("#id_anggota").val(idAnggota);
+      console.log($(this).find("#id_buku").val());
     });
+
+    $("#modal-pinjam").on("shown.bs.modal", function (event) {
+      $(document.body).addClass('modal-open')
+    })
   })
 </script>
 @end

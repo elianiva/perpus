@@ -142,7 +142,10 @@
 <script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
-  $("#durasi").daterangepicker();
+  $("#durasi").daterangepicker({
+    // disable previous date
+    isInvalidDate: (e) => e._d < Date.now()
+  });
   $(".select2").select2({
     theme: 'bootstrap4'
   });

@@ -9,9 +9,13 @@ import {
   RoleFactory,
   UserFactory,
 } from "Database/factories";
+import { data } from "../dummy/fake.json";
 
 export default class UserSeeder extends BaseSeeder {
   public async run() {
+    const JUMLAH_BUKU = 50;
+    const JUMLAH_RAK = 45;
+
     await JurusanFactory.merge([
       { nama: "Akomodasi Perhotelan" },
       { nama: "Usaha Perjalanan Wisata" },
@@ -36,23 +40,32 @@ export default class UserSeeder extends BaseSeeder {
         codes.map((code) => ({ noRak: idx + 1 < 10 ? `0${idx + 1}${code}` : `${idx + 1}${code}` }))
       )
       .flat();
-    const rak = await RakFactory.merge(noRak).createMany(45);
+    const rak = await RakFactory.merge(noRak).createMany(JUMLAH_RAK);
 
-    const AMOUNT = 60;
-    const users = await UserFactory.with("profil").createMany(AMOUNT);
+    const users = await UserFactory.with("profil").createMany(JUMLAH_BUKU);
 
     const books = await BukuFactory.merge(
-      Array(AMOUNT)
-        .fill(0)
-        .map(() => ({
-          urlCover: "placeholder.png",
-          idRak: rak[Math.floor(Math.random() * 45)].id,
-        }))
-    ).createMany(AMOUNT);
+      data.map(
+        ({
+          judul = "Unknown",
+          pengarang = "Unknown",
+          penerbit = "Unknown",
+          cover_url = "Unknown",
+          deskripsi = "Unknown",
+        }) => ({
+          judul,
+          pengarang,
+          penerbit,
+          deskripsi,
+          urlCover: cover_url,
+          idRak: rak[Math.floor(Math.random() * JUMLAH_RAK)].id,
+        })
+      )
+    ).createMany(JUMLAH_BUKU);
 
     const pinjaman = await PinjamanFactory.merge(
       users.map(({ id }) => ({ idUser: id }))
-    ).createMany(AMOUNT);
+    ).createMany(JUMLAH_BUKU);
 
     await Promise.all(
       books.map(async (book, idx) => {

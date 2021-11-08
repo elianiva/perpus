@@ -1,0 +1,23 @@
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+}
+
+.book-img {
+  height: 15rem;
+  object-fit: cover;
+  object-position: top;
+}
+
+.book-card {
+  cursor: pointer;
+}
+
+#cover-buku {
+  width: 12rem;
+  height: auto;
+}
+
+body.modal-open {
+    overflow: hidden !important;
+}

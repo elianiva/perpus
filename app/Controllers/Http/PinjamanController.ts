@@ -56,8 +56,8 @@ export default class PinjamanController {
 
     await pinjaman.related("buku").attach([buku!.id]);
 
-    session.flash({ msg: "Berhasil menambahkan pinjaman!" });
-    return response.redirect("/admin/dashboard/peminjaman");
+    session.flash({ msg: "Buku berhasil dipinjam!" });
+    return response.redirect().back();
   }
 
   public async show({ request }: HttpContextContract) {

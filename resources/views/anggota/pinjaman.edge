@@ -7,6 +7,14 @@
 
 <div class="container pt-4">
   <h2 class="text-center mb-4">Semua Buku Pinjaman Saya</h2>
+  @if(data.terlambat)
+    @each(l in data.terlambat)
+      <div class="alert alert-danger">
+        <h5><i class="icon fas fa-ban"></i> Terlambat {{ Math.ceil(Math.abs(new Date(Date.now()) - new Date(l.tgl_kembali)) / (1000 * 60 * 60 * 24)) }} Hari</h5>
+        <p>Kamu terlambat mengembalikan buku berjudul {{ l.buku[0].judul }}. Harap segera kembalikan ke perpustakaan.</p>
+      </div>
+    @end
+  @end
   <div class="card">
     <div class="card-body">
       <table id="table" class="table table-bordered table-striped">
@@ -116,7 +124,11 @@
 
 <script>
   $(function() {
-    $("#durasi").daterangepicker();
+    $("#durasi").daterangepicker({
+      // disable previous date
+      isInvalidDate: (e) => e._d < Date.now()
+    });
+
     $(".select2").select2({
       theme: 'bootstrap4'
     });
@@ -152,11 +164,11 @@
           {
             targets: [-3],
             render: (data, _type, row) => `
-  <a href="/img/buku/${data}" data-toggle="lightbox" data-title="${row.judul}">
+  <a href="${data}" data-toggle="lightbox" data-title="${row.judul}">
   <img
     width="80"
     height="120"
-    src="/img/buku/${data}"
+    src="${data}"
     alt="cover buku"
   />
   </a>`,

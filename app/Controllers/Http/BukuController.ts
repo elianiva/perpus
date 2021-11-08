@@ -3,6 +3,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import { unlink } from "fs/promises";
 import Buku from "App/Models/Buku";
+import { ModelObject } from "@ioc:Adonis/Lucid/Orm";
 
 const bookSchema = schema.create({
   isbn: schema.string({ trim: true }, [rules.required(), rules.maxLength(13)]),
@@ -22,7 +23,11 @@ export default class BukuController {
         await Buku.all()
       ).map(async (book) => {
         await book.load("rak");
-        return book.toJSON();
+        const json = book.toJSON();
+        return {
+          ...json,
+          urlCover: json.urlCover.startsWith("http") ? json.urlCover : `/img/${json.urlCover}`,
+        } as ModelObject;
       })
     );
 

@@ -225,11 +225,11 @@
           {
             targets: [-2],
             render: (data, _type, row) => `
-<a href="/img/buku/${data}" data-toggle="lightbox" data-title="${row.judul}">
+<a href="${data}" data-toggle="lightbox" data-title="${row.judul}">
   <img
     width="80"
     height="120"
-    src="/img/buku/${data}"
+    src="${data}"
     alt="cover buku"
   />
 </a>`,

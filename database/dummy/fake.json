@@ -1,0 +1,704 @@
+{
+  "data": [
+    {
+      "judul": "Contemporary Abstract Algebra",
+      "deskripsi": "A book about Abstract Algebra.",
+      "pengarang": "Joseph A. Gallian",
+      "penerbit": "Cengage Publishing",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Criminology",
+      "deskripsi": "A book about Criminology.",
+      "pengarang": "Larry J. Siegel",
+      "penerbit": "Wadsworth Pub. Co.",
+      "cover_url": "https://covers.openlibrary.org/b/id/364281-M.jpg"
+    },
+    {
+      "judul": "The logic of American politics",
+      "deskripsi": "A book about Politics and government.",
+      "pengarang": "Samuel Kernell",
+      "penerbit": "CQ Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/4838048-M.jpg"
+    },
+    {
+      "judul": "College physics",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Randall Dewey Knight",
+      "penerbit": "Addison-Wesley Longman, Incorporated",
+      "cover_url": "https://covers.openlibrary.org/b/id/5375397-M.jpg"
+    },
+    {
+      "judul": "The music kit",
+      "deskripsi": "A book about Music theory.",
+      "pengarang": "Tom Manoff",
+      "penerbit": "Norton",
+      "cover_url": "https://covers.openlibrary.org/b/id/252833-M.jpg"
+    },
+    {
+      "judul": "Active physics",
+      "deskripsi": "A book about Study and teaching (Secondary).",
+      "pengarang": "Arthur Eisenkraft",
+      "penerbit": "It's About Time",
+      "cover_url": "https://covers.openlibrary.org/b/id/6724433-M.jpg"
+    },
+    {
+      "judul": "Physical chemistry",
+      "deskripsi": "A book about Chemistry, Physical and theoretical.",
+      "pengarang": "Robert A. Alberty",
+      "penerbit": "Wiley",
+      "cover_url": "https://covers.openlibrary.org/b/id/3963744-M.jpg"
+    },
+    {
+      "judul": "Essentials of statistics for scientists and technologists",
+      "deskripsi": "A book about Mathematical statistics.",
+      "pengarang": "Cornelius Mack",
+      "penerbit": "Heinemann",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Mathematical statistics",
+      "deskripsi": "A book about Mathematical statistics.",
+      "pengarang": "Peter J. Bickel",
+      "penerbit": "Holden-Day",
+      "cover_url": "https://covers.openlibrary.org/b/id/1114313-M.jpg"
+    },
+    {
+      "judul": "Keeping the Republic",
+      "deskripsi": "A book about United states, politics and government.",
+      "pengarang": "Christine Barbour",
+      "penerbit": "CQ Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/8894539-M.jpg"
+    },
+    {
+      "judul": "Organic and Biological Chemistry",
+      "deskripsi": "A book about Organic Chemistry.",
+      "pengarang": "H. Stephen Stoker",
+      "penerbit": "Houghton Mifflin Company",
+      "cover_url": "https://covers.openlibrary.org/b/id/8014643-M.jpg"
+    },
+    {
+      "judul": "Physics for poets",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Robert H. March",
+      "penerbit": "Contemporary Books",
+      "cover_url": "https://covers.openlibrary.org/b/id/3808733-M.jpg"
+    },
+    {
+      "judul": "Basic technical mathematics with calculus",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Allyn J. Washington",
+      "penerbit": "Pearson/Prentice Hall",
+      "cover_url": "https://covers.openlibrary.org/b/id/1141828-M.jpg"
+    },
+    {
+      "judul": "About teaching mathematics",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Marilyn Burns",
+      "penerbit": "Marilyn Burns Education Associates",
+      "cover_url": "https://covers.openlibrary.org/b/id/1681963-M.jpg"
+    },
+    {
+      "judul": "Applied psychology in personnel management",
+      "deskripsi": "A book about Industrial Psychology.",
+      "pengarang": "Wayne F. Cascio",
+      "penerbit": "Reston Pub. Co.",
+      "cover_url": "https://covers.openlibrary.org/b/id/7003903-M.jpg"
+    },
+    {
+      "judul": "Applied statistics and probability for engineers",
+      "deskripsi": "A book about Statistics.",
+      "pengarang": "Douglas C. Montgomery",
+      "penerbit": "John Wiley and Sons Ltd",
+      "cover_url": "https://covers.openlibrary.org/b/id/301547-M.jpg"
+    },
+    {
+      "judul": "Applied statistical decision theory",
+      "deskripsi": "A book about Statistical decision.",
+      "pengarang": "Howard Raiffa",
+      "penerbit": "M.I.T. Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/304038-M.jpg"
+    },
+    {
+      "judul": "Calculus and analytic geometry",
+      "deskripsi": "A book about Calculus.",
+      "pengarang": "George Brinton Thomas",
+      "penerbit": "Addison-Wesley Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/135103-M.jpg"
+    },
+    {
+      "judul": "Calculus and its applications",
+      "deskripsi": "A book about Calculus.",
+      "pengarang": "Larry Joel Goldstein",
+      "penerbit": "Prentice-Hall",
+      "cover_url": "https://covers.openlibrary.org/b/id/1110721-M.jpg"
+    },
+    {
+      "judul": "Calculus with analytic geometry",
+      "deskripsi": "A book about Calculus.",
+      "pengarang": "Howard Anton",
+      "penerbit": "Wiley",
+      "cover_url": "https://covers.openlibrary.org/b/id/3884317-M.jpg"
+    },
+    {
+      "judul": "Biology made simple",
+      "deskripsi": "A book about Biology.",
+      "pengarang": "Ethel R. Hanauer",
+      "penerbit": "Made Simple Books; distributed by Garden City Books, Garden City, N.Y.",
+      "cover_url": "https://covers.openlibrary.org/b/id/7024294-M.jpg"
+    },
+    {
+      "judul": "Beginning algebra",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Margaret L. Lial",
+      "penerbit": "Addison-Wesley",
+      "cover_url": "https://covers.openlibrary.org/b/id/192490-M.jpg"
+    },
+    {
+      "judul": "Calculus",
+      "deskripsi": "A book about Calculus.",
+      "pengarang": "James Stewart",
+      "penerbit": "Brooks / Cole",
+      "cover_url": "https://covers.openlibrary.org/b/id/3882367-M.jpg"
+    },
+    {
+      "judul": "Research methods in psychology",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "John J. Shaughnessy",
+      "penerbit": "McGraw-Hill Higher Education",
+      "cover_url": "https://covers.openlibrary.org/b/id/63748-M.jpg"
+    },
+    {
+      "judul": "Monthly Digest of Statistics",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Rand McNally",
+      "penerbit": "Stationery Office Books",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Psychological statistics",
+      "deskripsi": "A book about Statistics.",
+      "pengarang": "Quinn McNemar",
+      "penerbit": "Wiley",
+      "cover_url": "https://covers.openlibrary.org/b/id/4403982-M.jpg"
+    },
+    {
+      "judul": "Chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Theodore L. Brown",
+      "penerbit": "Pearson Education Australia",
+      "cover_url": "https://covers.openlibrary.org/b/id/9407725-M.jpg"
+    },
+    {
+      "judul": "Mathematics and plausible reasoning",
+      "deskripsi": "A book about Symbolic and mathematical Logic.",
+      "pengarang": "George Pólya",
+      "penerbit": "University Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/442196-M.jpg"
+    },
+    {
+      "judul": "Chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Theodore L. Brown",
+      "penerbit": "Pearson Education Australia",
+      "cover_url": "https://covers.openlibrary.org/b/id/9407725-M.jpg"
+    },
+    {
+      "judul": "Abnormal psychology",
+      "deskripsi": "A book about Psychopathology.",
+      "pengarang": "Gerald C. Davison",
+      "penerbit": "J. Wiley & Sons",
+      "cover_url": "https://covers.openlibrary.org/b/id/300726-M.jpg"
+    },
+    {
+      "judul": "Adolescence",
+      "deskripsi": "A book about Adolescence.",
+      "pengarang": "John W. Santrock",
+      "penerbit": "Brown & Benchmark",
+      "cover_url": "https://covers.openlibrary.org/b/id/4263041-M.jpg"
+    },
+    {
+      "judul": "Introduction to psychology",
+      "deskripsi": "A book about Psychology.",
+      "pengarang": "Dennis Coon",
+      "penerbit": "Wadsworth/Thompson Learning",
+      "cover_url": "https://covers.openlibrary.org/b/id/363785-M.jpg"
+    },
+    {
+      "judul": "The Mathematical Experience",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Philip J. Davis",
+      "penerbit": "Penguin Books",
+      "cover_url": "https://covers.openlibrary.org/b/id/3809602-M.jpg"
+    },
+    {
+      "judul": "Elementary Statistics",
+      "deskripsi": "A book about Statistics.",
+      "pengarang": "Allan G. Bluman",
+      "penerbit": "William C. Brown",
+      "cover_url": "https://covers.openlibrary.org/b/id/4243599-M.jpg"
+    },
+    {
+      "judul": "General Chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "James E. Brady",
+      "penerbit": "John Wiley & Sons",
+      "cover_url": "https://covers.openlibrary.org/b/id/4089838-M.jpg"
+    },
+    {
+      "judul": "Environmental science",
+      "deskripsi": "A book about Environmental sciences.",
+      "pengarang": "G. Tyler Miller",
+      "penerbit": "Wadsworth Pub Co",
+      "cover_url": "https://covers.openlibrary.org/b/id/4666154-M.jpg"
+    },
+    {
+      "judul": "Cognition",
+      "deskripsi": "A book about Cognitive psychology.",
+      "pengarang": "Daniel Reisberg",
+      "penerbit": "W W Norton & Co Inc",
+      "cover_url": "https://covers.openlibrary.org/b/id/253013-M.jpg"
+    },
+    {
+      "judul": "Fundamentals of analytical chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Douglas Arvid Skoog",
+      "penerbit": "Saunders College Pub",
+      "cover_url": "https://covers.openlibrary.org/b/id/7063702-M.jpg"
+    },
+    {
+      "judul": "Fundamentals of algebra and trigonometry",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Earl William Swokowski",
+      "penerbit": "PWS-Kent Pub. Co.",
+      "cover_url": "https://covers.openlibrary.org/b/id/365207-M.jpg"
+    },
+    {
+      "judul": "Fundamentals of chemistry",
+      "deskripsi": "A book about Biochemistry.",
+      "pengarang": "Lotta Jean Bogert",
+      "penerbit": "W.B. Saunders company",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Fundamentals of philosophy",
+      "deskripsi": "A book about Introductions.",
+      "pengarang": "Stewart, David",
+      "penerbit": "Prentice Hall",
+      "cover_url": "https://covers.openlibrary.org/b/id/82392-M.jpg"
+    },
+    {
+      "judul": "College algebra with trigonometry",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Raymond A. Barnett",
+      "penerbit": "McGraw-Hill",
+      "cover_url": "https://covers.openlibrary.org/b/id/3730628-M.jpg"
+    },
+    {
+      "judul": "Business Statistics Contemporary Decision Making 4e Set",
+      "deskripsi": "A book about Commercial statistics.",
+      "pengarang": "Black",
+      "penerbit": "Wiley, John & Sons, Incorporated",
+      "cover_url": "https://covers.openlibrary.org/b/id/6970328-M.jpg"
+    },
+    {
+      "judul": "Chemistry for changing times",
+      "deskripsi": "A book about Chemistry.",
+      "pengarang": "John William Hill",
+      "penerbit": "Prentice Hall",
+      "cover_url": "https://covers.openlibrary.org/b/id/1115507-M.jpg"
+    },
+    {
+      "judul": "Contents of Recent Economics Journals",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Rand McNally",
+      "penerbit": "Stationery Office Books",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Foundations of college chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Morris Hein",
+      "penerbit": "John Wiley & Sons",
+      "cover_url": "https://covers.openlibrary.org/b/id/6598795-M.jpg"
+    },
+    {
+      "judul": "Elementary algebra for college students",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Allen R. Angel",
+      "penerbit": "Prentice Hall College Div",
+      "cover_url": "https://covers.openlibrary.org/b/id/1104418-M.jpg"
+    },
+    {
+      "judul": "DSLR the beautiful portrait Maintain surgery",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Feel Life",
+      "penerbit": "Wyatt knowledge culture",
+      "cover_url": "https://covers.openlibrary.org/b/id/10484644-M.jpg"
+    },
+    {
+      "judul": "Reaction mechanisms",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Open University. Organic chemistry Course Team.",
+      "penerbit": "Open UP",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Sketchbook",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Apurbo Book",
+      "penerbit": "Independently Published",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Gifted and Talented Test Preparation",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Origins Tutoring",
+      "penerbit": "Origins Tutoring",
+      "cover_url": "https://covers.openlibrary.org/b/id/11992280-M.jpg"
+    },
+    {
+      "judul": "Physical anthropology and archeology",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Clifford J. Jolly",
+      "penerbit": "Knopf",
+      "cover_url": "https://covers.openlibrary.org/b/id/6984932-M.jpg"
+    },
+    {
+      "judul": "Beauty and the Beast",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Play-a-Sound",
+      "penerbit": "Publications International",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Probability and statistics for modern engineering",
+      "deskripsi": "A book about Statistical methods.",
+      "pengarang": "Lawrence L. Lapin",
+      "penerbit": "Waveland Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/4280417-M.jpg"
+    },
+    {
+      "judul": "Power choice",
+      "deskripsi": "A book about Energy policy.",
+      "pengarang": "Massachusetts. Division of Energy Resources",
+      "penerbit": "The Division",
+      "cover_url": "https://covers.openlibrary.org/b/id/9695503-M.jpg"
+    },
+    {
+      "judul": "Physics: A World View ",
+      "deskripsi": "A book about PHYSICS.",
+      "penerbit": "Harcourt College Pub",
+      "cover_url": "https://covers.openlibrary.org/b/id/5026368-M.jpg"
+    },
+    {
+      "judul": "Social psychology",
+      "deskripsi": "A book about Social psychology.",
+      "pengarang": "David G. Myers",
+      "penerbit": "McGraw-Hill Ryerson",
+      "cover_url": "https://covers.openlibrary.org/b/id/3729961-M.jpg"
+    },
+    {
+      "judul": "One-inch and 1 maps",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Institute of Geological Sciences",
+      "penerbit": "Ordnance survey",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Advanced organic chemistry",
+      "deskripsi": "A book about Organic Chemistry.",
+      "pengarang": "Francis A. Carey",
+      "penerbit": "Kluwer Academic/Plenum Pub.",
+      "cover_url": "https://covers.openlibrary.org/b/id/-1-M.jpg"
+    },
+    {
+      "judul": "Abnormal psychology and modern life",
+      "deskripsi": "A book about Psychopathology.",
+      "pengarang": "James C. Coleman",
+      "penerbit": "Scott, Foresman",
+      "cover_url": "https://covers.openlibrary.org/b/id/4485058-M.jpg"
+    },
+    {
+      "judul": "Physical chemistry",
+      "deskripsi": "A book about Chemistry, Physical and theoretical.",
+      "pengarang": "Robert A. Alberty",
+      "penerbit": "Wiley",
+      "cover_url": "https://covers.openlibrary.org/b/id/3963744-M.jpg"
+    },
+    {
+      "judul": "The American democracy",
+      "deskripsi": "A book about Politics and government.",
+      "pengarang": "Thomas E. Patterson",
+      "penerbit": "McGraw Hill",
+      "cover_url": "https://covers.openlibrary.org/b/id/1083909-M.jpg"
+    },
+    {
+      "judul": "Social psychology",
+      "deskripsi": "A book about Social psychology.",
+      "pengarang": "David G. Myers",
+      "penerbit": "McGraw-Hill Ryerson",
+      "cover_url": "https://covers.openlibrary.org/b/id/3729961-M.jpg"
+    },
+    {
+      "judul": "Psychology",
+      "deskripsi": "A book about Psychology.",
+      "pengarang": "Wayne Weiten",
+      "penerbit": "Intrepid Traveler",
+      "cover_url": "https://covers.openlibrary.org/b/id/4665311-M.jpg"
+    },
+    {
+      "judul": "Understanding movies",
+      "deskripsi": "A book about Motion pictures.",
+      "pengarang": "Louis D. Giannetti",
+      "penerbit": "Prentice-Hall",
+      "cover_url": "https://covers.openlibrary.org/b/id/88910-M.jpg"
+    },
+    {
+      "judul": "Algebra and trigonometry with analytic geometry",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Earl William Swokowski",
+      "penerbit": "Prindle, Weber & Schmidt",
+      "cover_url": "https://covers.openlibrary.org/b/id/4529557-M.jpg"
+    },
+    {
+      "judul": "Report of a Social Science Research Council Funded Project based at thePolytechnic of the South Bank, London SE1.",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Skills and Procedures of Mathematical Problem Solving Project.",
+      "penerbit": "Sine nomine",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Algebra, the easy way",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Douglas Downing",
+      "penerbit": "Barron's Educational Series",
+      "cover_url": "https://covers.openlibrary.org/b/id/602247-M.jpg"
+    },
+    {
+      "judul": "A catechism of the history of England",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "By the author of \"An introduction to English history\" etc",
+      "penerbit": "Burns, Lambert & Oates",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "College algebra",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Committee on College Algebra.",
+      "penerbit": "Pitman Pub. Corp.",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Theodore L. Brown",
+      "penerbit": "Pearson Education Australia",
+      "cover_url": "https://covers.openlibrary.org/b/id/9407725-M.jpg"
+    },
+    {
+      "judul": "College Algebra",
+      "deskripsi": "A book about Graphic methods.",
+      "pengarang": "Ron Larson",
+      "penerbit": "Not Avail",
+      "cover_url": "https://covers.openlibrary.org/b/id/5039460-M.jpg"
+    },
+    {
+      "judul": "College Algebra",
+      "deskripsi": "A book about Graphic methods.",
+      "pengarang": "Ron Larson",
+      "penerbit": "Not Avail",
+      "cover_url": "https://covers.openlibrary.org/b/id/5039460-M.jpg"
+    },
+    {
+      "judul": "Complete business statistics",
+      "deskripsi": "A book about Statistics.",
+      "pengarang": "Amir D. Aczel",
+      "penerbit": "McGraw-Hill Education (ISE Editions)",
+      "cover_url": "https://covers.openlibrary.org/b/id/3736861-M.jpg"
+    },
+    {
+      "judul": "Biological Science",
+      "deskripsi": "A book about Biology.",
+      "pengarang": "Scott Freeman",
+      "penerbit": "Pearson",
+      "cover_url": "https://covers.openlibrary.org/b/id/10204276-M.jpg"
+    },
+    {
+      "judul": "Beginning logic",
+      "deskripsi": "A book about Predicate calculus.",
+      "pengarang": "E. J. Lemmon",
+      "penerbit": "Chapman & Hall/CRC",
+      "cover_url": "https://covers.openlibrary.org/b/id/261099-M.jpg"
+    },
+    {
+      "judul": "Beneath the mask: an introduction to theories of personality",
+      "deskripsi": "A book about Philosophy.",
+      "pengarang": "Christopher F. Monte",
+      "penerbit": "Harcourt Brace College Publishers",
+      "cover_url": "https://covers.openlibrary.org/b/id/1120928-M.jpg"
+    },
+    {
+      "judul": "Basic statistical analysis",
+      "deskripsi": "A book about Statistical methods.",
+      "pengarang": "Richard C. Sprinthall",
+      "penerbit": "Addison-Wesley Pub. Co.",
+      "cover_url": "https://covers.openlibrary.org/b/id/1145749-M.jpg"
+    },
+    {
+      "judul": "Dictionary of anthropology",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Charles Winick",
+      "penerbit": "Littlefield, Adams",
+      "cover_url": "https://covers.openlibrary.org/b/id/7146984-M.jpg"
+    },
+    {
+      "judul": "Elementary Algebra: Concepts and Applications",
+      "deskripsi": "A book about Algebra, problems, exercises, etc..",
+      "pengarang": "Judith A. Penna",
+      "penerbit": "Addison Wesley Publishing Company",
+      "cover_url": "https://covers.openlibrary.org/b/id/2334539-M.jpg"
+    },
+    {
+      "judul": "Elementary algebra for college students",
+      "deskripsi": "A book about Algebra.",
+      "pengarang": "Allen R. Angel",
+      "penerbit": "Prentice Hall College Div",
+      "cover_url": "https://covers.openlibrary.org/b/id/1104418-M.jpg"
+    },
+    {
+      "judul": "Toward humanistic education",
+      "deskripsi": "A book about Curricula.",
+      "pengarang": "Elementary School Teaching Project.",
+      "penerbit": "Published for the Ford Foundation by Praeger",
+      "cover_url": "https://covers.openlibrary.org/b/id/10814866-M.jpg"
+    },
+    {
+      "judul": "Elementary Statistics",
+      "deskripsi": "A book about Statistics.",
+      "pengarang": "Allan G. Bluman",
+      "penerbit": "William C. Brown",
+      "cover_url": "https://covers.openlibrary.org/b/id/4243599-M.jpg"
+    },
+    {
+      "judul": "Encounter with anthropology",
+      "deskripsi": "A book about Ethnology.",
+      "pengarang": "Fox, Robin",
+      "penerbit": "Penguin",
+      "cover_url": "https://covers.openlibrary.org/b/id/4025827-M.jpg"
+    },
+    {
+      "judul": "The developing child",
+      "deskripsi": "A book about Child development.",
+      "pengarang": "Holly E. Brisbane",
+      "penerbit": "Glencoe",
+      "cover_url": "https://covers.openlibrary.org/b/id/5025994-M.jpg"
+    },
+    {
+      "judul": "Development Through Life, A Psychosocial Approach",
+      "deskripsi": "A book about Developmental psychology.",
+      "pengarang": "Barbara M. Newman",
+      "penerbit": "Brooks-Cole",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "The image of man",
+      "deskripsi": "A book about Collections.",
+      "pengarang": "The Review of politics.",
+      "penerbit": "University of Notre Dame Press",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Calculus",
+      "deskripsi": "A book about Calculus.",
+      "pengarang": "James Stewart",
+      "penerbit": "Brooks / Cole",
+      "cover_url": "https://covers.openlibrary.org/b/id/3882367-M.jpg"
+    },
+    {
+      "judul": "Mathsfrnt Mtrindxdont Delet",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Calculus",
+      "penerbit": "Primis",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "The Commentary reader",
+      "deskripsi": "A book about Jews.",
+      "pengarang": "Commentary.",
+      "penerbit": "Atheneum",
+      "cover_url": "https://covers.openlibrary.org/b/id/9792848-M.jpg"
+    },
+    {
+      "judul": "Cognitive psychology in and out of the laboratory",
+      "deskripsi": "A book about Case studies.",
+      "pengarang": "Kathleen M. Galotti",
+      "penerbit": "SAGE Publications, Inc",
+      "cover_url": "https://covers.openlibrary.org/b/id/8873749-M.jpg"
+    },
+    {
+      "judul": "The Great Republic V4",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "The Master Historians",
+      "penerbit": "Kessinger Publishing, LLC",
+      "cover_url": "https://covers.openlibrary.org/b/id/2500678-M.jpg"
+    },
+    {
+      "judul": "A course in mathematical analysis",
+      "deskripsi": "A book about Calculus.",
+      "pengarang": "Edouard Goursat",
+      "penerbit": "Dover Publications",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Contemporary business",
+      "deskripsi": "A book about Business.",
+      "pengarang": "Louis E. Boone",
+      "penerbit": "Thomson South-Western",
+      "cover_url": "https://covers.openlibrary.org/b/id/4185411-M.jpg"
+    },
+    {
+      "judul": "Stars and Galaxies",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Seeds' Foundations of Astronomy",
+      "penerbit": "Wadsworth Publishing Company",
+      "cover_url": "https://covers.openlibrary.org/b/id/5002808-M.jpg"
+    },
+    {
+      "judul": "Stars and Galaxies",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Seeds' Foundations of Astronomy",
+      "penerbit": "Wadsworth Publishing Company",
+      "cover_url": "https://covers.openlibrary.org/b/id/5002808-M.jpg"
+    },
+    {
+      "judul": "Foundations of college chemistry",
+      "deskripsi": "A book about Textbooks.",
+      "pengarang": "Morris Hein",
+      "penerbit": "John Wiley & Sons",
+      "cover_url": "https://covers.openlibrary.org/b/id/6598795-M.jpg"
+    },
+    {
+      "judul": "Educational Psychology",
+      "deskripsi": "A book about Psychologie pédagogique.",
+      "pengarang": "Educational psychology.",
+      "penerbit": "Barnes & Noble Books",
+      "cover_url": "https://covers.openlibrary.org/b/id/394782-M.jpg"
+    },
+    {
+      "judul": "Life-span human development",
+      "deskripsi": "A book about Developmental psychology.",
+      "pengarang": "Carol K. Sigelman",
+      "penerbit": "Brooks/Cole",
+      "cover_url": "https://covers.openlibrary.org/b/id/364417-M.jpg"
+    },
+    {
+      "judul": "Stars and Galaxies",
+      "deskripsi": "A book about Unknown.",
+      "pengarang": "Seeds' Foundations of Astronomy",
+      "penerbit": "Wadsworth Publishing Company",
+      "cover_url": "https://covers.openlibrary.org/b/id/5002808-M.jpg"
+    }
+  ]
+}
+
