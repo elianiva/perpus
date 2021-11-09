@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import {
   BaseModel,
   BelongsTo,
@@ -9,10 +8,10 @@ import {
   manyToMany,
   ManyToMany,
 } from "@ioc:Adonis/Lucid/Orm";
-import BukuMasuk from "./BukuMasuk";
-import BukuKeluar from "./BukuKeluar";
-import Pinjaman from "./Pinjaman";
-import Rak from "./Rak";
+import Pinjaman from "App/Models/Pinjaman";
+import Rak from "App/Models/Rak";
+import TransaksiBuku from "App/Models/TransaksiBuku";
+import { DateTime } from "luxon";
 
 export default class Buku extends BaseModel {
   public static table = "buku";
@@ -47,11 +46,8 @@ export default class Buku extends BaseModel {
   @belongsTo(() => Rak, { foreignKey: "idRak" })
   public rak: BelongsTo<typeof Rak>;
 
-  @hasMany(() => BukuMasuk, { foreignKey: "idBuku" })
-  public bukuMasuk: HasMany<typeof BukuMasuk>;
-
-  @hasMany(() => BukuKeluar, { foreignKey: "idBuku" })
-  public bukuKeluar: HasMany<typeof BukuKeluar>;
+  @hasMany(() => TransaksiBuku, { foreignKey: "idBuku" })
+  public transaksiBuku: HasMany<typeof TransaksiBuku>;
 
   @manyToMany(() => Pinjaman, {
     localKey: "id",

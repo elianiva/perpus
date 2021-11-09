@@ -27,9 +27,6 @@ Route.get("/", async ({ session, response }) => {
   return response.redirect("/login");
 });
 
-Route.get("/register", "LoginController.registerView");
-Route.post("/register", "LoginController.register");
-
 Route.get("/login", "LoginController.index");
 Route.post("/login", "LoginController.login");
 Route.post("/logout", "LoginController.logout");
@@ -83,15 +80,10 @@ Route.group(() => {
   Route.put("/rak/edit", "RaksController.update");
   Route.delete("/rak/hapus", "RaksController.destroy");
 
-  Route.get("/buku_masuk", "BukuMasukController.show");
-  Route.post("/buku_masuk/tambah", "BukuMasukController.create");
-  Route.put("/buku_masuk/edit", "BukuMasukController.update");
-  Route.delete("/buku_masuk/hapus", "BukuMasukController.destroy");
-
-  Route.get("/buku_keluar", "BukuKeluarController.show");
-  Route.post("/buku_keluar/tambah", "BukuKeluarController.create");
-  Route.put("/buku_keluar/edit", "BukuKeluarController.update");
-  Route.delete("/buku_keluar/hapus", "BukuKeluarController.destroy");
+  Route.get("/transaksi_buku", "TransaksiBukuController.show");
+  Route.post("/transaksi_buku/tambah", "TransaksiBukuController.create");
+  Route.put("/transaksi_buku/edit", "TransaksiBukuController.update");
+  Route.delete("/transaksi_buku/hapus", "TransaksiBukuController.destroy");
 
   Route.get("/peminjaman", "PinjamanController.show");
   Route.post("/peminjaman/tambah", "PinjamanController.create");

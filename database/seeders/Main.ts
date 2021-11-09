@@ -1,8 +1,8 @@
 import BaseSeeder from "@ioc:Adonis/Lucid/Seeder";
+import { Kind } from "App/Controllers/Http/TransaksiBukuController";
 import {
   BukuFactory,
-  BukuKeluarFactory,
-  BukuMasukFactory,
+  TransaksiBukuFactory,
   JurusanFactory,
   RakFactory,
   PinjamanFactory,
@@ -38,7 +38,7 @@ export default class UserSeeder extends BaseSeeder {
 
     const users = await UserFactory.with("profil")
       .merge([{ role: 1 }, { role: 1 }, { role: 1 }, { role: 1 }, { role: 1 }])
-      .createMany(30);
+      .createMany(JUMLAH_BUKU);
 
     const books = await BukuFactory.merge(
       data.map(
@@ -65,8 +65,8 @@ export default class UserSeeder extends BaseSeeder {
 
     await Promise.all(
       books.map(async (book, idx) => {
-        await BukuKeluarFactory.merge({ idBuku: book.id }).create();
-        await BukuMasukFactory.merge({ idBuku: book.id }).create();
+        await TransaksiBukuFactory.merge({ idBuku: book.id, jenis: Kind.MASUK }).create();
+        await TransaksiBukuFactory.merge({ idBuku: book.id, jenis: Kind.KELUAR }).create();
         await book.related("pinjaman").attach([pinjaman[idx].id]);
       })
     );

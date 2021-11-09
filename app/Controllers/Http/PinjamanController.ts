@@ -3,8 +3,7 @@ import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import Buku from "App/Models/Buku";
 import Pinjaman from "App/Models/Pinjaman";
 import { DateTime } from "luxon";
-import BukuKeluarController from "./BukuKeluarController";
-import BukuMasukController from "./BukuMasukController";
+import TransaksiBukuController, { Kind } from "./TransaksiBukuController";
 
 /**
  * Parse date from daterangepicker
@@ -42,7 +41,7 @@ export default class PinjamanController {
     }
 
     await auth.user!.load("profil");
-    await BukuKeluarController.add({
+    await TransaksiBukuController.add(Kind.KELUAR, {
       id_buku,
       jumlah: 1,
       alasan: `Dipinjam oleh ${auth.user!.profil.nama}`,
@@ -74,12 +73,13 @@ export default class PinjamanController {
         pinjaman.map(async (p) => {
           await p.load("buku");
           await p.load("user", (user) => user.preload("profil"));
+
           return {
             id: p.id,
-            nama: p.user.profil.nama,
+            nama: p.user?.profil?.nama,
             buku: {
-              id: p.buku[0].id,
-              judul: p.buku[0].judul,
+              id: p.buku[0]?.id,
+              judul: p.buku[0]?.judul,
             },
             status: p.status,
             tgl_pinjam: p.tglPinjam,
@@ -141,7 +141,7 @@ export default class PinjamanController {
     await pinjaman.load("buku");
 
     await auth.user!.load("profil");
-    await BukuMasukController.add({
+    await TransaksiBukuController.add(Kind.MASUK, {
       id_buku: pinjaman.buku[0].id,
       jumlah: 1,
       alasan: `Dikembalikan oleh ${auth.user!.profil.nama}`,

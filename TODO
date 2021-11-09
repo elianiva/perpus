@@ -1,0 +1,15 @@
+
+
+- import data dari excel
+- tambahin role superadmin yg bisa delete data
+- ganti pake soft delete
+- gabung buku_masuk + buku_keluar jadi transaksi_buku
+- tambahin kategori ebook
+- pdf viewer
+- tambahin field kategori buat buku
+- tampilin buku per-kategori
+- jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
+- gausah dikasih durasi kalo mau pinjem
+- kasih halaman admin buat approve pinjaman + nentuin deadline
+- bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
+

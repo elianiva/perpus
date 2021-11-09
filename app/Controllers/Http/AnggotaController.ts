@@ -44,7 +44,7 @@ export default class AnggotaController {
       now.setHours(0, 0, 0, 0);
 
       // NOTE(elianiva): set this to `>` to test the error message
-      return returnDate < now;
+      return returnDate > now;
     });
 
     await auth.user!.load("profil");

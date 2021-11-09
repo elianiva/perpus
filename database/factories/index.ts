@@ -1,13 +1,12 @@
-import Factory from "@ioc:Adonis/Lucid/Factory";
+import { DateTime } from "luxon";
 import Buku from "App/Models/Buku";
-import BukuKeluar from "App/Models/BukuKeluar";
-import BukuMasuk from "App/Models/BukuMasuk";
+import Factory from "@ioc:Adonis/Lucid/Factory";
 import Jurusan from "App/Models/Jurusan";
-import Rak from "App/Models/Rak";
 import Pinjaman from "App/Models/Pinjaman";
 import Profil from "App/Models/Profil";
+import Rak from "App/Models/Rak";
+import TransaksiBuku from "App/Models/TransaksiBuku";
 import User from "App/Models/User";
-import { DateTime } from "luxon";
 
 export const JurusanFactory = Factory.define(Jurusan, () => ({
   nama: "",
@@ -32,12 +31,7 @@ export const UserFactory = Factory.define(User, ({ faker }) => ({
   .relation("profil", () => ProfilFactory)
   .build();
 
-export const BukuMasukFactory = Factory.define(BukuMasuk, ({ faker }) => ({
-  alasan: faker.random.arrayElement(["Bantuan Pemerintah", "Beli", "Hibah", "Tidak Diketahui"]),
-  jumlah: faker.datatype.number(10),
-})).build();
-
-export const BukuKeluarFactory = Factory.define(BukuKeluar, ({ faker }) => ({
+export const TransaksiBukuFactory = Factory.define(TransaksiBuku, ({ faker }) => ({
   alasan: faker.random.arrayElement(["Hilang", "Dihibahkan", "Tidak Diketahui"]),
   jumlah: faker.datatype.number(10),
 })).build();

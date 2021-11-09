@@ -200,16 +200,6 @@
             render: (_data, _type, row) => {
               const id = row.id;
               return `
-<button
-  type="button"
-  class="btn btn-danger"
-  data-toggle="modal"
-  data-target="#modal-delete"
-  data-id="${row.id}"
-  data-judul="${row.judul}"
->
-  <i class="fas fa-trash"></i>
-</button>
 <a href="/admin/dashboard/buku/form?isEditing=true&id=${row.id}">
   <button
     type="button"

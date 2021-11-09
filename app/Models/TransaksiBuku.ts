@@ -2,7 +2,9 @@ import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
 import { DateTime } from "luxon";
 import Buku from "./Buku";
 
-export default class BukuKeluarMasuk extends BaseModel {
+export default class TransaksiBuku extends BaseModel {
+  public static table = "transaksi_buku";
+
   @column({ isPrimary: true })
   public id: number;
 
@@ -17,6 +19,9 @@ export default class BukuKeluarMasuk extends BaseModel {
 
   @column()
   public jumlah: number;
+
+  @column()
+  public jenis: number;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
