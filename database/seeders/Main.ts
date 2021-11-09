@@ -1,5 +1,6 @@
 import BaseSeeder from "@ioc:Adonis/Lucid/Seeder";
 import { Kind } from "App/Controllers/Http/TransaksiBukuController";
+import { Roles } from "App/Models/User";
 import {
   BukuFactory,
   TransaksiBukuFactory,
@@ -37,7 +38,13 @@ export default class UserSeeder extends BaseSeeder {
     const rak = await RakFactory.merge(noRak).createMany(JUMLAH_RAK);
 
     const users = await UserFactory.with("profil")
-      .merge([{ role: 1 }, { role: 1 }, { role: 1 }, { role: 1 }, { role: 1 }])
+      .merge([
+        { role: Roles.ADMIN },
+        { role: Roles.ADMIN },
+        { role: Roles.ADMIN },
+        { role: Roles.ADMIN },
+        { role: Roles.ADMIN },
+      ])
       .createMany(JUMLAH_BUKU);
 
     const books = await BukuFactory.merge(
@@ -74,9 +81,10 @@ export default class UserSeeder extends BaseSeeder {
     // custom users
     await UserFactory.with("profil")
       .merge([
-        { email: "admin@asdf.com", password: "admin1234", role: 1 },
-        { email: "user@asdf.com", password: "user1234", role: 0 },
+        { email: "superadmin@asdf.com", password: "admin1234", role: Roles.SUPERADMIN },
+        { email: "admin@asdf.com", password: "admin1234", role: Roles.ADMIN },
+        { email: "user@asdf.com", password: "user1234", role: Roles.ANGGOTA },
       ])
-      .createMany(2);
+      .createMany(3);
   }
 }

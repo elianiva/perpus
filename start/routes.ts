@@ -93,6 +93,7 @@ Route.group(() => {
 
   Route.get("/anggota/peminjaman", "AnggotaController.pinjamanData");
 
+  // fall through for /anggota or /admin
   Route.group(() => {
     Route.get("/:type", "UserController.show");
     Route.post("/:type/tambah", "UserController.create");

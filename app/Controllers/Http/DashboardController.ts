@@ -4,16 +4,19 @@ import Buku from "App/Models/Buku";
 import Jurusan from "App/Models/Jurusan";
 import Pinjaman from "App/Models/Pinjaman";
 import Rak from "App/Models/Rak";
-import User from "App/Models/User";
+import User, { Roles } from "App/Models/User";
 import { Kind } from "./TransaksiBukuController";
 
 export default class DashboardController {
   public async index({ view, auth }: HttpContextContract) {
     /* prettier-ignore */
     const adminAmount = await Database.from("user")
-        .where("role", "=", 1)
+        .where("role", "=", Roles.ADMIN)
+        .orWhere("role", "=", Roles.SUPERADMIN)
         .count("* as total");
-    const membersAmount = await Database.from("user").where("role", "=", 0).count("* as total");
+    const membersAmount = await Database.from("user")
+      .where("role", "=", Roles.ANGGOTA)
+      .count("* as total");
     const booksAmount = await Database.from("buku").count("* as total");
     const inBooksAmount = await Database.from("transaksi_buku")
       .where("jenis", Kind.MASUK)

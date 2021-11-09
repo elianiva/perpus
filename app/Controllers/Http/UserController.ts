@@ -1,6 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
-import User from "App/Models/User";
+import User, { Roles } from "App/Models/User";
 
 const base = {
   email: schema.string({ trim: true }, [rules.email(), rules.required()]),
@@ -9,7 +9,10 @@ const base = {
   kelas: schema.number([rules.required()]),
   jurusan: schema.number([rules.required()]),
   jenis_kelamin: schema.number([rules.required()]),
-  role: schema.number([rules.required()]),
+  role: schema.enum(
+    Object.values(Roles).filter((x) => typeof x !== "number"),
+    [rules.required()]
+  ),
 };
 
 export const userSchemaNoPass = schema.create({
@@ -95,12 +98,23 @@ export default class UserController {
 
   public async show({ response, request }: HttpContextContract) {
     const { type } = request.params();
-    const allUsers = await User.query().where("role", type === "admin" ? 1 : 0);
+
+    let allUsers: User[] | null = null;
+    if (type === Roles.ADMIN.toLowerCase()) {
+      allUsers = await User.query()
+        .where("role", "=", type === "admin" ? Roles.ADMIN : Roles.ANGGOTA)
+        .orWhere("role", "=");
+    } else if (type === Roles.ANGGOTA.toLowerCase()) {
+      allUsers = await User.query()
+        .where("role", "=", type === "admin" ? Roles.ADMIN : Roles.ANGGOTA)
+        .orWhere("role", "=");
+    }
+
     await Promise.all(
-      allUsers.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
+      allUsers!.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
     );
 
-    const data = allUsers.map((user) => ({
+    const data = allUsers!.map((user) => ({
       id: user.id,
       nisn: user.profil.nisn,
       email: user.email,

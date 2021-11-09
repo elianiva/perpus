@@ -12,6 +12,12 @@ import { DateTime } from "luxon";
 import Pinjaman from "./Pinjaman";
 import Profil from "./Profil";
 
+export enum Roles {
+  ANGGOTA = "ANGGOTA",
+  ADMIN = "ADMIN",
+  SUPERADMIN = "SUPERADMIN",
+}
+
 export default class User extends BaseModel {
   public static table = "user";
 
@@ -25,7 +31,7 @@ export default class User extends BaseModel {
   public password: string;
 
   @column()
-  public role: number;
+  public role: Roles;
 
   @hasOne(() => Profil, { foreignKey: "idUser" })
   public profil: HasOne<typeof Profil>;

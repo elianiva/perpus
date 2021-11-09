@@ -6,7 +6,7 @@ import Pinjaman from "App/Models/Pinjaman";
 import Profil from "App/Models/Profil";
 import Rak from "App/Models/Rak";
 import TransaksiBuku from "App/Models/TransaksiBuku";
-import User from "App/Models/User";
+import User, { Roles } from "App/Models/User";
 
 export const JurusanFactory = Factory.define(Jurusan, () => ({
   nama: "",
@@ -27,6 +27,7 @@ export const ProfilFactory = Factory.define(Profil, ({ faker }) => ({
 export const UserFactory = Factory.define(User, ({ faker }) => ({
   email: faker.internet.email(),
   password: "foobar",
+  role: Roles.ANGGOTA,
 }))
   .relation("profil", () => ProfilFactory)
   .build();

@@ -1,4 +1,5 @@
 import BaseSchema from "@ioc:Adonis/Lucid/Schema";
+import { Roles } from "App/Models/User";
 
 export default class Users extends BaseSchema {
   protected tableName = "user";
@@ -8,7 +9,16 @@ export default class Users extends BaseSchema {
       table.increments("id").primary().notNullable().unsigned();
       table.string("email").notNullable();
       table.string("password").notNullable();
-      table.boolean("role").defaultTo(0);
+      table
+        .enum(
+          "role",
+          Object.values(Roles).filter((x) => typeof x !== "number"),
+          {
+            enumName: "role_enum",
+            useNative: true,
+          }
+        )
+        .defaultTo(Roles.ANGGOTA);
       table.timestamps(true, true);
     });
   }
