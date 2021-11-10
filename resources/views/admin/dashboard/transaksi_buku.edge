@@ -105,7 +105,7 @@
   @!component('components/footer')
 </div>
 
-<div class="modal fade" id="modal-confirm">
+<div class="modal fade" id="modal-delete">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -298,6 +298,16 @@
             targets: [-1],
             render: (data, type, row, meta) => {
               return `
+${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
+  type="button"
+  class="btn btn-danger"
+  data-toggle="modal"
+  data-target="#modal-delete"
+  data-id="${row.id}"
+  data-judul="${row.judul}"
+>
+  <i class="fas fa-trash"></i>
+</button>` : ""}
 <button
   type="button"
   class="btn btn-primary"
@@ -322,7 +332,7 @@
         deferRender: true,
       });
 
-    $("#modal-confirm").on("show.bs.modal", function (event) {
+    $("#modal-delete").on("show.bs.modal", function (event) {
       const judul = $(event.relatedTarget).data("judul");
       const id = $(event.relatedTarget).data("id");
       $(this)

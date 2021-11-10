@@ -3,6 +3,12 @@
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 }
 
+@media only screen and (max-width: 480px) {
+  .books {
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+}
+
 .book-img {
   height: 15rem;
   object-fit: cover;
@@ -19,5 +25,5 @@
 }
 
 body.modal-open {
-    overflow: hidden !important;
+  overflow: hidden !important;
 }

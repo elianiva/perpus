@@ -8,6 +8,7 @@ import { ModelObject } from "@ioc:Adonis/Lucid/Orm";
 const bookSchema = schema.create({
   isbn: schema.string({ trim: true }, [rules.required(), rules.maxLength(13)]),
   judul: schema.string({ trim: true }, [rules.required()]),
+  kategori: schema.string({ trim: true }, [rules.required()]),
   pengarang: schema.string({ trim: true }, [rules.required()]),
   penerbit: schema.string({ trim: true }, [rules.required()]),
   deskripsi: schema.string({ trim: true }, [rules.required()]),
@@ -44,6 +45,7 @@ export default class BukuController {
     const {
       isbn,
       judul,
+      kategori,
       pengarang,
       deskripsi,
       penerbit,
@@ -66,6 +68,7 @@ export default class BukuController {
     await Buku.create({
       isbn,
       judul,
+      kategori,
       pengarang,
       penerbit,
       deskripsi,
@@ -104,6 +107,7 @@ export default class BukuController {
       isbn,
       cover,
       judul,
+      kategori,
       penerbit,
       deskripsi,
       pengarang,
@@ -121,6 +125,7 @@ export default class BukuController {
 
     buku.isbn = isbn;
     buku.judul = judul;
+    buku.kategori = kategori;
     buku.pengarang = pengarang;
     buku.penerbit = penerbit;
     buku.deskripsi = deskripsi;
