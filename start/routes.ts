@@ -46,8 +46,7 @@ Route.group(() => {
     Route.get("/buku", "DashboardController.bukuTable");
     Route.get("/buku/form", "DashboardController.bukuForm");
 
-    Route.get("/buku_masuk", "DashboardController.bukuMasukTable");
-    Route.get("/buku_keluar", "DashboardController.bukuKeluarTable");
+    Route.get("/transaksi_buku", "DashboardController.transaksiBukuTable");
 
     Route.get("/peminjaman", "DashboardController.pinjamanTable");
     Route.get("/peminjaman/form", "DashboardController.pinjamanForm");
@@ -68,27 +67,29 @@ Route.group(() => {
   Route.get("/buku", "BukuController.show");
   Route.post("/buku/tambah", "BukuController.create");
   Route.put("/buku/edit", "BukuController.update");
-  Route.delete("/buku/hapus", "BukuController.destroy");
+  Route.delete("/buku/hapus", "BukuController.destroy").middleware(["superadmin"]);
 
   Route.get("/jurusan", "JurusanController.show");
   Route.post("/jurusan/tambah", "JurusanController.create");
   Route.put("/jurusan/edit", "JurusanController.update");
-  Route.delete("/jurusan/hapus", "JurusanController.destroy");
+  Route.delete("/jurusan/hapus", "JurusanController.destroy").middleware(["superadmin"]);
 
   Route.get("/rak", "RaksController.show");
   Route.post("/rak/tambah", "RaksController.create");
   Route.put("/rak/edit", "RaksController.update");
-  Route.delete("/rak/hapus", "RaksController.destroy");
+  Route.delete("/rak/hapus", "RaksController.destroy").middleware(["superadmin"]);
 
   Route.get("/transaksi_buku", "TransaksiBukuController.show");
   Route.post("/transaksi_buku/tambah", "TransaksiBukuController.create");
   Route.put("/transaksi_buku/edit", "TransaksiBukuController.update");
-  Route.delete("/transaksi_buku/hapus", "TransaksiBukuController.destroy");
+  Route.delete("/transaksi_buku/hapus", "TransaksiBukuController.destroy").middleware([
+    "superadmin",
+  ]);
 
   Route.get("/peminjaman", "PinjamanController.show");
   Route.post("/peminjaman/tambah", "PinjamanController.create");
   Route.put("/peminjaman/edit", "PinjamanController.update");
-  Route.delete("/peminjaman/hapus", "PinjamanController.destroy");
+  Route.delete("/peminjaman/hapus", "PinjamanController.destroy").middleware(["superadmin"]);
   Route.put("/peminjaman/kembali", "PinjamanController.restore");
 
   Route.get("/anggota/peminjaman", "AnggotaController.pinjamanData");
@@ -98,7 +99,7 @@ Route.group(() => {
     Route.get("/:type", "UserController.show");
     Route.post("/:type/tambah", "UserController.create");
     Route.put("/:type/edit", "UserController.update");
-    Route.delete("/:type/hapus", "UserController.destroy");
+    Route.delete("/:type/hapus", "UserController.destroy").middleware(["superadmin"]);
   }).where("type", /(anggota|admin)/);
 })
   .prefix("/api")

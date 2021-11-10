@@ -12,6 +12,7 @@ const bookSchema = schema.create({
   penerbit: schema.string({ trim: true }, [rules.required()]),
   deskripsi: schema.string({ trim: true }, [rules.required()]),
   cover: schema.file({ size: "2mb", extnames: ["png", "jpeg", "jpg"] }, [rules.required()]),
+  id_rak: schema.number([rules.required()]),
 });
 
 export default class BukuController {
@@ -26,7 +27,9 @@ export default class BukuController {
         const json = book.toJSON();
         return {
           ...json,
-          url_cover: json.url_cover.startsWith("http") ? json.url_cover : `/img/${json.urlCover}`,
+          url_cover: json.url_cover.startsWith("http")
+            ? json.url_cover
+            : `/img/buku/${json.url_cover}`,
         } as ModelObject;
       })
     );
@@ -37,7 +40,16 @@ export default class BukuController {
   }
 
   public async create({ request, response, session }: HttpContextContract) {
-    const { isbn, judul, pengarang, deskripsi, penerbit, cover } = await request.validate({
+    /* eslint-disable-next-line */
+    const {
+      isbn,
+      judul,
+      pengarang,
+      deskripsi,
+      penerbit,
+      cover,
+      id_rak: idRak,
+    } = await request.validate({
       schema: bookSchema,
       messages: {
         required: "{{ field }} tidak boleh kosong!",
@@ -58,6 +70,7 @@ export default class BukuController {
       penerbit,
       deskripsi,
       jumlah: 0,
+      idRak,
       urlCover: filename,
     });
 
@@ -87,7 +100,15 @@ export default class BukuController {
 
   public async update({ request, response, session }: HttpContextContract) {
     /* eslint-disable-next-line */
-    const { isbn, cover, judul, penerbit, deskripsi, pengarang } = await request.validate({
+    const {
+      isbn,
+      cover,
+      judul,
+      penerbit,
+      deskripsi,
+      pengarang,
+      id_rak: idRak,
+    } = await request.validate({
       schema: bookSchema,
     });
     const { id } = request.qs();
@@ -103,6 +124,7 @@ export default class BukuController {
     buku.pengarang = pengarang;
     buku.penerbit = penerbit;
     buku.deskripsi = deskripsi;
+    buku.idRak = idRak;
 
     if (cover) {
       // remove the old one

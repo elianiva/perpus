@@ -17,15 +17,21 @@ export default class TransaksiBukuController {
   public async show({ request }: HttpContextContract) {
     const { kind } = request.qs();
 
-    const buku = await TransaksiBuku.query().where(
-      "jenis",
-      kind === "masuk" ? Kind.MASUK : Kind.KELUAR
-    );
+    let buku: TransaksiBuku[] | null = null;
+    if (kind === Kind.MASUK || kind === Kind.KELUAR) {
+      buku = await TransaksiBuku.query().where(
+        "jenis",
+        kind === "masuk" ? Kind.MASUK : Kind.KELUAR
+      );
+    } else {
+      buku = await TransaksiBuku.all();
+    }
 
     return {
       data: await Promise.all(
         buku!.map(async (b: TransaksiBuku) => {
           await b.load("buku");
+
           return {
             id: b.id,
             id_buku: b.buku.id,
@@ -34,6 +40,7 @@ export default class TransaksiBukuController {
             jumlah: b.jumlah,
             created_at: b.createdAt,
             updated_at: b.updatedAt,
+            jenis: b.jenis === Kind.MASUK ? "Masuk" : "Keluar",
           };
         })
       ),

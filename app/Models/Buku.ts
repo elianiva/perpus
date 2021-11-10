@@ -26,6 +26,9 @@ export default class Buku extends BaseModel {
   public judul: string;
 
   @column()
+  public kategori: string;
+
+  @column()
   public pengarang: string;
 
   @column()

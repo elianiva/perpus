@@ -1,15 +1,15 @@
 
+- [DOING] tambahin field kategori buat buku
 
-- import data dari excel
-- tambahin role superadmin yg bisa delete data
-- ganti pake soft delete
-- gabung buku_masuk + buku_keluar jadi transaksi_buku
-- tambahin kategori ebook
-- pdf viewer
-- tambahin field kategori buat buku
-- tampilin buku per-kategori
-- jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
-- gausah dikasih durasi kalo mau pinjem
-- kasih halaman admin buat approve pinjaman + nentuin deadline
-- bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
+- [TODO] bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
+- [TODO] ganti pake soft delete
+- [TODO] gausah dikasih durasi kalo mau pinjem
+- [TODO] import data dari excel
+- [TODO] jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
+- [TODO] kasih halaman admin buat approve pinjaman + nentuin deadline
+- [TODO] pdf viewer
+- [TODO] tambahin kategori ebook
+- [TODO] tampilin buku per-kategori
 
+- [DONE] gabung buku_masuk + buku_keluar jadi transaksi_buku
+- [DONE] tambahin role superadmin yg bisa delete data

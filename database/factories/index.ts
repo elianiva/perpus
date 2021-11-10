@@ -46,6 +46,14 @@ export const PinjamanFactory = Factory.define(Pinjaman, ({ faker }) => ({
 export const BukuFactory = Factory.define(Buku, ({ faker }) => ({
   isbn: faker.helpers.replaceSymbolWithNumber("#############"),
   judul: faker.company.companyName(),
+  kategori: faker.random.arrayElement([
+    "Sains",
+    "Teknologi",
+    "Informatika",
+    "Fiksi",
+    "Non-Fiksi",
+    "Filosofi",
+  ]),
   pengarang: `${faker.name.firstName()} ${faker.name.lastName()}`,
   penerbit: faker.company.companyName(),
   urlCover: faker.image.imageUrl(220, 400),

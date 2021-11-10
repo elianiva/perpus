@@ -8,6 +8,7 @@ export default class Bukus extends BaseSchema {
       table.increments("id").primary().notNullable().unsigned();
       table.string("isbn", 13).notNullable();
       table.string("judul").notNullable();
+      table.string("kategori").notNullable();
       table.string("pengarang").notNullable();
       table.string("penerbit").notNullable();
       table.integer("jumlah").notNullable();

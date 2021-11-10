@@ -5,7 +5,6 @@ import Jurusan from "App/Models/Jurusan";
 import Pinjaman from "App/Models/Pinjaman";
 import Rak from "App/Models/Rak";
 import User, { Roles } from "App/Models/User";
-import { Kind } from "./TransaksiBukuController";
 
 export default class DashboardController {
   public async index({ view, auth }: HttpContextContract) {
@@ -18,12 +17,7 @@ export default class DashboardController {
       .where("role", "=", Roles.ANGGOTA)
       .count("* as total");
     const booksAmount = await Database.from("buku").count("* as total");
-    const inBooksAmount = await Database.from("transaksi_buku")
-      .where("jenis", Kind.MASUK)
-      .count("* as total");
-    const outBooksAmount = await Database.from("transaksi_buku")
-      .where("jenis", Kind.KELUAR)
-      .count("* as total");
+    const bookTransactionsAmount = await Database.from("transaksi_buku").count("* as total");
     const majorsAmount = await Database.from("jurusan").count("* as total");
     const borrowed = await Database.from("pinjaman").count("* as total").where({ status: 0 });
     const returned = await Database.from("pinjaman").count("* as total").where({ status: 0 });
@@ -35,8 +29,7 @@ export default class DashboardController {
       totalAnggota: membersAmount[0].total,
       totalAdmin: adminAmount[0].total,
       totalJurusan: majorsAmount[0].total,
-      totalBukuMasuk: inBooksAmount[0].total,
-      totalBukuKeluar: outBooksAmount[0].total,
+      totalTransaksiBuku: bookTransactionsAmount[0].total,
       sedangDipinjam: borrowed[0].total,
       sudahDikembalikan: returned[0].total,
       jumlahRak: rak[0].total,
@@ -48,6 +41,7 @@ export default class DashboardController {
     await auth.user?.load("profil");
     return view.render("admin/dashboard/buku", {
       currentUserName: auth.user?.profil.nama,
+      currentUserRole: auth.user?.role,
     });
   }
 
@@ -55,6 +49,7 @@ export default class DashboardController {
     await auth.user?.load("profil");
     return view.render("admin/dashboard/pinjaman", {
       currentUserName: auth.user?.profil.nama,
+      currentUserRole: auth.user?.role,
     });
   }
 
@@ -114,24 +109,16 @@ export default class DashboardController {
     });
   }
 
-  private async bukuIO({ view, auth }: HttpContextContract, type: string) {
+  public async transaksiBukuTable({ auth, view }: HttpContextContract) {
     const buku = await Buku.all();
     await auth.user?.load("profil");
-    return view.render(`admin/dashboard/buku_io`, {
+    return view.render(`admin/dashboard/transaksi_buku`, {
       currentUserName: auth.user?.profil.nama,
-      currentPage: type,
+      currentPage: "transaksi_buku",
       data: {
         buku: buku.map((b) => b.serialize({ fields: ["id", "judul"] })),
       },
     });
-  }
-
-  public async bukuMasukTable(ctx: HttpContextContract) {
-    return this.bukuIO(ctx, "transaksi_buku?kind=masuk");
-  }
-
-  public async bukuKeluarTable(ctx: HttpContextContract) {
-    return this.bukuIO(ctx, "transaksi_buku?kind=keluar");
   }
 
   public async bukuForm({ request, response, view, logger, auth }: HttpContextContract) {
@@ -177,6 +164,7 @@ export default class DashboardController {
     return view.render("admin/dashboard/user", {
       currentPage: type,
       currentUserName: auth.user?.profil.nama,
+      currentUserRole: auth.user?.role,
     });
   }
 
@@ -225,6 +213,7 @@ export default class DashboardController {
     return view.render(`admin/dashboard/jurusan`, {
       currentPage: "jurusan",
       currentUserName: auth.user?.profil.nama,
+      currentUserRole: auth.user?.role,
     });
   }
 
@@ -234,6 +223,7 @@ export default class DashboardController {
     return view.render(`admin/dashboard/rak`, {
       currentPage: "rak",
       currentUserName: auth.user?.profil.nama,
+      currentUserRole: auth.user?.role,
     });
   }
 }

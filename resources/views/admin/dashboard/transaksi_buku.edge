@@ -7,7 +7,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: currentPage })
+  @!component('components/sidebar', { active: "transaksi_buku" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua {{ currentPage.split("_").join(" ") }}</h1>
+            <h1 class="m-0 text-capitalize">Semua Transaksi Buku</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -24,7 +24,7 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">Buku {{ currentPage.split("_").join(" ") }}</li>
+              <li class="breadcrumb-item active text-capitalize">Transaksi Buku</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -34,7 +34,7 @@
           data-toggle="modal"
           data-target="#modal-add"
         >
-          <b class="text-white text-capitalize">Tambah {{ currentPage.split("_").join(" ") }}</b>
+          <b class="text-white text-capitalize">Tambah Transaksi Buku</b>
         </button>
         <!-- /.row -->
       </div>
@@ -70,6 +70,7 @@
                       <th>Judul</th>
                       <th>Alasan</th>
                       <th>Jumlah</th>
+                      <th>Jenis</th>
                       <th>Ditambahkan pada</th>
                       <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
@@ -81,6 +82,7 @@
                       <th>Judul</th>
                       <th>Alasan</th>
                       <th>Jumlah</th>
+                      <th>Jenis</th>
                       <th>Ditambahkan pada</th>
                       <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
@@ -114,7 +116,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=DELETE">
+        <form method="POST" action="/api/transaksi_buku/hapus?_method=DELETE">
           {{ csrfField() }}
           <input id="id_buku" name="id_buku" type="hidden" />
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
@@ -131,12 +133,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Perbarui {{ currentPage.split("_").join(" ") }}</h4>
+        <h4 class="modal-title">Perbarui Transaksi Buku</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{ currentPage }}/edit?_method=PUT">
+      <form method="POST" action="/api/transaksi_buku/edit?_method=PUT">
         {{ csrfField() }}
         <div class="modal-body">
           <input id="id_buku" name="id_buku" type="hidden" />
@@ -182,12 +184,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Tambah {{ currentPage.split("_").join(" ") }}</h4>
+        <h4 class="modal-title">Tambah Transaksi Buku</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="POST" action="/api/{{ currentPage }}/tambah">
+      <form method="POST" action="/api/transaksi_buku/tambah">
         {{ csrfField() }}
         <div class="modal-body">
           <div class="form-group">
@@ -248,7 +250,6 @@
   rel="stylesheet"
   href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
 />
-<link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
 <!-- Select2 -->
 <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -265,12 +266,6 @@
 <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="/plugins/jszip/jszip.min.js"></script>
-<script src="/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <!-- Select2 -->
 <script src="/plugins/select2/js/select2.full.min.js"></script>
 
@@ -282,11 +277,12 @@
   $(document).ready(function () {
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{ currentPage }}}",
+        ajax: "/api/transaksi_buku",
         columns: [
           { data: "judul" },
           { data: "alasan" },
           { data: "jumlah" },
+          { data: "jenis" },
           { data: "created_at", className: "none" },
           { data: "updated_at", className: "none" },
           { data: null },
@@ -324,25 +320,6 @@
         autoWidth: false,
         responsive: true,
         deferRender: true,
-        dom: '<"pull-left"f><"pull-right"B>tip',
-        buttons: [
-          {
-            extend: 'excel',
-            text: 'Export to Excel',
-            className: 'btn btn-success',
-            exportOptions: {
-              columns: 'th:not(:last-child)'
-            }
-          },
-          {
-            extend: 'pdf',
-            text: 'Export to PDF',
-            className: 'btn btn-danger',
-            exportOptions: {
-              columns: 'th:not(:last-child)'
-            }
-          }
-        ]
       });
 
     $("#modal-confirm").on("show.bs.modal", function (event) {
@@ -350,7 +327,7 @@
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data {{ currentPage.split("_").join(" ") }} berjudul ${judul}?</p>`);
+        .html(`<p class="h5">Yakin hapus data transaksi buku berjudul ${judul}?</p>`);
       $(this).find("#id_buku").val(id);
     });
 

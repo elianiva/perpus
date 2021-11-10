@@ -62,6 +62,7 @@
                         placeholder="Masukkan ISBN dengan benar"
                         value="{{ data?.isbn ?? flashMessages.get('isbn') ?? '' }}"
                         autocomplete="off"
+                        maxlength="13"
                       />
                       <div class="invalid-feedback">
                         {{ flashMessages.get('errors.isbn')?.[0] }}

@@ -66,7 +66,9 @@
                       <th>Judul Buku</th>
                       <th>Tanggal Pinjam</th>
                       <th>Tanggal Kembali</th>
-                      <th>Aksi</th>
+                      @if(currentUserRole === "SUPERADMIN")
+                        <th>Aksi</th>
+                      @end
                     </tr>
                   </thead>
                   <tbody></tbody>
@@ -76,7 +78,9 @@
                       <th>Judul Buku</th>
                       <th>Tanggal Pinjam</th>
                       <th>Tanggal Kembali</th>
-                      <th>Aksi</th>
+                      @if(currentUserRole === "SUPERADMIN")
+                        <th>Aksi</th>
+                      @end
                     </tr>
                   </tfoot>
                 </table>
@@ -125,7 +129,6 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
-<link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
 <!-- Ekko Lightbox -->
 <link rel="stylesheet" href="/plugins/ekko-lightbox/ekko-lightbox.css" />
 
@@ -147,14 +150,6 @@
 <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="/plugins/jszip/jszip.min.js"></script>
-<script src="/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- Ekko Lightbox -->
 <script src="/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 
@@ -167,8 +162,7 @@
         { data: "buku.judul" },
         { data: "tgl_pinjam" },
         { data: "tgl_kembali" },
-        { data: null }
-      ],
+      ].concat("{{{ currentUserRole }}}" === "SUPERADMIN" ? [{ data: null }] : []),
       columnDefs: [
         {
           targets: [2],
@@ -190,11 +184,11 @@
               day: "numeric",
             }),
         },
-        {
+        "{{{currentUserRole}}}" === "SUPERADMIN" && {
           targets: [-1],
           render: (_data, _type, row) => {
             const id = row.id;
-            return `
+              return `
 <button
   type="button"
   class="btn btn-danger"
@@ -214,25 +208,6 @@
       autoWidth: false,
       responsive: true,
       deferRender: true,
-      dom: '<"pull-left"f><"pull-right"B>tip',
-      buttons: [
-        {
-          extend: "excel",
-          text: "Export to Excel",
-          className: "btn btn-success",
-          exportOptions: {
-            columns: "th:not(:last-child)",
-          },
-        },
-        {
-          extend: "pdf",
-          text: "Export to PDF",
-          className: "btn btn-danger",
-          exportOptions: {
-            columns: "th:not(:last-child)",
-          },
-        },
-      ],
     });
 
     $("#modal-delete").on("show.bs.modal", function (event) {
