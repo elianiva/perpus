@@ -1,22 +1,17 @@
-.books {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-}
-
-@media only screen and (max-width: 480px) {
-  .books {
-    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-  }
-}
-
 .book-img {
   height: 15rem;
   object-fit: cover;
   object-position: top;
 }
 
+.book-row {
+  height: 20rem;
+}
+
 .book-card {
+  margin: 0 0.5rem;
   cursor: pointer;
+  min-height: 100%;
 }
 
 #cover-buku {
@@ -26,4 +21,14 @@
 
 body.modal-open {
   overflow: hidden !important;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  color: #4E5258;
+}
+
+.category-title::after {
+  content: "↗";
+  font-size: 0.75em;
 }

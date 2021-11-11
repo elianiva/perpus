@@ -6,40 +6,43 @@
 @!component('components/navbar_anggota', { currentUserName, pinjaman: data.pinjaman })
 
 <div class="container pt-4">
-  <h2 class="text-center mb-4">Semua Buku</h2>
+  <h1 class="text-center mb-4">Semua Buku</h1>
   @if(msg)
     <div class="alert alert-light alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
       <h5><i class="icon fas fa-check"></i> {{ msg }}</h5>
     </div>
   @endif
-  <div class="books" style="gap: 1rem;">
-    @each(d in data.buku)
-    <div
-      class="book-card card"
-      style="width: 100%"
-      data-id="{{ d.id }}"
-      data-judul="{{ d.judul }}"
-      data-deskripsi="{{ d.deskripsi }}"
-      data-img="{{ d.url_cover }}"
-      data-penerbit="{{ d.penerbit }}"
-      data-pengarang="{{ d.pengarang }}"
-      data-toggle="modal"
-      data-target="#modal-detail"
-    >
-      <img
-        class="book-img card-img-top"
-        src="{{ d.url_cover }}"
-        alt="{{ d.judul }}"
-      />
-      <div class="card-body">
-        <h5 class="card-title d-block">
-          <b>{{ d.judul }}</b>
-        </h5>
-      </div>
+  @each(k in data.kategori)
+    <a href="/buku/{{k}}"><h4 class="category-title ml-2 text-dark">{{ k }}</h4></a>
+    <div class="d-flex book-row mb-5" style="gap: 1rem;">
+      @each(d in data.buku.filter((b) => b.kategori === k))
+        <div
+          class="book-card card"
+          style="width: 100%"
+          data-id="{{ d.id }}"
+          data-judul="{{ d.judul }}"
+          data-deskripsi="{{ d.deskripsi }}"
+          data-img="{{ d.url_cover }}"
+          data-penerbit="{{ d.penerbit }}"
+          data-pengarang="{{ d.pengarang }}"
+          data-toggle="modal"
+          data-target="#modal-detail"
+        >
+          <img
+            class="book-img card-img-top"
+            src="{{ d.url_cover }}"
+            alt="{{ d.judul }}"
+          />
+          <div class="card-body">
+            <h5 class="card-title d-block">
+              <b>{{ d.judul }}</b>
+            </h5>
+          </div>
+        </div>
+      @end
     </div>
-    @end
-  </div>
+  @end
 </div>
 
 <div class="modal fade" id="modal-pinjam" tabindex="-1" role="dialog" aria-hidden="true">
@@ -137,12 +140,15 @@
 <!-- Select2 -->
 <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="/plugins/slick/slick.css">
+<link rel="stylesheet" href="/plugins/slick/slick-theme.css">
 <link rel="stylesheet" href="/css/anggota.css">
 @end
 
 @section('custom_scripts')
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/plugins/slick/slick.min.js"></script>
 
 <script>
   $(function() {
@@ -154,6 +160,36 @@
     $(".select2").select2({
       theme: 'bootstrap4'
     });
+
+    $(".book-row").slick({
+      infinite: true,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      adaptiveHeight: true,
+      responsive: [
+        {
+          breakpoint: 1000,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 4,
+          }
+        },
+        {
+          breakpoint: 770,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+          }
+        },
+        {
+          breakpoint: 540,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+          }
+        },
+      ],
+    })
 
     $("#modal-detail").on("show.bs.modal", function (event) {
       const id = $(event.relatedTarget).data("id");

@@ -1,4 +1,5 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import Database from "@ioc:Adonis/Lucid/Database";
 import Buku from "App/Models/Buku";
 import Pinjaman from "App/Models/Pinjaman";
 
@@ -10,12 +11,14 @@ export default class AnggotaController {
       .filter((book) => book.jumlah > 0)
       .map((b) => b.toJSON())
       .sort((a, b) => (a.judul < b.judul ? -1 : 1));
+    const categories = await Database.query().from("buku").select("kategori").distinct();
 
     await auth.user!.load("profil");
     return view.render("anggota/index", {
       currentUserName: auth.user!.profil.nama,
       currentUserId: auth.user!.id,
       data: {
+        kategori: categories.map((item) => item.kategori),
         buku: sortedBooks,
         pinjaman: await Promise.all(
           pinjaman.map(async (p) => {
