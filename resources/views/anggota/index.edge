@@ -137,9 +137,6 @@
 @section('stylesheets')
 <!-- daterange picker -->
 <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
-<!-- Select2 -->
-<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <link rel="stylesheet" href="/plugins/slick/slick.css">
 <link rel="stylesheet" href="/plugins/slick/slick-theme.css">
 <link rel="stylesheet" href="/css/anggota.css">
@@ -147,7 +144,6 @@
 
 @section('custom_scripts')
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
-<script src="/plugins/select2/js/select2.full.min.js"></script>
 <script src="/plugins/slick/slick.min.js"></script>
 
 <script>
@@ -155,10 +151,6 @@
     $("#durasi").daterangepicker({
       // disable previous date
       isInvalidDate: (e) => e._d < Date.now()
-    });
-
-    $(".select2").select2({
-      theme: 'bootstrap4'
     });
 
     $(".book-row").slick({

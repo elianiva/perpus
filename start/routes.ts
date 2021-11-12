@@ -88,6 +88,8 @@ Route.group(() => {
 
   Route.get("/peminjaman", "PinjamanController.show");
   Route.post("/peminjaman/tambah", "PinjamanController.create");
+  Route.put("/peminjaman/izinkan", "PinjamanController.approve");
+  Route.put("/peminjaman/tolak", "PinjamanController.reject");
   Route.put("/peminjaman/edit", "PinjamanController.update");
   Route.delete("/peminjaman/hapus", "PinjamanController.destroy").middleware(["superadmin"]);
   Route.put("/peminjaman/kembali", "PinjamanController.restore");

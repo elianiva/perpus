@@ -1,7 +1,7 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import Buku from "App/Models/Buku";
-import Pinjaman from "App/Models/Pinjaman";
+import Pinjaman, { Status } from "App/Models/Pinjaman";
 import { DateTime } from "luxon";
 import TransaksiBukuController, { Kind } from "./TransaksiBukuController";
 
@@ -23,6 +23,39 @@ const parseDate = (date: string): { start: DateTime; end: DateTime } => {
 };
 
 export default class PinjamanController {
+  public async show({ request }: HttpContextContract) {
+    let { status } = request.qs();
+    status = parseInt(status);
+
+    let pinjaman = await Pinjaman.all();
+    if (status) {
+      pinjaman = pinjaman.filter((p) => p.status === status);
+    }
+
+    return {
+      data: await Promise.all(
+        pinjaman.map(async (p) => {
+          await p.load("buku");
+          await p.load("user", (user) => user.preload("profil"));
+
+          if (p.status === Status.DITOLAK) console.log(p.toJSON());
+
+          return {
+            id: p.id,
+            nama: p.user?.profil?.nama,
+            buku: {
+              id: p.buku[0]?.id,
+              judul: p.buku[0]?.judul,
+            },
+            status: p.status,
+            tgl_pinjam: p.tglPinjam,
+            tgl_kembali: p.tglKembali,
+          };
+        })
+      ),
+    };
+  }
+
   public async create({ request, response, session, auth }: HttpContextContract) {
     /* eslint-disable-next-line */
     const { id_buku, id_anggota, durasi } = await request.validate({
@@ -57,37 +90,6 @@ export default class PinjamanController {
 
     session.flash({ msg: "Buku berhasil dipinjam!" });
     return response.redirect().back();
-  }
-
-  public async show({ request }: HttpContextContract) {
-    let { status } = request.qs();
-    status = parseInt(status);
-
-    let pinjaman = await Pinjaman.all();
-    if (status) {
-      pinjaman = pinjaman.filter((p) => p.status === status);
-    }
-
-    return {
-      data: await Promise.all(
-        pinjaman.map(async (p) => {
-          await p.load("buku");
-          await p.load("user", (user) => user.preload("profil"));
-
-          return {
-            id: p.id,
-            nama: p.user?.profil?.nama,
-            buku: {
-              id: p.buku[0]?.id,
-              judul: p.buku[0]?.judul,
-            },
-            status: p.status,
-            tgl_pinjam: p.tglPinjam,
-            tgl_kembali: p.tglKembali,
-          };
-        })
-      ),
-    };
   }
 
   public async update({ request, response, session }: HttpContextContract) {
@@ -147,7 +149,7 @@ export default class PinjamanController {
       alasan: `Dikembalikan oleh ${auth.user!.profil.nama}`,
     });
 
-    pinjaman.status = 1;
+    pinjaman.status = Status.TERTUNDA;
     await pinjaman.save();
 
     session.flash({ msg: "Pinjaman berhasil dikembalikan!" });
@@ -169,6 +171,48 @@ export default class PinjamanController {
     await pinjaman.delete();
 
     session.flash({ msg: "Pinjaman berhasil dihapus" });
+    return response.redirect().back();
+  }
+
+  public async approve({ request, response, session }: HttpContextContract) {
+    const { id: idPinjaman, tgl_kembali: tglKembali } = await request.validate({
+      schema: schema.create({
+        id: schema.number([rules.required()]),
+        tgl_kembali: schema.string({ trim: true }, [rules.required()]),
+      }),
+    });
+
+    const pinjaman = await Pinjaman.find(idPinjaman);
+    if (!pinjaman) {
+      session.flash({ msg: "Gagal memberi izin pada pinjaman." });
+      return response.redirect().back();
+    }
+
+    pinjaman.tglKembali = DateTime.fromFormat(tglKembali, "yyyy-mm-dd");
+    pinjaman.status = Status.DITERIMA;
+
+    await pinjaman.save();
+
+    return response.redirect().back();
+  }
+
+  public async reject({ request, response, session }: HttpContextContract) {
+    const { id: idPinjaman } = await request.validate({
+      schema: schema.create({
+        id: schema.number([rules.required()]),
+      }),
+    });
+
+    const pinjaman = await Pinjaman.find(idPinjaman);
+    if (!pinjaman) {
+      session.flash({ msg: "Pinjaman gagal dihapus" });
+      return response.redirect().back();
+    }
+
+    pinjaman.status = Status.DITOLAK;
+
+    await pinjaman.save();
+
     return response.redirect().back();
   }
 }

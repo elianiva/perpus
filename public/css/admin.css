@@ -1,0 +1,4 @@
+.date::-webkit-calendar-picker-indicator {
+  padding-left: 50%;
+  cursor: pointer;
+}

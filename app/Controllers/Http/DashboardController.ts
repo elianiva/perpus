@@ -72,7 +72,7 @@ export default class DashboardController {
       await pinjaman.load("user");
 
       const startdate = pinjaman.tglPinjam.toFormat("MM/dd/yyyy");
-      const endDate = pinjaman.tglKembali.toFormat("MM/dd/yyyy");
+      const endDate = pinjaman.tglKembali?.toFormat("MM/dd/yyyy");
 
       return view.render("admin/dashboard/pinjaman_form", {
         currentUserName: auth.user?.profil.nama,

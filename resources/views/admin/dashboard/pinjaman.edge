@@ -68,7 +68,7 @@
                   <thead>
                     <tr>
                       <th>Nama Peminjam</th>
-                      <th>Judul Buku</th>
+                      <th data-priority="1">Judul Buku</th>
                       <th>Tanggal Pinjam</th>
                       <th>Tanggal Kembali</th>
                       <th>Aksi</th>
@@ -78,7 +78,7 @@
                   <tfoot>
                     <tr>
                       <th>Nama Peminjam</th>
-                      <th>Judul Buku</th>
+                      <th data-priority="1">Judul Buku</th>
                       <th>Tanggal Pinjam</th>
                       <th>Tanggal Kembali</th>
                       <th>Aksi</th>
@@ -101,22 +101,53 @@
   @!component('components/footer')
 </div>
 
-<div class="modal fade" id="modal-return">
+<div class="modal fade" id="modal-accept">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Konfirmasi</h4>
+        <h4 class="modal-title">Izinkan Pinjaman</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body"></div>
+      <form method="POST" action="/api/peminjaman/izinkan?_method=PUT">
+        {{ csrfField() }}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="date-input">Tanggal Pengembalian</label>
+            <input name="tgl_kembali" id="date-input" class="date form-control" type="date" required />
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+            <input id="id-peminjaman" name="id" type="hidden" />
+            <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-success">Izinkan</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-reject">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Tolak Pinjaman</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="h5">Yakin tolak pinjaman?</p>
+      </div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/peminjaman/kembali?type=Pinjaman&_method=PUT">
+        <form method="POST" action="/api/peminjaman/tolak?_method=PUT">
           {{ csrfField() }}
           <input id="id-peminjaman" name="id" type="hidden" />
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-info">Kembalikan</button>
+          <button type="submit" class="btn btn-danger">Tolak</button>
         </form>
       </div>
     </div>
@@ -130,7 +161,9 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
-<link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
 <style>
   .pull-left {
@@ -150,25 +183,19 @@
 <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="/plugins/jszip/jszip.min.js"></script>
-<script src="/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
   $(document).ready(function () {
     const table = $("#table").DataTable({
       ajax: "/api/peminjaman?status=0",
+      order: [[2, "desc"], [0, "asc"]],
       columns: [
-        { data: "nama" },
-        { data: "buku.judul" },
-        { data: "tgl_pinjam" },
-        { data: "tgl_kembali" },
-        { data: null }
+        { data: "nama", width: "15%" },
+        { data: "buku.judul", width: "22%" },
+        { data: "tgl_pinjam", width: "12.5%" },
+        { data: "tgl_kembali", width: "12.5%"  },
+        { data: null, width: "15%" }
       ],
       columnDefs: [
         {
@@ -183,76 +210,136 @@
         },
         {
           targets: [3],
-          render: (data, _type, row) =>
-            new Date(data).toLocaleDateString("id-ID", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }),
+          render: (data, _type, row) => {
+            if (data) {
+              return new Date(data).toLocaleDateString("id-ID", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+            if (row.status === "DITOLAK") return "Ditolak";
+            if (row.status === "DIKEMBALIKAN") return "Sudah dikembalikan";
+            return "Belum Ditentukan"
+          }
         },
         {
           targets: [-1],
           render: (_data, _type, row) => {
             const id = row.id;
-            return `
-<a href="/admin/dashboard/peminjaman/form?isEditing=true&id=${row.id}">
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-id="${row.id}"
-  >
-    <i class="fas fa-edit"></i>
-  </button>
-</a>
-<button
-  type="button"
-  class="btn btn-info"
-  data-toggle="modal"
-  data-target="#modal-return"
-  data-id="${row.id}"
-  data-judul="${row.buku.judul}"
->
-  <i class="fas fa-redo"></i>
-</button>
-`;
+            const editButton = `
+              <a href="/admin/dashboard/peminjaman/form?isEditing=true&id=${row.id}">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-id="${row.id}"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+              </a>`;
+            const returnButton = `
+              <button
+                type="button"
+                class="btn btn-info"
+                data-toggle="modal"
+                data-target="#modal-accept"
+                data-id="${row.id}"
+                data-judul="${row.buku.judul}"
+              >
+                <i class="fas fa-redo"></i>
+              </button>`;
+            const acceptButton = `
+              <button
+                type="button"
+                class="btn btn-success"
+                data-toggle="modal"
+                data-target="#modal-accept"
+                data-id="${row.id}"
+                data-judul="${row.buku.judul}"
+              >
+                <i class="fas fa-check"></i>
+              </button>`;
+            const rejectButton = `
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-toggle="modal"
+                data-target="#modal-reject"
+                data-id="${row.id}"
+                data-judul="${row.buku.judul}"
+              >
+                <i class="fas fa-ban"></i>
+              </button>`;
+
+            if (row.status === "DIKEMBALIKAN"
+                || row.status === "DITOLAK") return editButton;
+            if (row.tgl_kembali) return editButton + returnButton;
+            return editButton + acceptButton + rejectButton;
           },
         },
       ],
+      initComplete: function () {
+        this.api().columns().every(function() {
+          const column = this;
+          const colName = column.header().textContent.toLowerCase();
+          const select = $(`<select class="form-control select2-${colName.replace(/\s/g, "-")}"><option value=""></option></select>`)
+            .appendTo($(column.footer()).empty())
+            .on('change', function () {
+              const val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+              column
+                .search(val ? `^${val}$` : '', true, false)
+                .draw();
+            });
+
+          column.data().unique().sort().each(function(val) {
+            if (!val) return;
+            const isDateColumn = colName.startsWith("tanggal");
+            const displayVal = isDateColumn
+              ? new Date(val).toLocaleDateString("id-ID", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              : val;
+            select.append(`<option value="${displayVal}">${displayVal}</option>`);
+          });
+
+          if (colName == "tanggal kembali") {
+            for (const val of ["Ditolak", "Sudah Dikembalikan", "Belum Ditentukan"]) {
+              select.append(`<option value="${val}">${val}</option>`);
+            }
+          }
+
+          $(`.select2-${colName.replace(/\s/g, "-")}`).select2({
+            theme: "bootstrap4",
+            width: "100%",
+            placeholder: column.header().textContent,
+            allowClear: true
+          });
+        });
+      },
       paging: true,
-      lengthChange: false,
+      lengthChange: true,
       ordering: true,
       info: true,
       autoWidth: false,
       responsive: true,
       deferRender: true,
-      dom: '<"pull-left"f><"pull-right"B>tip',
-      buttons: [
-        {
-          extend: "excel",
-          text: "Export to Excel",
-          className: "btn btn-success",
-          exportOptions: {
-            columns: "th:not(:last-child)",
-          },
-        },
-        {
-          extend: "pdf",
-          text: "Export to PDF",
-          className: "btn btn-danger",
-          exportOptions: {
-            columns: "th:not(:last-child)",
-          },
-        },
-      ],
     });
 
-    $("#modal-return").on("show.bs.modal", function (event) {
+    $('[type="date"]').prop('min', function(){
+        return new Date().toJSON().split('T')[0];
+    });
+
+    $('[type="date"]').prop('value', function(){
+        return new Date().toJSON().split('T')[0];
+    });
+
+    $("#modal-accept").on("show.bs.modal", function (event) {
       const id = $(event.relatedTarget).data("id");
-      const judul = $(event.relatedTarget).data("judul");
-      $(this)
-        .find(".modal-body")
-        .html(`<p class="h5">Yakin untuk mengembalikan buku berjudul <b>${judul}</b>?</p>`);
       $(this).find("#id-peminjaman").val(id);
     });
 

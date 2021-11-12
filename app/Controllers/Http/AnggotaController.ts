@@ -18,7 +18,7 @@ export default class AnggotaController {
       currentUserName: auth.user!.profil.nama,
       currentUserId: auth.user!.id,
       data: {
-        kategori: categories.map((item) => item.kategori),
+        kategori: categories.map((item) => item.kategori).sort(),
         buku: sortedBooks,
         pinjaman: await Promise.all(
           pinjaman.map(async (p) => {

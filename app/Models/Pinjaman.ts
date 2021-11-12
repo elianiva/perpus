@@ -10,6 +10,13 @@ import { DateTime } from "luxon";
 import Buku from "./Buku";
 import User from "./User";
 
+export enum Status {
+  TERTUNDA = "TERTUNDA",
+  DITOLAK = "DITOLAK",
+  DITERIMA = "DITERIMA",
+  DIKEMBALIKAN = "DIKEMBALIKAN",
+}
+
 export default class Pinjaman extends BaseModel {
   public static table = "pinjaman";
 
@@ -17,7 +24,7 @@ export default class Pinjaman extends BaseModel {
   public id: number;
 
   @column()
-  public status: number;
+  public status: Status;
 
   @column.date()
   public tglPinjam: DateTime;

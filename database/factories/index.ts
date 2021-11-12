@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import Buku from "App/Models/Buku";
 import Factory from "@ioc:Adonis/Lucid/Factory";
 import Jurusan from "App/Models/Jurusan";
-import Pinjaman from "App/Models/Pinjaman";
+import Pinjaman, { Status } from "App/Models/Pinjaman";
 import Profil from "App/Models/Profil";
 import Rak from "App/Models/Rak";
 import TransaksiBuku from "App/Models/TransaksiBuku";
@@ -38,21 +38,20 @@ export const TransaksiBukuFactory = Factory.define(TransaksiBuku, ({ faker }) =>
 })).build();
 
 export const PinjamanFactory = Factory.define(Pinjaman, ({ faker }) => ({
-  status: faker.random.arrayElement([0, 1]),
-  tglPinjam: DateTime.fromISO(faker.date.between("2021-08-12", "2021-09-12").toISOString()),
-  tglKembali: DateTime.fromISO(faker.date.between("2021-09-12", "2021-10-12").toISOString()),
+  status: faker.random.arrayElement(Object.values(Status).filter((x) => typeof x !== "number")),
+  tglPinjam: DateTime.fromISO(faker.date.between("2021-10-12", "2021-11-12").toISOString()),
 })).build();
 
 export const BukuFactory = Factory.define(Buku, ({ faker }) => ({
   isbn: faker.helpers.replaceSymbolWithNumber("#############"),
   judul: faker.company.companyName(),
   kategori: faker.random.arrayElement([
+    "Fiksi",
+    "Filosofi",
+    "Informatika",
+    "Non-Fiksi",
     "Sains",
     "Teknologi",
-    "Informatika",
-    "Fiksi",
-    "Non-Fiksi",
-    "Filosofi",
   ]),
   pengarang: `${faker.name.firstName()} ${faker.name.lastName()}`,
   penerbit: faker.company.companyName(),

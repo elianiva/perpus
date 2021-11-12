@@ -1,4 +1,5 @@
 import BaseSchema from "@ioc:Adonis/Lucid/Schema";
+import { Status } from "App/Models/Pinjaman";
 
 export default class Pinjaman extends BaseSchema {
   protected tableName = "pinjaman";
@@ -6,9 +7,12 @@ export default class Pinjaman extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id").primary().notNullable().unsigned();
-      table.boolean("status").defaultTo(0);
       table.date("tgl_pinjam").notNullable();
-      table.date("tgl_kembali").notNullable();
+      table.date("tgl_kembali");
+      table.enum(
+        "status",
+        Object.values(Status).filter((x) => typeof x !== "number")
+      );
       table.integer("id_user").unsigned();
       table.timestamps(true, true);
 

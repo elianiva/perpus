@@ -104,9 +104,6 @@
 />
 <!-- daterange picker -->
 <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
-<!-- Select2 -->
-<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @end
 
 @section('custom_scripts')
@@ -120,17 +117,12 @@
 <script src="/plugins/pdfmake/vfs_fonts.js"></script>
 
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
-<script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
   $(function() {
     $("#durasi").daterangepicker({
       // disable previous date
       isInvalidDate: (e) => e._d < Date.now()
-    });
-
-    $(".select2").select2({
-      theme: 'bootstrap4'
     });
 
     const table = $("#table")
@@ -175,7 +167,7 @@
           },
         ],
         paging: true,
-        lengthChange: false,
+        lengthChange: true,
         ordering: true,
         info: true,
         autoWidth: false,

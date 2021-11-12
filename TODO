@@ -1,5 +1,4 @@
-
-- [DOING] tambahin field kategori buat buku
+- [DOING] bikin halaman buat tiap kategori buku
 
 - [TODO] bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
 - [TODO] ganti pake soft delete
@@ -9,7 +8,8 @@
 - [TODO] kasih halaman admin buat approve pinjaman + nentuin deadline
 - [TODO] pdf viewer
 - [TODO] tambahin kategori ebook
-- [TODO] tampilin buku per-kategori
 
 - [DONE] gabung buku_masuk + buku_keluar jadi transaksi_buku
 - [DONE] tambahin role superadmin yg bisa delete data
+- [DONE] tambahin field kategori buat buku
+- [DONE] tampilin buku per-kategori
