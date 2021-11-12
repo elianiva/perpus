@@ -51,8 +51,6 @@ Route.group(() => {
     Route.get("/peminjaman", "DashboardController.pinjamanTable");
     Route.get("/peminjaman/form", "DashboardController.pinjamanForm");
 
-    Route.get("/pengembalian", "DashboardController.kembaliTable");
-
     // fall through for /anggota or /admin
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");

@@ -102,13 +102,6 @@ export default class DashboardController {
     });
   }
 
-  public async kembaliTable({ auth, view }: HttpContextContract) {
-    await auth.user?.load("profil");
-    return view.render("admin/dashboard/pengembalian", {
-      currentUserName: auth.user?.profil.nama,
-    });
-  }
-
   public async transaksiBukuTable({ auth, view }: HttpContextContract) {
     const buku = await Buku.all();
     await auth.user?.load("profil");

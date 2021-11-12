@@ -38,8 +38,6 @@ export default class PinjamanController {
           await p.load("buku");
           await p.load("user", (user) => user.preload("profil"));
 
-          if (p.status === Status.DITOLAK) console.log(p.toJSON());
-
           return {
             id: p.id,
             nama: p.user?.profil?.nama,

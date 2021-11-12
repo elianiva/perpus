@@ -50,14 +50,6 @@
 ### UPDATE - Perbarui Peminjaman
 ![image](https://user-images.githubusercontent.com/51877647/136531135-9470c1dc-42d8-46b6-85c2-7a29f9ac9759.png)
 
-## Pengembalian
-### READ - Semua Pengembalian
-![image](https://user-images.githubusercontent.com/51877647/136531303-b494ba22-ab58-4326-8a76-560649dea9dc.png)
-### CREATE - Tambah Pengembalian
-![image](https://user-images.githubusercontent.com/51877647/136531470-19c1e216-bf36-416e-a41b-27a8d8eff749.png)
-### DELETE - Hapus Pengembalian
-![image](https://user-images.githubusercontent.com/51877647/136531503-fca2d2a3-c3aa-48c3-9911-ff5b231fec4f.png)
-
 ## Admin
 ### READ - Semua Admin
 ![image](https://user-images.githubusercontent.com/51877647/136532041-c0f5c297-304f-4546-9638-57a66df5b63b.png)
