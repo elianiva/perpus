@@ -86,4 +86,30 @@ export default class AnggotaController {
       ),
     };
   }
+
+  public async kategoriView({ request, auth, view }: HttpContextContract) {
+    const { kategori } = request.params();
+    const books = await Buku.query().where("kategori", "=", kategori);
+    const pinjaman = await Pinjaman.query().where("id_user", "=", auth.user!.id);
+    const sortedBooks = books
+      .filter((book) => book.jumlah > 0)
+      .map((b) => b.toJSON())
+      .sort((a, b) => (a.judul < b.judul ? -1 : 1));
+
+    await auth.user!.load("profil");
+    return view.render("anggota/kategori", {
+      currentUserName: auth.user!.profil.nama,
+      currentUserId: auth.user!.id,
+      data: {
+        kategori: kategori,
+        buku: sortedBooks,
+        pinjaman: await Promise.all(
+          pinjaman.map(async (p) => {
+            await p.load("buku");
+            return p.toJSON();
+          })
+        ),
+      },
+    });
+  }
 }

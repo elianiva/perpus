@@ -34,6 +34,7 @@ Route.post("/logout", "LoginController.logout");
 Route.group(() => {
   Route.get("/", "AnggotaController.index");
   Route.get("/peminjaman", "AnggotaController.pinjamanView");
+  Route.get("/buku/:kategori", "AnggotaController.kategoriView");
 })
   .prefix("/anggota")
   .middleware(["auth", "anggota"]);

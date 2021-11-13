@@ -2,10 +2,8 @@
 
 - [TODO] bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
 - [TODO] ganti pake soft delete
-- [TODO] gausah dikasih durasi kalo mau pinjem
 - [TODO] import data dari excel
 - [TODO] jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
-- [TODO] kasih halaman admin buat approve pinjaman + nentuin deadline
 - [TODO] pdf viewer
 - [TODO] tambahin kategori ebook
 
@@ -13,3 +11,5 @@
 - [DONE] tambahin role superadmin yg bisa delete data
 - [DONE] tambahin field kategori buat buku
 - [DONE] tampilin buku per-kategori
+- [DONE] kasih halaman admin buat approve pinjaman + nentuin deadline
+- [DONE] gausah dikasih durasi kalo mau pinjem
