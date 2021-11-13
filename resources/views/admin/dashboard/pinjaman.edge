@@ -67,6 +67,13 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
+                      <td class="filter-0"></td>
+                      <td class="filter-1"></td>
+                      <td class="filter-2"></td>
+                      <td class="filter-3"></td>
+                      <td class="filter-4"></td>
+                    </tr>
+                    <tr>
                       <th>Nama Peminjam</th>
                       <th data-priority="1">Judul Buku</th>
                       <th>Tanggal Pinjam</th>
@@ -304,11 +311,12 @@
         },
       ],
       initComplete: function () {
-        this.api().columns().every(function() {
+        this.api().columns().every(function(idx) {
           const column = this;
           const colName = column.header().textContent.toLowerCase();
+          if (colName === "aksi") return;
           const select = $(`<select class="form-control select2-${colName.replace(/\s/g, "-")}"><option value=""></option></select>`)
-            .appendTo($(column.footer()).empty())
+            .appendTo(`.filter-${idx}`)
             .on('change', function () {
               const val = $.fn.dataTable.util.escapeRegex($(this).val());
 

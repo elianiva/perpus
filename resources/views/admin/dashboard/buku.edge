@@ -65,6 +65,16 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
+                      <td class="filter-0"></td>
+                      <td class="filter-1"></td>
+                      <td class="filter-2"></td>
+                      <td class="filter-3"></td>
+                      <td class="filter-4"></td>
+                      <td class="filter-5"></td>
+                      <td class="filter-6"></td>
+                      <td class="filter-7"></td>
+                    </tr>
+                    <tr>
                       <th>ISBN</th>
                       <th data-priority="1">Judul</th>
                       <th>Kategori</th>
@@ -148,6 +158,10 @@
 <!-- Ekko Lightbox -->
 <link rel="stylesheet" href="/plugins/ekko-lightbox/ekko-lightbox.css">
 
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
 <style>
 .pull-left{ float:left !important; margin-bottom: 1rem !important; }
 .pull-right{ float:right !important; margin-bottom: 1rem !important; }
@@ -162,6 +176,8 @@
 <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- Ekko Lightbox -->
 <script src="/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
   $(document).ready(function () {
@@ -229,6 +245,53 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
 </a>`,
           },
         ],
+        initComplete: function () {
+          let idx = 0;
+          this.api().columns().every(function() {
+            const column = this;
+            const colName = column.header().textContent.toLowerCase();
+            if (["aksi", "deskripsi", "cover"].includes(colName)
+                || colName.startsWith("ditambahkan")
+                || colName.startsWith("terakhir")) return;
+            const select = $(`<select class="form-control select2-${colName.replace(/\s/g, "-")}"><option value=""></option></select>`)
+              .appendTo(`.filter-${idx}`)
+              .on('change', function () {
+                const val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                column
+                  .search(val ? `^${val}$` : '', true, false)
+                  .draw();
+              });
+
+            column.data().unique().sort().each(function(val) {
+              if (!val) return;
+              const isDateColumn = colName.startsWith("ditambahkan") || colName.startsWith("terakhir");
+              const displayVal = isDateColumn
+                ? new Date(val).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                : val;
+              select.append(`<option value="${displayVal}">${displayVal}</option>`);
+            });
+
+            if (colName == "tanggal kembali") {
+              for (const val of ["Ditolak", "Sudah Dikembalikan", "Belum Ditentukan"]) {
+                select.append(`<option value="${val}">${val}</option>`);
+              }
+            }
+
+            $(`.select2-${colName.replace(/\s/g, "-")}`).select2({
+              theme: "bootstrap4",
+              width: "100%",
+              placeholder: column.header().textContent,
+              allowClear: true
+            });
+            idx++;
+          });
+        },
         paging: true,
         lengthChange: true,
         ordering: true,

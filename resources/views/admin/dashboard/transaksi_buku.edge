@@ -67,6 +67,15 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
+                      <td class="filter-0"></td>
+                      <td class="filter-1"></td>
+                      <td class="filter-2"></td>
+                      <td class="filter-3"></td>
+                      <td class="filter-4"></td>
+                      <td class="filter-5"></td>
+                      <td class="filter-6"></td>
+                    </tr>
+                    <tr>
                       <th>Judul</th>
                       <th>Alasan</th>
                       <th>Jumlah</th>
@@ -283,8 +292,8 @@
           { data: "alasan" },
           { data: "jumlah" },
           { data: "jenis" },
-          { data: "created_at", className: "none" },
-          { data: "updated_at", className: "none" },
+          { data: "created_at" },
+          { data: "updated_at" },
           { data: null },
         ],
         columnDefs: [
@@ -323,6 +332,49 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
             },
           },
         ],
+        initComplete: function () {
+          this.api().columns().every(function(idx) {
+            const column = this;
+            const colName = column.header().textContent.toLowerCase();
+            if (colName === "aksi") return;
+            const select = $(`<select class="form-control select2-${colName.replace(/\s/g, "-")}"><option value=""></option></select>`)
+              .appendTo(`.filter-${idx}`)
+              .on('change', function () {
+                const val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                column
+                  .search(val ? `^${val}$` : '', true, false)
+                  .draw();
+              });
+
+            column.data().unique().sort().each(function(val) {
+              if (!val) return;
+              const isDateColumn = colName.startsWith("ditambahkan") || colName.startsWith("terakhir");
+              const displayVal = isDateColumn
+                ? new Date(val).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                : val;
+              select.append(`<option value="${displayVal}">${displayVal}</option>`);
+            });
+
+            if (colName == "tanggal kembali") {
+              for (const val of ["Ditolak", "Sudah Dikembalikan", "Belum Ditentukan"]) {
+                select.append(`<option value="${val}">${val}</option>`);
+              }
+            }
+
+            $(`.select2-${colName.replace(/\s/g, "-")}`).select2({
+              theme: "bootstrap4",
+              width: "100%",
+              placeholder: column.header().textContent,
+              allowClear: true
+            });
+          });
+        },
         paging: true,
         lengthChange: true,
         ordering: true,
