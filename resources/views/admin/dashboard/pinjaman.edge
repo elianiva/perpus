@@ -155,6 +155,30 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+
+<div class="modal fade" id="modal-return">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Konfirmasi</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer justify-content-between">
+        <form method="POST" action="/api/peminjaman/kembali?_method=PUT">
+          {{ csrfField() }}
+          <input id="id-peminjaman" name="id" type="hidden" />
+          <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-info">Kembalikan</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 @end
 
 @section('stylesheets')
@@ -243,7 +267,7 @@
                 type="button"
                 class="btn btn-info"
                 data-toggle="modal"
-                data-target="#modal-accept"
+                data-target="#modal-return"
                 data-id="${row.id}"
                 data-judul="${row.buku.judul}"
               >
@@ -340,6 +364,15 @@
 
     $("#modal-accept").on("show.bs.modal", function (event) {
       const id = $(event.relatedTarget).data("id");
+      $(this).find("#id-peminjaman").val(id);
+    });
+
+    $("#modal-return").on("show.bs.modal", function (event) {
+      const id = $(event.relatedTarget).data("id");
+      const judul = $(event.relatedTarget).data("judul");
+      $(this)
+        .find(".modal-body")
+        .html(`<p class="h5">Yakin untuk mengembalikan buku berjudul <b>${judul}</b>?</p>`);
       $(this).find("#id-peminjaman").val(id);
     });
 

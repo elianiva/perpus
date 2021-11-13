@@ -50,10 +50,10 @@ export default class TransaksiBukuController {
   public static async add(kind: Kind, { id_buku = 0, jumlah = 0, alasan = "" }: AddParam) {
     const transaksi = await TransaksiBuku.create({ idBuku: id_buku, alasan, jumlah, jenis: kind });
 
+    await transaksi.load("buku");
+
     if (kind === Kind.MASUK) transaksi.buku.jumlah = transaksi.buku.jumlah + jumlah;
     if (kind === Kind.KELUAR) transaksi.buku.jumlah = transaksi.buku.jumlah - jumlah;
-
-    await transaksi.load("buku");
 
     // prevents negative value
     if (transaksi!.buku.jumlah < 0) transaksi!.buku.jumlah = 0;

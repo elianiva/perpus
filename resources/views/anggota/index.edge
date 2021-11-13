@@ -8,9 +8,9 @@
 <div class="container pt-4">
   <h1 class="text-center mb-4">Semua Buku</h1>
   @if(msg)
-    <div class="alert alert-light alert-dismissible">
+    <div class="alert alert-success alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-      <h5><i class="icon fas fa-check"></i> {{ msg }}</h5>
+      <h5><i class="icon fas fa-check"></i> {{ msg }} </h5>
     </div>
   @endif
   @each(k in data.kategori)
@@ -45,53 +45,6 @@
   @end
 </div>
 
-<div class="modal fade" id="modal-pinjam" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Pinjam Buku</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form
-          method="POST"
-          action="/api/peminjaman/tambah"
-        >
-        {{ csrfField() }}
-        <input id="id_anggota" type="hidden" name="id_anggota" />
-        <input id="id_buku" type="hidden" name="id_buku" />
-        <div class="card-body">
-          <div class="form-group">
-            <label for="durasi">Durasi Peminjaman</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <i class="far fa-calendar-alt"></i>
-                </span>
-              </div>
-              <input
-                id="durasi"
-                name="durasi"
-                type="text"
-                class="form-control float-right"
-                value="{{data?.durasi}}"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <button type="submit" class="btn btn-primary">Konfirmasi</button>
-        </div>
-      </form>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-
-<!-- Modal -->
 <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -101,58 +54,58 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="d-flex">
-          <img class="mr-4" id="cover-buku" src="" />
-          <div>
-            <h3 class="modal-title" id="judul-buku"><b>Judul Buku</b></h3>
-            <b>Deskripsi Singkat:</b><p id="deskripsi-buku"></p>
-            <b>Penerbit:</b><p id="penerbit-buku"></p>
-            <b>Pengarang:</b><p id="pengarang-buku"></p>
+      <form
+        method="POST"
+        action="/api/peminjaman/tambah"
+      >
+        {{ csrfField() }}
+        <input id="id_anggota" type="hidden" name="id_anggota" />
+        <input id="id_buku" type="hidden" name="id_buku" />
+        <div class="modal-body">
+          <div class="d-flex">
+            <img class="mr-4" id="cover-buku" src="" />
+            <div>
+              <h3 class="modal-title" id="judul-buku"><b>Judul Buku</b></h3>
+              <b>Deskripsi Singkat:</b><p id="deskripsi-buku"></p>
+              <b>Penerbit:</b><p id="penerbit-buku"></p>
+              <b>Pengarang:</b><p id="pengarang-buku"></p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-dismiss="modal"
-        >
-          Kembali
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#modal-pinjam"
-        >
-          Pinjam
-        </button>
-      </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Kembali
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#modal-pinjam"
+          >
+            Pinjam
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 @end
 
 @section('stylesheets')
-<!-- daterange picker -->
-<link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="/plugins/slick/slick.css">
 <link rel="stylesheet" href="/plugins/slick/slick-theme.css">
 <link rel="stylesheet" href="/css/anggota.css">
 @end
 
 @section('custom_scripts')
-<script src="/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/plugins/slick/slick.min.js"></script>
 
 <script>
   $(function() {
-    $("#durasi").daterangepicker({
-      // disable previous date
-      isInvalidDate: (e) => e._d < Date.now()
-    });
-
     $(".book-row").slick({
       infinite: true,
       slidesToShow: 5,
@@ -185,6 +138,7 @@
 
     $("#modal-detail").on("show.bs.modal", function (event) {
       const id = $(event.relatedTarget).data("id");
+      const idAnggota = "{{{ currentUserId }}}";
       const judul = $(event.relatedTarget).data("judul");
       const desc = $(event.relatedTarget).data("deskripsi");
       const img = $(event.relatedTarget).data("img");
@@ -195,18 +149,9 @@
       $(this).find("#cover-buku").attr("src", img);
       $(this).find("#penerbit-buku").text(penerbit);
       $(this).find("#pengarang-buku").text(pengarang);
-      $("#modal-pinjam").find("#id_buku").val(id);
-    });
-
-    $("#modal-pinjam").on("show.bs.modal", function (event) {
-      $("#modal-detail").modal("hide");
-      const idAnggota = "{{{ currentUserId }}}";
+      $(this).find("#id_buku").val(id);
       $(this).find("#id_anggota").val(idAnggota);
     });
-
-    $("#modal-pinjam").on("shown.bs.modal", function (event) {
-      $(document.body).addClass('modal-open')
-    })
   })
 </script>
 @end

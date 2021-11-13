@@ -56,15 +56,13 @@ export default class PinjamanController {
 
   public async create({ request, response, session, auth }: HttpContextContract) {
     /* eslint-disable-next-line */
-    const { id_buku, id_anggota, durasi } = await request.validate({
+    const { id_buku, id_anggota } = await request.validate({
       schema: schema.create({
-        durasi: schema.string({ trim: true }, [rules.required()]),
         id_buku: schema.number([rules.required()]),
         id_anggota: schema.number([rules.required()]),
       }),
     });
 
-    const { start, end } = parseDate(durasi);
     const buku = await Buku.find(id_buku);
 
     if (!buku) {
@@ -80,13 +78,14 @@ export default class PinjamanController {
 
     const pinjaman = await Pinjaman.create({
       idUser: id_anggota,
-      tglPinjam: start,
-      tglKembali: end,
+      tglPinjam: DateTime.local(),
     });
 
     await pinjaman.related("buku").attach([buku!.id]);
 
-    session.flash({ msg: "Buku berhasil dipinjam!" });
+    session.flash({
+      msg: "Permintaan peminjaman kamu sedang diproses. Harap tunggu beberapa saat.",
+    });
     return response.redirect().back();
   }
 
@@ -147,7 +146,7 @@ export default class PinjamanController {
       alasan: `Dikembalikan oleh ${auth.user!.profil.nama}`,
     });
 
-    pinjaman.status = Status.TERTUNDA;
+    pinjaman.status = Status.DIKEMBALIKAN;
     await pinjaman.save();
 
     session.flash({ msg: "Pinjaman berhasil dikembalikan!" });
@@ -191,6 +190,7 @@ export default class PinjamanController {
 
     await pinjaman.save();
 
+    session.flash({ msg: "Berhasil mengizinkan pinjaman." });
     return response.redirect().back();
   }
 
@@ -211,6 +211,7 @@ export default class PinjamanController {
 
     await pinjaman.save();
 
+    session.flash({ msg: "Berhasil menolak pinjaman." });
     return response.redirect().back();
   }
 }

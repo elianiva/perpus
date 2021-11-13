@@ -31,14 +31,6 @@
                       {{ p.buku[0].judul }}
                     </h3>
                     <p class="text-sm">{{ p.buku[0].deskripsi.split('').slice(0, 40).join('') }}...</p>
-                    <p class="text-sm text-muted">
-                      <i class="far fa-clock mr-1"></i>
-                      {{
-                        (new Date(p.tgl_kembali)).toLocaleDateString("id-ID", {
-                          day: 'numeric', month: 'long', year: 'numeric'
-                        })
-                      }}
-                    </p>
                   </div>
                 </div>
               </span>

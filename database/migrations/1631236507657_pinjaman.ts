@@ -9,10 +9,12 @@ export default class Pinjaman extends BaseSchema {
       table.increments("id").primary().notNullable().unsigned();
       table.date("tgl_pinjam").notNullable();
       table.date("tgl_kembali");
-      table.enum(
-        "status",
-        Object.values(Status).filter((x) => typeof x !== "number")
-      );
+      table
+        .enum(
+          "status",
+          Object.values(Status).filter((x) => typeof x !== "number")
+        )
+        .defaultTo(Status.TERTUNDA);
       table.integer("id_user").unsigned();
       table.timestamps(true, true);
 
