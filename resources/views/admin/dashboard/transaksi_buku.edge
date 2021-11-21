@@ -300,7 +300,7 @@
           {
             targets: [-2, -3],
             render: (data) => (new Date(data)).toLocaleDateString("id-ID", {
-              day: 'numeric', month: 'long', year: 'numeric'
+              weekday: "long", year: "numeric", month: "long", day: "numeric"
             })
           },
           {
@@ -347,10 +347,10 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
                   .draw();
               });
 
-            column.data().unique().sort().each(function(val) {
+            column.data().unique().sort().map((val) => {
               if (!val) return;
               const isDateColumn = colName.startsWith("ditambahkan") || colName.startsWith("terakhir");
-              const displayVal = isDateColumn
+              return isDateColumn
                 ? new Date(val).toLocaleDateString("id-ID", {
                     weekday: "long",
                     year: "numeric",
@@ -358,8 +358,7 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
                     day: "numeric",
                   })
                 : val;
-              select.append(`<option value="${displayVal}">${displayVal}</option>`);
-            });
+            }).unique().each((val) => select.append(`<option value="${val}">${val}</option>`));
 
             if (colName == "tanggal kembali") {
               for (const val of ["Ditolak", "Sudah Dikembalikan", "Belum Ditentukan"]) {

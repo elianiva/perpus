@@ -325,10 +325,10 @@
                 .draw();
             });
 
-          column.data().unique().sort().each(function(val) {
+          column.data().unique().sort().map((val) => {
             if (!val) return;
-            const isDateColumn = colName.startsWith("tanggal");
-            const displayVal = isDateColumn
+            const isDateColumn = colName.startsWith("tanggal")
+            return isDateColumn
               ? new Date(val).toLocaleDateString("id-ID", {
                   weekday: "long",
                   year: "numeric",
@@ -336,8 +336,8 @@
                   day: "numeric",
                 })
               : val;
-            select.append(`<option value="${displayVal}">${displayVal}</option>`);
-          });
+          }).unique().each((val) => val !== undefined && select.append(`<option value="${val}">${val}</option>`));
+
 
           if (colName == "tanggal kembali") {
             for (const val of ["Ditolak", "Sudah Dikembalikan", "Belum Ditentukan"]) {

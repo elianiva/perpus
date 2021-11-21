@@ -35,6 +35,7 @@ Route.group(() => {
   Route.get("/", "AnggotaController.index");
   Route.get("/peminjaman", "AnggotaController.pinjamanView");
   Route.get("/buku/:kategori", "AnggotaController.kategoriView");
+  Route.get("/cari-buku", "AnggotaController.cariView");
 })
   .prefix("/anggota")
   .middleware(["auth", "anggota"]);

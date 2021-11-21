@@ -44,6 +44,9 @@ export default class Buku extends BaseModel {
   public urlCover: string;
 
   @column()
+  public urlPdf: string;
+
+  @column()
   public idRak: number;
 
   @belongsTo(() => Rak, { foreignKey: "idRak" })

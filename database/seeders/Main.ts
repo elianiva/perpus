@@ -61,6 +61,7 @@ export default class UserSeeder extends BaseSeeder {
           penerbit,
           deskripsi,
           urlCover: cover_url,
+          urlPdf: "placeholder.pdf",
           idRak: rak[Math.floor(Math.random() * JUMLAH_RAK)].id,
         })
       )
