@@ -2,7 +2,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import Database from "@ioc:Adonis/Lucid/Database";
 import Buku from "App/Models/Buku";
 import Jurusan from "App/Models/Jurusan";
-import Pinjaman from "App/Models/Pinjaman";
+import Pinjaman, { Status } from "App/Models/Pinjaman";
 import Rak from "App/Models/Rak";
 import User, { Roles } from "App/Models/User";
 
@@ -19,8 +19,12 @@ export default class DashboardController {
     const booksAmount = await Database.from("buku").count("* as total");
     const bookTransactionsAmount = await Database.from("transaksi_buku").count("* as total");
     const majorsAmount = await Database.from("jurusan").count("* as total");
-    const borrowed = await Database.from("pinjaman").count("* as total").where({ status: 0 });
-    const returned = await Database.from("pinjaman").count("* as total").where({ status: 0 });
+    const borrowed = await Database.from("pinjaman")
+      .count("* as total")
+      .where({ status: Status.DITERIMA });
+    const returned = await Database.from("pinjaman")
+      .count("* as total")
+      .where({ status: Status.DIKEMBALIKAN });
     const rak = await Database.from("rak").count("* as total");
 
     await auth.user?.load("profil");
@@ -117,6 +121,7 @@ export default class DashboardController {
   public async bukuForm({ request, response, view, logger, auth }: HttpContextContract) {
     const { isEditing, id } = request.qs();
     const rak = await Rak.all();
+    const kategori = await Database.from("buku").select("kategori").distinct();
 
     await auth.user?.load("profil");
 
@@ -139,6 +144,7 @@ export default class DashboardController {
           penerbit: buku.penerbit,
           deskripsi: buku.deskripsi,
           rak: rak.map(({ id, noRak }) => ({ id, noRak })),
+          kategori: buku.kategori,
         },
       });
     }
@@ -147,6 +153,7 @@ export default class DashboardController {
       currentUserName: auth.user?.profil.nama,
       data: {
         rak: rak.map(({ id, noRak }) => ({ id, noRak })),
+        kategori: kategori.map(({ kategori }) => kategori),
       },
     });
   }

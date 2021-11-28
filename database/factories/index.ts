@@ -56,6 +56,7 @@ export const BukuFactory = Factory.define(Buku, ({ faker }) => ({
   pengarang: `${faker.name.firstName()} ${faker.name.lastName()}`,
   penerbit: faker.company.companyName(),
   urlCover: faker.image.imageUrl(220, 400),
+  urlPdf: faker.random.arrayElement([undefined, "placeholder.pdf"]),
   deskripsi: faker.lorem.sentence(22),
   jumlah: faker.datatype.number(100),
 })).build();

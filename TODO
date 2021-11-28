@@ -8,11 +8,9 @@ MEDIUM
 - [TODO] bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
 - [TODO] import data dari excel
 
-EASY
-- [DOING] pdf viewer
-- [DOING] tambahin kategori ebook
-
 BACKLOG
+- [DONE] pdf viewer
+- [DONE] tambahin kategori ebook
 - [DONE] gabung buku_masuk + buku_keluar jadi transaksi_buku
 - [DONE] tambahin role superadmin yg bisa delete data
 - [DONE] tambahin field kategori buat buku

@@ -76,7 +76,6 @@
                         type="text"
                         class="form-control {{ flashMessages.get('errors.judul') ? 'is-invalid' : ''}}"
                         placeholder="Masukkan judul dengan benar"
-                        maxlength="13"
                         value="{{ data?.judul ?? flashMessages.get('judul') ?? '' }}"
                         autocomplete="off"
                       />
@@ -85,7 +84,7 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-5">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label for="pengarang">Pengarang</label>
                           <input
@@ -102,7 +101,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-5">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label for="penerbit">Penerbit</label>
                           <input
@@ -117,6 +116,20 @@
                           <div class="invalid-feedback">
                             {{ flashMessages.get('errors.penerbit')?.[0] }}
                           </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="kategori">Kategori</label>
+                          <select
+                            name="kategori"
+                            id="kategori"
+                            class="form-control select2-alt"
+                          >
+                            @each(k in data.kategori)
+                              <option value="{{ k }}">{{ k }}</option>
+                            @end
+                          </select>
                         </div>
                       </div>
                       <div class="col-md-2">
@@ -141,6 +154,7 @@
                         name="deskripsi"
                         class="form-control {{ flashMessages.get('errors.deskripsi') ? 'is-invalid' : ''}}"
                         placeholder="Masukkan deskripsi singkat buku"
+                        rows="6"
                       >{{ data?.deskripsi ?? flashMessages.get('deskripsi') ?? '' }}</textarea>
                       <div class="invalid-feedback">
                         {{ flashMessages.get('errors.deskripsi')?.[0] }}
@@ -212,6 +226,11 @@
 
   $(".select2").select2({
     theme: 'bootstrap4'
+  });
+
+  $(".select2-alt").select2({
+    theme: 'bootstrap4',
+    tags: true,
   });
 </script>
 @end

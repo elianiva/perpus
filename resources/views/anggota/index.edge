@@ -4,7 +4,6 @@
 
 @section('body')
 @!component('components/navbar_anggota', { currentUserName, pinjaman: data.pinjaman })
-
 <div class="container pt-4">
   <h1 class="text-center mb-4">Semua Buku</h1>
   @if(msg)
@@ -18,12 +17,12 @@
     <div class="d-flex book-row mb-5" style="gap: 1rem;">
       @each(d in data.buku.filter((b) => b.kategori === k))
         <div
-          class="book-card card"
-          style="width: 100%"
+          class="book-card card overflow-hidden"
           data-id="{{ d.id }}"
           data-judul="{{ d.judul }}"
           data-deskripsi="{{ d.deskripsi }}"
           data-img="{{ d.url_cover }}"
+          data-pdf="{{ d.url_pdf }}"
           data-penerbit="{{ d.penerbit }}"
           data-pengarang="{{ d.pengarang }}"
           data-toggle="modal"
@@ -36,7 +35,12 @@
           />
           <div class="card-body">
             <h5 class="card-title d-block">
-              <b>{{ d.judul }}</b>
+              <b>
+                {{ d.judul }}
+                @if(d.url_pdf)
+                  <span class="text-danger">(PDF)</span>
+                @end
+              </b>
             </h5>
           </div>
         </div>
@@ -74,6 +78,7 @@
         </div>
         <div class="modal-footer">
           <button
+            id="back-button"
             type="button"
             class="btn btn-secondary"
             data-dismiss="modal"
@@ -99,6 +104,16 @@
 <link rel="stylesheet" href="/plugins/slick/slick.css">
 <link rel="stylesheet" href="/plugins/slick/slick-theme.css">
 <link rel="stylesheet" href="/css/anggota.css">
+
+<style>
+.slick-list {
+  width: 100%;
+}
+
+.slick-track {
+  margin: 0;
+}
+</style>
 @end
 
 @section('custom_scripts')
@@ -142,6 +157,7 @@
       const judul = $(event.relatedTarget).data("judul");
       const desc = $(event.relatedTarget).data("deskripsi");
       const img = $(event.relatedTarget).data("img");
+      const pdf = $(event.relatedTarget).data("pdf");
       const penerbit = $(event.relatedTarget).data("penerbit");
       const pengarang = $(event.relatedTarget).data("pengarang");
       $(this).find("#judul-buku").html(`<b>${judul}</b>`);
@@ -151,7 +167,15 @@
       $(this).find("#pengarang-buku").text(pengarang);
       $(this).find("#id_buku").val(id);
       $(this).find("#id_anggota").val(idAnggota);
+
+      if (pdf) {
+        $(`<a id="read-button" href="/pdfjs/web/viewer.html?file=/pdf/buku/${pdf}" class="btn btn-info" target="_blank">Baca</a>`).insertAfter("#back-button")
+      }
     });
+
+    $("#modal-detail").on("hidden.bs.modal", function (event) {
+      $("#read-button").remove()
+    })
   })
 </script>
 @end

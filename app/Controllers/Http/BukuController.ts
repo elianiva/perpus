@@ -27,6 +27,7 @@ export default class BukuController {
       ).map(async (book) => {
         await book.load("rak");
         const json = book.toJSON();
+
         return {
           ...json,
           url_cover: json.url_cover.startsWith("http")

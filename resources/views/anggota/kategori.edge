@@ -4,8 +4,18 @@
 
 @section('body')
 @!component('components/navbar_anggota', { currentUserName, pinjaman: data.pinjaman })
+<div style="background-color: #e9ecef">
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/anggota">Home</a>
+      </li>
+      <li class="breadcrumb-item active text-capitalize">{{ data.kategori }}</li>
+    </ol>
+  </div>
+</div>
 
-<div class="container pt-4">
+<div class="container">
   <h1 class="text-center mb-4">Buku dengan kategori {{ data.kategori }}</h1>
   @if(msg)
     <div class="alert alert-success alert-dismissible">
