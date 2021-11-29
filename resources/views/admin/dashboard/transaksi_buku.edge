@@ -209,22 +209,34 @@
               class="form-control select2"
             >
               @each(b in data.buku)
-                <option value="{{ b.id }}">{{ b.judul }}</option>
+                <option data-stok="{{ b.jumlah}}" value="{{ b.id }}">{{ b.judul }}</option>
               @end
             </select>
           </div>
-          <div class="form-group">
-            <label for="alasan">Alasan</label>
-            <input
-              class="form-control"
-              name="alasan"
-              id="alasan"
-              type="text"
-              autocomplete="off"
-              placeholder="Masukkan alasan"
-              value="{{ flashMessages.get('alasan', '') }}"
-              required
-            />
+          <div class="row">
+            <div class="col-md-8 form-group">
+              <label for="alasan">Alasan</label>
+              <input
+                class="form-control"
+                name="alasan"
+                id="alasan"
+                type="text"
+                autocomplete="off"
+                placeholder="Masukkan alasan"
+                value="{{ flashMessages.get('alasan', '') }}"
+                required
+              />
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="jenis">Jenis</label>
+              <select
+                name="jenis"
+                id="jenis"
+                class="form-control select2"
+              >
+                <option value="masuk">Masuk</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
             <label for="jumlah">Jumlah</label>
@@ -383,7 +395,7 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
         deferRender: true,
       });
 
-    $("#modal-delete").on("show.bs.modal", function (event) {
+    $("#modal-delete").on("show.bs.modal", function(event) {
       const judul = $(event.relatedTarget).data("judul");
       const id = $(event.relatedTarget).data("id");
       $(this)
@@ -392,7 +404,7 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
       $(this).find("#id_buku").val(id);
     });
 
-    $("#modal-edit").on("show.bs.modal", function (event) {
+    $("#modal-edit").on("show.bs.modal", function(event) {
       const id = $(event.relatedTarget).data("id");
       const alasan = $(event.relatedTarget).data("alasan");
       const jumlah = $(event.relatedTarget).data("jumlah");
@@ -401,6 +413,18 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
       $(this).find("#alasan").val(alasan);
       $(this).find("#jumlah").val(jumlah);
     });
+
+    $("select#id_buku").on("change", function(event) {
+      const stok = $("option:selected", this).data("stok")
+      const optionElement = $(`<option id="keluar-option" value="keluar">Keluar</option>`)
+      const opt = $("option#keluar-option")
+
+      if (stok && !opt.length) {
+        $("#jenis").append(optionElement)
+      } else {
+        opt.remove()
+      }
+    })
   });
 </script>
 @end

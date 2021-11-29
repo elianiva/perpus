@@ -113,7 +113,7 @@ export default class DashboardController {
       currentUserName: auth.user?.profil.nama,
       currentPage: "transaksi_buku",
       data: {
-        buku: buku.map((b) => b.serialize({ fields: ["id", "judul"] })),
+        buku: buku.map((b) => b.serialize({ fields: ["id", "judul", "jumlah"] })),
       },
     });
   }

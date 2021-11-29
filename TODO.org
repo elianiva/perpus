@@ -11,6 +11,8 @@
 *** TODO Import data dari excel
 
 * BACKLOG
+*** DONE Kalo jumlahnya 0, ga boleh pake alasan keluar di transaksi
+*** DONE Tambahin jenis (masuk/keluar) buat form input transaksi
 *** DONE Pdf viewer
 *** DONE Tambahin kategori ebook
 *** DONE Gabung buku_masuk + buku_keluar jadi transaksi_buku
