@@ -33,6 +33,7 @@ export default class PinjamanController {
     }
 
     return {
+      // this thing is probably dangerous but i don't care im done with this
       data: await Promise.all(
         pinjaman.map(async (p) => {
           await p.load("buku");

@@ -110,6 +110,7 @@ export default class UserController {
         .orWhere("role", "=");
     }
 
+    // this thing is probably dangerous but i don't care im done with this
     await Promise.all(
       allUsers!.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
     );

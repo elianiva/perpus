@@ -1,0 +1,119 @@
+@layout('layouts/dashboard.edge')
+@set('error', flashMessages.get('error'))
+@set('msg', flashMessages.get('msg'))
+
+@section('body')
+<div class="wrapper">
+  @!component('components/navbar', { currentUserName })
+
+  <!-- Main Sidebar Container -->
+  @!component('components/sidebar', { active: "laporan" })
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-capitalize">Laporan</h1>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard"> Dashboard </a>
+              </li>
+              <li class="breadcrumb-item active text-capitalize">Laporan</li>
+            </ol>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <form method="POST" action="/api/laporan/">
+                {{ csrfField() }}
+                <div class="card-header text-capitalize">Cetak Laporan</div>
+                <div class="card-body">
+                    <div class="form-group">
+                      <label for="id_rak">Nama Table</label>
+                      <select
+                        name="nama_table"
+                        id="nama_table"
+                        class="form-control select2"
+                      >
+                        @each(t in data.tables)
+                          <option value="{{ t[0] }}">{{ t[1] }}</option>
+                        @end
+                      </select>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 form-group">
+                        <label for="tgl-awal">Tanggal Awal</label>
+                        <input name="tgl_awal" id="tgl-awal" class="date form-control" type="date" required />
+                      </div>
+                      <div class="col-md-6 form-group">
+                        <label for="tgl-akhir">Tanggal Akhir</label>
+                        <input name="tgl_akhir" id="tgl-akhir" class="date form-control" type="date" required />
+                      </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Cetak Laporan</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  @!component('components/footer')
+</div>
+@end
+
+@section('stylesheets')
+<!-- Select2 -->
+<link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+<style>
+.pull-left{ float:left !important; margin-bottom: 1rem !important; }
+.pull-right{ float:right !important; margin-bottom: 1rem !important; }
+</style>
+@end
+
+@section('custom_scripts')
+<!-- Select2 -->
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $(".select2").select2({
+      theme: 'bootstrap4'
+    });
+
+    $("#tgl-awal").on("change", function() {
+      const minDate = new Date(this.value).toISOString().substr(0, 10)
+      $("#tgl-akhir").attr("min", minDate)
+    })
+  })
+</script>
+@end

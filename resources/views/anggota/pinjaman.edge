@@ -180,7 +180,6 @@
     $("#modal-pinjam").on("show.bs.modal", function (event) {
       const idBuku = $(event.relatedTarget).data("id-buku");
       const idAnggota = "{{{ currentUserId }}}";
-      console.log(idAnggota);
       $(this).find("#id_buku").val(idBuku);
       $(this).find("#id_anggota").val(idAnggota);
     });

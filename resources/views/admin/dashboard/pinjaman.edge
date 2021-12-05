@@ -375,6 +375,11 @@
       $(this).find("#id-peminjaman").val(id);
     });
 
+    $("#modal-reject").on("show.bs.modal", function (event) {
+      const id = $(event.relatedTarget).data("id");
+      $(this).find("#id-peminjaman").val(id);
+    });
+
     $("#modal-return").on("show.bs.modal", function (event) {
       const id = $(event.relatedTarget).data("id");
       const judul = $(event.relatedTarget).data("judul");

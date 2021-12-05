@@ -20,6 +20,7 @@ export default class AnggotaController {
       data: {
         kategori: categories.map((item) => item.kategori).sort(),
         buku: sortedBooks,
+        // this thing is probably dangerous but i don't care im done with this
         pinjaman: await Promise.all(
           pinjaman.map(async (p) => {
             await p.load("buku");
@@ -32,6 +33,7 @@ export default class AnggotaController {
 
   public async pinjamanView({ auth, view }: HttpContextContract) {
     const pinjaman = await Pinjaman.query().where("id_user", "=", auth.user!.id);
+    // this thing is probably dangerous but i don't care im done with this
     const bukuPinjaman = await Promise.all(
       pinjaman.map(async (p) => {
         await p.load("buku");
@@ -66,6 +68,7 @@ export default class AnggotaController {
 
     await auth.user!.load("profil");
     return {
+      // this thing is probably dangerous but i don't care im done with this
       data: await Promise.all(
         pinjaman.map(async (p) => {
           await p.load("buku");
@@ -103,6 +106,7 @@ export default class AnggotaController {
       data: {
         kategori: kategori,
         buku: sortedBooks,
+        // this thing is probably dangerous but i don't care im done with this
         pinjaman: await Promise.all(
           pinjaman.map(async (p) => {
             await p.load("buku");

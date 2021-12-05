@@ -53,6 +53,8 @@ Route.group(() => {
     Route.get("/peminjaman", "DashboardController.pinjamanTable");
     Route.get("/peminjaman/form", "DashboardController.pinjamanForm");
 
+    Route.get("/laporan", "DashboardController.laporanView");
+
     // fall through for /anggota or /admin
     Route.get("/:type", "DashboardController.userTable");
     Route.get("/:type/form", "DashboardController.userForm");
@@ -95,6 +97,8 @@ Route.group(() => {
   Route.put("/peminjaman/kembali", "PinjamanController.restore");
 
   Route.get("/anggota/peminjaman", "AnggotaController.pinjamanData");
+
+  Route.post("/laporan", "LaporanController.create");
 
   // fall through for /anggota or /admin
   Route.group(() => {

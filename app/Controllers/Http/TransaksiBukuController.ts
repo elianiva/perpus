@@ -28,6 +28,7 @@ export default class TransaksiBukuController {
     }
 
     return {
+      // this thing is probably dangerous but i don't care im done with this
       data: await Promise.all(
         buku!.map(async (b: TransaksiBuku) => {
           await b.load("buku");

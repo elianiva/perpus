@@ -21,6 +21,7 @@ export default class BukuController {
   public async show({ request }: HttpContextContract) {
     const noEmpty = request.qs().noEmpty === "true";
 
+    // this thing is probably dangerous but i don't care im done with this
     const books = await Promise.all(
       (
         await Buku.all()

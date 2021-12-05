@@ -63,6 +63,7 @@ export default class DashboardController {
     await auth.user?.load("profil");
     const buku = await Buku.all();
     const anggota = await User.all();
+    // this thing is probably dangerous but i don't care im done with this
     await Promise.all(anggota.map(async (a) => await a.load("profil")));
 
     if (isEditing) {
@@ -224,6 +225,26 @@ export default class DashboardController {
       currentPage: "rak",
       currentUserName: auth.user?.profil.nama,
       currentUserRole: auth.user?.role,
+    });
+  }
+
+  public async laporanView({ view, auth }: HttpContextContract) {
+    await auth.user?.load("profil");
+
+    return view.render(`admin/dashboard/laporan`, {
+      currentPage: "laporan",
+      currentUserName: auth.user?.profil.nama,
+      currentUserRole: auth.user?.role,
+      data: {
+        tables: [
+          ["buku", "Buku"],
+          ["transaksi_buku", "Transaksi Buku"],
+          ["pinjaman", "Peminjaman Buku"],
+          ["user", "User"],
+          ["jurusan", "Jurusan"],
+          ["rak", "Rak"],
+        ],
+      },
     });
   }
 }
