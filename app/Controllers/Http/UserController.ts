@@ -1,3 +1,5 @@
+import Application from "@ioc:Adonis/Core/Application";
+import XLSX from "xlsx";
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import User, { Roles } from "App/Models/User";
@@ -150,5 +152,40 @@ export default class UserController {
     session.flash({ msg: `${type} dengan email ${user.email} berhasil dihapus!` });
 
     return response.redirect().back();
+  }
+
+  public async bulk({ request, response, session }: HttpContextContract) {
+    const { excel } = await request.validate({
+      schema: schema.create({
+        excel: schema.file({ size: "10mb", extnames: ["xls", "xlsx"] }, [rules.required()]),
+      }),
+    });
+
+    const path = Date.now() + "." + excel.extname;
+    await excel.move(Application.tmpPath(), {
+      name: path,
+    });
+
+    const wb = XLSX.readFile(Application.tmpPath(path));
+    const sheetName = wb.SheetNames[0];
+    const worksheet = wb.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(worksheet);
+
+    // TODO: finish me
+    console.log(data);
+
+    // // filter unwanted data
+    // await User.createMany(
+    //   await Promise.all(
+    //     data.map(async ({ id, created_at, updated_at, ...fields }) => {
+    //       return {
+    //         ...fields,
+    //       };
+    //     })
+    //   )
+    // );
+
+    session.flash({ msg: "Data telah berhasil di-import" });
+    return response.redirect("/admin/dashboard/buku");
   }
 }

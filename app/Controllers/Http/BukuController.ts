@@ -2,8 +2,10 @@ import Application from "@ioc:Adonis/Core/Application";
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import { unlink } from "fs/promises";
+import XLSX from "xlsx";
 import Buku from "App/Models/Buku";
 import { ModelObject } from "@ioc:Adonis/Lucid/Orm";
+import Rak from "App/Models/Rak";
 
 const bookSchema = schema.create({
   isbn: schema.string({ trim: true }, [rules.required(), rules.maxLength(13)]),
@@ -157,6 +159,40 @@ export default class BukuController {
     await buku.save();
     session.flash({ msg: `Buku ${buku.judul} berhasil diperbarui!` });
 
+    return response.redirect("/admin/dashboard/buku");
+  }
+
+  public async bulk({ request, response, session }: HttpContextContract) {
+    const { excel } = await request.validate({
+      schema: schema.create({
+        excel: schema.file({ size: "10mb", extnames: ["xls", "xlsx"] }, [rules.required()]),
+      }),
+    });
+
+    const path = Date.now() + "." + excel.extname;
+    await excel.move(Application.tmpPath(), {
+      name: path,
+    });
+
+    const wb = XLSX.readFile(Application.tmpPath(path));
+    const sheetName = wb.SheetNames[0];
+    const worksheet = wb.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(worksheet);
+
+    // filter unwanted data
+    await Buku.createMany(
+      await Promise.all(
+        data.map(async ({ id, created_at, updated_at, ...fields }) => {
+          const rak = await Rak.find("no_rak", fields.rak);
+          return {
+            idRak: rak?.id ?? 1,
+            ...fields,
+          };
+        })
+      )
+    );
+
+    session.flash({ msg: "Data telah berhasil di-import" });
     return response.redirect("/admin/dashboard/buku");
   }
 }

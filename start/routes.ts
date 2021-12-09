@@ -70,6 +70,7 @@ Route.group(() => {
   Route.post("/buku/tambah", "BukuController.create");
   Route.put("/buku/edit", "BukuController.update");
   Route.delete("/buku/hapus", "BukuController.destroy").middleware(["superadmin"]);
+  Route.post("/buku/bulk", "BukuController.bulk");
 
   Route.get("/jurusan", "JurusanController.show");
   Route.post("/jurusan/tambah", "JurusanController.create");
@@ -106,6 +107,7 @@ Route.group(() => {
     Route.post("/:type/tambah", "UserController.create");
     Route.put("/:type/edit", "UserController.update");
     Route.delete("/:type/hapus", "UserController.destroy").middleware(["superadmin"]);
+    Route.post("/anggota/bulk", "UserController.bulk");
   }).where("type", /(anggota|admin)/);
 })
   .prefix("/api")

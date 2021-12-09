@@ -22,7 +22,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-                <a href="/admin/dashboard"> Dashboard </a>
+                <a href="/admin/dashboard">Dashboard</a>
               </li>
               <li class="breadcrumb-item active text-capitalize">Buku</li>
             </ol>
@@ -30,10 +30,13 @@
           <!-- /.col -->
         </div>
         <a href="/admin/dashboard/buku/form">
-          <button class="btn btn-success">
+          <button class="btn btn-primary">
             <b class="text-white text-capitalize">Tambah Buku</b>
           </button>
         </a>
+        <button class="btn btn-success ml-2" data-toggle="modal" data-target="#modal-import">
+          <b class="text-white text-capitalize">Import Data Buku</b>
+        </button>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -125,6 +128,20 @@
   @!component('components/footer')
 </div>
 
+@!component('components/import_modal', {
+  name: "buku",
+  fields: [
+    "isbn",
+    "judul",
+    "pengarang",
+    "penerbit",
+    "jumlah",
+    "deskripsi",
+    "url_cover",
+    "url_pdf",
+  ]
+})
+
 <div class="modal fade" id="modal-delete">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -176,6 +193,8 @@
 <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- Ekko Lightbox -->
 <script src="/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <!-- Select2 -->
@@ -183,6 +202,8 @@
 
 <script>
   $(document).ready(function () {
+    bsCustomFileInput.init();
+
     const table = $("#table")
       .DataTable({
         ajax: "/api/buku",

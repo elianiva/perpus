@@ -1,0 +1,45 @@
+<div class="modal fade" id="modal-import">
+  <div class="modal-dialog">
+    <form
+      method="POST"
+      action="/api/{{ name }}/bulk"
+      enctype="multipart/form-data"
+    >
+      {{ csrfField() }}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Import data {{ name }}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="h5">Pastikan file excel memiliki field dibawah ini:</p>
+          <ul>
+            @each(f in fields)
+              <li>{{ f }}</li>
+            @end
+          </ul>
+          <div class="form-group">
+            <label for="excel">Data Buku</label>
+            <div class="input-group {{ flashMessages.get('errors.excel') ? 'is-invalid' : ''}}">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="excel" name="excel">
+                <label class="custom-file-label" for="excel">Pilih file</label>
+              </div>
+              <div class="invalid-feedback">
+                {{ flashMessages.get('errors.excel')?.[0] }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-success">Import</button>
+        </div>
+    </form>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

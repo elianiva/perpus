@@ -2,15 +2,14 @@
 
 * HARD
 *** TODO Ganti pake soft delete
-*** TODO Pisahin profil admin
-*** TODO Redesign struktur user/profil
+*** TODO Redesign struktur user/profil biar bisa misahin admin/anggota
 
 * MEDIUM
 *** TODO Jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
-*** TODO Bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
-*** TODO Import data dari excel
+*** TODO Import data dari excel (partial)
 
 * BACKLOG
+*** DONE Bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
 *** DONE Kalo jumlahnya 0, ga boleh pake alasan keluar di transaksi
 *** DONE Tambahin jenis (masuk/keluar) buat form input transaksi
 *** DONE Pdf viewer
