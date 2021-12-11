@@ -232,7 +232,7 @@ export default class UserController {
       );
 
       session.flash({ msg: "Data telah berhasil di-import" });
-      return response.redirect("/admin/dashboard/buku");
+      return response.redirect().back();
     } catch (err) {
       throw err;
     }

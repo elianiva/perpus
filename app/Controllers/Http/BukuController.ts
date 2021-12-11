@@ -209,7 +209,7 @@ export default class BukuController {
           dataKeys.includes("url_pdf")
         )
       ) {
-        session.flash({ err: "Field tidak lengkap!" });
+        session.flash({ error: "Field tidak lengkap!" });
         return response.redirect().back();
       }
 
