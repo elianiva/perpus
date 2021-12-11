@@ -209,7 +209,7 @@
               class="form-control select2"
             >
               @each(b in data.buku)
-                <option data-stok="{{ b.jumlah}}" value="{{ b.id }}">{{ b.judul }}</option>
+                <option data-stok="{{ b.jumlah }}" value="{{ b.id }}">{{ b.judul }}</option>
               @end
             </select>
           </div>
@@ -235,6 +235,7 @@
                 class="form-control select2"
               >
                 <option value="masuk">Masuk</option>
+                <option value="keluar">Keluar</option>
               </select>
             </div>
           </div>
@@ -414,17 +415,17 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
       $(this).find("#jumlah").val(jumlah);
     });
 
-    $("select#id_buku").on("change", function(event) {
-      const stok = $("option:selected", this).data("stok")
-      const optionElement = $(`<option id="keluar-option" value="keluar">Keluar</option>`)
-      const opt = $("option#keluar-option")
-
-      if (stok && !opt.length) {
-        $("#jenis").append(optionElement)
-      } else {
-        opt.remove()
-      }
-    })
+    // $("select#id_buku").on("change", function(event) {
+    //   const stok = $("option:selected", this).data("stok")
+    //   const optionElement = $(`<option id="keluar-option" value="keluar">Keluar</option>`)
+    //   const opt = $("option#keluar-option")
+    //
+    //   if (stok) {
+    //     $("#jenis").append(optionElement)
+    //   } else {
+    //     opt.remove()
+    //   }
+    // })
   });
 </script>
 @end

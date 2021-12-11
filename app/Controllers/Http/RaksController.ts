@@ -4,11 +4,15 @@ import { rules, schema } from "@ioc:Adonis/Core/Validator";
 
 export default class RaksController {
   public async show() {
-    const rak = await Rak.all();
+    try {
+      const rak = await Rak.all();
 
-    return {
-      data: rak.map(({ id, noRak }) => ({ id, no_rak: noRak })),
-    };
+      return {
+        data: rak.map(({ id, noRak }) => ({ id, no_rak: noRak })),
+      };
+    } catch (err) {
+      throw err;
+    }
   }
 
   public async create({ request, response, session }: HttpContextContract) {

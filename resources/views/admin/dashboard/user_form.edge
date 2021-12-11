@@ -55,7 +55,7 @@
                   action="/api/{{ currentPage }}/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
                 >
                   {{ csrfField() }}
-                  <input name="role" type="hidden" value="{{ currentPage === 'admin' ? 1 : 2 }}" />
+                  <input name="role" type="hidden" value="{{ currentPage === 'admin' ? 'ADMIN' : 'ANGGOTA' }}" />
                   <div class="card-body">
                     <div class="form-group">
                       <label for="nisn">NISN</label>
@@ -63,12 +63,15 @@
                         id="nisn"
                         name="nisn"
                         type="text"
-                        class="form-control"
+                        class="form-control {{ flashMessages.get('errors.nisn') ? 'is-invalid' : ''}}"
                         placeholder="Masukkan nisn sesuai data kemdikbud"
                         maxlength="10"
-                        value="{{ data?.nisn || flashMessages.get('nisn', '') }}"
+                        value="{{ data?.nisn ?? flashMessages.get('nisn') ?? '' }}"
                         autocomplete="off"
                       />
+                      <div class="invalid-feedback">
+                        {{ flashMessages.get('errors.nisn')?.[0] }}
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
@@ -78,11 +81,14 @@
                             id="password"
                             name="password"
                             type="text"
-                            class="form-control"
+                            class="form-control {{ flashMessages.get('errors.password') ? 'is-invalid' : ''}}"
                             placeholder="Masukkan password"
-                            value="{{ flashMessages.get('password', '') }}"
+                            value="{{ flashMessages.get('password') ?? '' }}"
                             autocomplete="off"
                           />
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.password')?.[0] }}
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-6">
@@ -92,11 +98,14 @@
                             id="password_repeat"
                             name="password_repeat"
                             type="text"
-                            class="form-control"
+                            class="form-control {{ flashMessages.get('errors.password_repeat') ? 'is-invalid' : ''}}"
                             placeholder="Ulangi password"
-                            value="{{ flashMessages.get('email', '') }}"
+                            value="{{ flashMessages.get('password') ?? '' }}"
                             autocomplete="off"
                           />
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.password_repeat')?.[0] }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -108,11 +117,14 @@
                             id="nama_lengkap"
                             name="nama_lengkap"
                             type="text"
-                            class="form-control"
+                            class="form-control {{ flashMessages.get('errors.nama_lengkap') ? 'is-invalid' : ''}}"
                             placeholder="Masukkan nisn sesuai data kemdikbud"
-                            value="{{ data?.nama_lengkap || flashMessages.get('nama_lengkap', '') }}"
+                            value="{{ data?.nama_lengkap ?? flashMessages.get('nama_lengkap') ?? '' }}"
                             autocomplete="off"
                           />
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.nama_lengkap')?.[0] }}
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-6">
@@ -122,11 +134,14 @@
                             id="email"
                             name="email"
                             type="email"
-                            class="form-control"
+                            class="form-control {{ flashMessages.get('errors.email') ? 'is-invalid' : ''}}"
                             placeholder="Masukkan email yang valid"
-                            value="{{ data?.email || flashMessages.get('email', '') }}"
+                            value="{{ data?.email ?? flashMessages.get('email') ?? '' }}"
                             autocomplete="off"
                           />
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.email')?.[0] }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -137,18 +152,21 @@
                           <select
                             name="kelas"
                             id="kelas"
-                            class="form-control select2"
+                            class="form-control select2 {{ flashMessages.get('errors.kelas') ? 'is-invalid' : ''}}"
                           >
                             <option>Kelas</option>
                             @each(n in [10, 11, 12, 13])
                               <option
                                 value="{{ n }}"
-                                {{ (data?.kelas || flashMessages.get('kelas', '')) === n ? 'selected' : '' }}
+                                {{ (data?.kelas ?? flashMessages.get('kelas') ?? '') === n ? 'selected' : '' }}
                               >
                                 {{ n }}
                               </option>
                             @end
                           </select>
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.kelas')?.[0] }}
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-6">
@@ -157,18 +175,21 @@
                           <select
                             name="jurusan"
                             id="jurusan"
-                            class="form-control select2"
+                            class="form-control select2 {{ flashMessages.get('errors.jurusan') ? 'is-invalid' : ''}}"
                           >
                             <option>Jurusan</option>
                             @each(j in jurusan)
                               <option
                                 value="{{ j.id }}"
-                                {{ (data?.jurusan || flashMessages.get('jurusan', '')) === j.nama ? 'selected' : '' }}
+                                {{ (data?.jurusan ?? flashMessages.get('jurusan') ?? '') === j.nama ? 'selected' : '' }}
                               >
                                 {{ j.nama }}
                               </option>
                             @end
                           </select>
+                          <div class="invalid-feedback">
+                            {{ flashMessages.get('errors.jurusan')?.[0] }}
+                          </div>
                         </div>
                       </div>
                     </div>
