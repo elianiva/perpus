@@ -2,6 +2,7 @@ import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import Buku from "App/Models/Buku";
 import Pinjaman, { Status } from "App/Models/Pinjaman";
+import { Roles } from "App/Models/User";
 import { DateTime } from "luxon";
 import TransaksiBukuController, { Kind } from "./TransaksiBukuController";
 
@@ -89,11 +90,19 @@ export default class PinjamanController {
 
       await pinjaman.related("buku").attach([buku!.id]);
 
-      session.flash({
-        msg: "Permintaan peminjaman kamu sedang diproses. Harap tunggu beberapa saat.",
-      });
-      return response.redirect().back();
+      if (auth.user?.role === Roles.ANGGOTA) {
+        session.flash({
+          msg: "Permintaan peminjaman kamu sedang diproses. Harap tunggu beberapa saat.",
+        });
+      } else {
+        session.flash({
+          msg: "Berhasil menambahkan peminjaman",
+        });
+      }
+
+      return response.redirect("/admin/dashboard/peminjaman");
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }

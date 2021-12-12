@@ -15,7 +15,7 @@ const bookSchema = schema.create({
   penerbit: schema.string({ trim: true }, [rules.required()]),
   deskripsi: schema.string({ trim: true }, [rules.required()]),
   cover: schema.file({ size: "2mb", extnames: ["png", "jpeg", "jpg"] }, [rules.required()]),
-  pdf: schema.file({ size: "10mb", extnames: ["pdf"] }, [rules.required()]),
+  pdf: schema.file.optional({ size: "10mb", extnames: ["pdf"] }),
   id_rak: schema.number([rules.required()]),
 });
 
@@ -76,11 +76,13 @@ export default class BukuController {
         name: imgName,
       });
 
-      // save the cover image
-      const pdfName = `${isbn}.${pdf.extname}`;
-      await pdf.move(Application.publicPath("pdf/buku"), {
-        name: pdfName,
-      });
+      let pdfName: string | undefined;
+      if (pdf) {
+        pdfName = `${isbn}.${pdf.extname}`;
+        await pdf.move(Application.publicPath("pdf/buku"), {
+          name: pdfName,
+        });
+      }
 
       await Buku.create({
         isbn,
@@ -98,6 +100,7 @@ export default class BukuController {
       session.flash({ msg: `Buku berjudul ${judul} berhasil ditambahkan` });
       return response.redirect("/admin/dashboard/buku");
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }

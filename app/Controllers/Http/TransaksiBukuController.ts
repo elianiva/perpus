@@ -95,9 +95,7 @@ export default class TransaksiBukuController {
     });
 
     const { kind } = request.qs();
-    const buku = await TransaksiBuku.query()
-      .where("jenis", kind === "masuk" ? Kind.MASUK : Kind.KELUAR)
-      .first();
+    const buku = await TransaksiBuku.find(id_buku);
 
     if (!buku) {
       session.flash({ err: `Tidak ada buku keluar dengan id ${id_buku}` });
@@ -115,8 +113,8 @@ export default class TransaksiBukuController {
     }
 
     buku.jumlah = jumlah;
-    buku.buku.save();
-    buku.save();
+
+    await buku.save();
 
     session.flash({ msg: `Berhasil memperbarui buku dengan judul "${buku.buku.judul}"` });
     return response.redirect().back();
@@ -147,8 +145,7 @@ export default class TransaksiBukuController {
       buku.buku.jumlah = buku.buku.jumlah + buku.jumlah;
     }
 
-    buku.buku.save();
-    buku.save();
+    await buku.save();
 
     session.flash({ msg: `Berhasil memperbarui buku dengan judul "${buku.buku.judul}"` });
     return response.redirect().back();

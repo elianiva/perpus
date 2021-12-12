@@ -152,7 +152,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/peminjaman/tolak?_method=PUT">
           {{ csrfField() }}
-          <input id="id-peminjaman" name="id" type="hidden" />
+          <input id="id-penolakan" name="id" type="hidden" />
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-danger">Tolak</button>
         </form>
@@ -176,7 +176,7 @@
       <div class="modal-footer justify-content-between">
         <form method="POST" action="/api/peminjaman/kembali?_method=PUT">
           {{ csrfField() }}
-          <input id="id-peminjaman" name="id" type="hidden" />
+          <input id="id-pengembalian" name="id" type="hidden" />
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-info">Kembalikan</button>
         </form>
@@ -242,6 +242,8 @@
         {
           targets: [3],
           render: (data, _type, row) => {
+            if (row.status === "DITOLAK") return "Ditolak";
+            if (row.status === "DIKEMBALIKAN") return "Sudah dikembalikan";
             if (data) {
               return new Date(data).toLocaleDateString("id-ID", {
                 weekday: "long",
@@ -250,8 +252,6 @@
                 day: "numeric",
               })
             }
-            if (row.status === "DITOLAK") return "Ditolak";
-            if (row.status === "DIKEMBALIKAN") return "Sudah dikembalikan";
             return "Belum Ditentukan"
           }
         },
@@ -294,7 +294,7 @@
             const rejectButton = `
               <button
                 type="button"
-                class="btn btn-danger"
+                class="btn btn-secondary"
                 data-toggle="modal"
                 data-target="#modal-reject"
                 data-id="${row.id}"
@@ -302,11 +302,21 @@
               >
                 <i class="fas fa-ban"></i>
               </button>`;
+            const deleteButton = "{{{ currentUserRole }}}" === "SUPERADMIN" ? `
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-toggle="modal"
+                data-target="#modal-delete"
+                data-id="${row.id}"
+                data-judul="${row.buku.judul}"
+              >
+                <i class="fas fa-trash"></i>
+              </button>` : "";
 
-            if (row.status === "DIKEMBALIKAN"
-                || row.status === "DITOLAK") return editButton;
-            if (row.tgl_kembali) return editButton + returnButton;
-            return editButton + acceptButton + rejectButton;
+            if (row.status === "DIKEMBALIKAN" || row.status === "DITOLAK") return deleteButton;
+            if (row.tgl_kembali) return deleteButton + returnButton;
+            return deleteButton + acceptButton + rejectButton;
           },
         },
       ],
@@ -377,7 +387,7 @@
 
     $("#modal-reject").on("show.bs.modal", function (event) {
       const id = $(event.relatedTarget).data("id");
-      $(this).find("#id-peminjaman").val(id);
+      $(this).find("#id-penolakan").val(id);
     });
 
     $("#modal-return").on("show.bs.modal", function (event) {
@@ -386,7 +396,7 @@
       $(this)
         .find(".modal-body")
         .html(`<p class="h5">Yakin untuk mengembalikan buku berjudul <b>${judul}</b>?</p>`);
-      $(this).find("#id-peminjaman").val(id);
+      $(this).find("#id-pengembalian").val(id);
     });
 
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {

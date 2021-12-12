@@ -2,24 +2,24 @@
 
 * HARD
 *** TODO Ganti pake soft delete (d)
-*** TODO Redesign struktur user/profil biar bisa misahin admin/anggota (hapus profil admin)
 
 * MEDIUM
 *** TODO Jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
 
 * BACKLOG
-*** DONE Import data dari excel (partial)
-*** DONE benerin tambah anggota baru
-*** DONE benerin placeholder repeat password
 *** DONE Bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
-*** DONE Kalo jumlahnya 0, ga boleh pake alasan keluar di transaksi
-*** DONE Tambahin jenis (masuk/keluar) buat form input transaksi
-*** DONE Pdf viewer
-*** DONE Tambahin kategori ebook
-*** DONE Gabung buku_masuk + buku_keluar jadi transaksi_buku
-*** DONE Tambahin role superadmin yg bisa delete data
-*** DONE Tambahin field kategori buat buku
-*** DONE Tampilin buku per-kategori
-*** DONE Kasih halaman admin buat approve pinjaman + nentuin deadline
-*** DONE Gausah dikasih durasi kalo mau pinjem
 *** DONE Bikin halaman buat tiap kategori buku
+*** DONE Gabung buku_masuk + buku_keluar jadi transaksi_buku
+*** DONE Gausah dikasih durasi kalo mau pinjem
+*** DONE Import data dari excel (partial)
+*** DONE Kalo jumlahnya 0, ga boleh pake alasan keluar di transaksi
+*** DONE Kasih halaman admin buat approve pinjaman + nentuin deadline
+*** DONE Pdf viewer
+*** DONE Redesign struktur user/profil biar bisa misahin admin/anggota (hapus profil admin)
+*** DONE Tambahin field kategori buat buku
+*** DONE Tambahin jenis (masuk/keluar) buat form input transaksi
+*** DONE Tambahin kategori ebook
+*** DONE Tambahin role superadmin yg bisa delete data
+*** DONE Tampilin buku per-kategori
+*** DONE benerin placeholder repeat password
+*** DONE benerin tambah anggota baru
