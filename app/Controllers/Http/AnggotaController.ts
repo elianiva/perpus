@@ -18,6 +18,7 @@ export default class AnggotaController {
       return view.render("anggota/index", {
         currentUserName: auth.user?.nama,
         currentUserId: auth.user?.id,
+        valid: auth.user?.valid,
         data: {
           kategori: categories.map((item) => item.kategori).sort(),
           buku: sortedBooks,

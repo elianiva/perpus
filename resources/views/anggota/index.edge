@@ -87,9 +87,15 @@
           </button>
           <button
             type="submit"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#modal-pinjam"
+            class="btn {{valid ? 'btn-primary' : 'btn-secondary'}}"
+            @if(!valid)
+              disabled
+              title="Kamu belum bisa meminjam buku karena kamu telah memiliki terlalu banyak pinjaman. Kembalikan salah satu pinjamanmu agar dapat meminjam buku kembali."
+            @end
+            @if(valid)
+              data-toggle="modal"
+              data-target="#modal-pinjam"
+            @end
           >
             Pinjam
           </button>

@@ -3,15 +3,13 @@
 * HARD
 *** TODO Ganti pake soft delete (d)
 
-* MEDIUM
-*** TODO Jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
-
 * BACKLOG
 *** DONE Bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
 *** DONE Bikin halaman buat tiap kategori buku
 *** DONE Gabung buku_masuk + buku_keluar jadi transaksi_buku
 *** DONE Gausah dikasih durasi kalo mau pinjem
 *** DONE Import data dari excel (partial)
+*** DONE Jangan bolehin pinjem buku kalo ada buku yg belom dikembaliin
 *** DONE Kalo jumlahnya 0, ga boleh pake alasan keluar di transaksi
 *** DONE Kasih halaman admin buat approve pinjaman + nentuin deadline
 *** DONE Pdf viewer

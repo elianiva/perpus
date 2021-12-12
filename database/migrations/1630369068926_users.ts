@@ -10,6 +10,7 @@ export default class Users extends BaseSchema {
       table.string("nama").notNullable();
       table.string("email").notNullable();
       table.string("password").notNullable();
+      table.boolean("valid").defaultTo(true).notNullable();
       table
         .enum(
           "role",

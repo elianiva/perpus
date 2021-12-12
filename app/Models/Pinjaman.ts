@@ -1,5 +1,7 @@
+import Database from "@ioc:Adonis/Lucid/Database";
 import {
   BaseModel,
+  beforeSave,
   belongsTo,
   BelongsTo,
   column,
@@ -53,4 +55,17 @@ export default class Pinjaman extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
+
+  @beforeSave()
+  public static async changeValidState(pinjaman: Pinjaman) {
+    const user = await User.findOrFail(pinjaman.idUser);
+
+    const belumDikembalikan = await Database.rawQuery(
+      "SELECT id FROM `pinjaman` WHERE id_user=? AND (status=? OR status=?)",
+      [user.id, Status.TERTUNDA, Status.DITERIMA]
+    );
+
+    user.valid = belumDikembalikan[0].length <= 5;
+    await user.save();
+  }
 }

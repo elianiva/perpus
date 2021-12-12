@@ -1,5 +1,7 @@
 import Hash from "@ioc:Adonis/Core/Hash";
+import Database from "@ioc:Adonis/Lucid/Database";
 import {
+  afterSave,
   BaseModel,
   beforeSave,
   column,
@@ -9,7 +11,7 @@ import {
   hasOne,
 } from "@ioc:Adonis/Lucid/Orm";
 import { DateTime } from "luxon";
-import Pinjaman from "./Pinjaman";
+import Pinjaman, { Status } from "./Pinjaman";
 import Profil from "./Profil";
 
 export enum Roles {
@@ -47,6 +49,9 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
+
+  @column()
+  public valid: boolean;
 
   @beforeSave()
   public static async hashPassword(user: User) {

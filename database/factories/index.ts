@@ -28,6 +28,7 @@ export const UserFactory = Factory.define(User, ({ faker }) => ({
   email: faker.internet.email(),
   password: "foobar",
   role: Roles.ANGGOTA,
+  valid: true,
 }))
   .relation("profil", () => ProfilFactory)
   .build();
