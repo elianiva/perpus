@@ -7,7 +7,6 @@ export default class Profils extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id").primary().notNullable().unsigned();
       table.specificType("nisn", "char(10)").notNullable();
-      table.string("nama").notNullable();
       table.boolean("jenis_kelamin").notNullable();
       table.integer("kelas", 2).notNullable();
       table.integer("id_jurusan").unsigned();

@@ -18,13 +18,13 @@ export const RakFactory = Factory.define(Rak, () => ({
 
 export const ProfilFactory = Factory.define(Profil, ({ faker }) => ({
   nisn: faker.helpers.replaceSymbolWithNumber("##########"),
-  nama: `${faker.name.firstName()} ${faker.name.lastName()}`,
   jenisKelamin: faker.random.arrayElement([0, 1]),
   kelas: faker.random.arrayElement([10, 11, 12, 13]),
   idJurusan: faker.datatype.number({ min: 1, max: 9 }),
 })).build();
 
 export const UserFactory = Factory.define(User, ({ faker }) => ({
+  nama: `${faker.name.firstName()} ${faker.name.lastName()}`,
   email: faker.internet.email(),
   password: "foobar",
   role: Roles.ANGGOTA,

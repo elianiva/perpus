@@ -1,0 +1,246 @@
+@layout('layouts/dashboard.edge')
+@set('error', flashMessages.get('error'))
+@set('msg', flashMessages.get('msg'))
+
+@section('body')
+<div class="wrapper">
+  @!component('components/navbar', { currentUserName })
+
+  <!-- Main Sidebar Container -->
+  @!component('components/sidebar', { active: "anggota" })
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-capitalize">Semua Anggota</h1>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <a href="/admin/dashboard"> Dashboard </a>
+              </li>
+              <li class="breadcrumb-item active text-capitalize">Anggota</li>
+            </ol>
+          </div>
+          <!-- /.col -->
+        </div>
+        <a href="/admin/dashboard/anggota/form">
+          <button class="btn btn-primary">
+            <b class="text-white text-capitalize">Tambah Anggota</b>
+          </button>
+        </a>
+        <button class="btn btn-success ml-2" data-toggle="modal" data-target="#modal-import">
+          <b class="text-white text-capitalize">Import data Anggota</b>
+        </button>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12">
+            @if(msg)
+              <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                {{ msg }}
+              </div>
+            @endif
+            @if(error)
+              <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Galat!</h5>
+                {{ error }}
+              </div>
+            @endif
+            <div class="card">
+              <div class="card-body">
+                <table id="table" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>NISN</th>
+                      <th>Email</th>
+                      <th data-priority="1">Nama Lengkap</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Kelas</th>
+                      <th>Jurusan</th>
+                      <th>Ditambahkan pada</th>
+                      <th>Terakhir kali diperbarui pada</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                  <tfoot>
+                    <tr>
+                      <th>NISN</th>
+                      <th>Email</th>
+                      <th data-priority="1">Nama Lengkap</th>
+                      <th>Jenis Kelamin</th>
+                      <th>Kelas</th>
+                      <th>Jurusan</th>
+                      <th>Ditambahkan pada</th>
+                      <th>Terakhir kali diperbarui pada</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row (main row) -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  @!component('components/footer')
+</div>
+
+@!component('components/import_modal', {
+  name: "anggota",
+  fields: [
+    "nisn",
+    "email",
+    "nama_lengkap",
+    "jenis_kelamin",
+    "kelas",
+    "jurusan",
+  ]
+})
+
+<div class="modal fade" id="modal-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Konfirmasi</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer justify-content-between">
+        <form method="POST" action="/api/anggota/hapus?_method=DELETE">
+          {{ csrfField() }}
+          <input id="id_user" name="id_user" type="hidden" />
+          <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+@end
+
+@section('stylesheets')
+<!-- DataTables -->
+<link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+<link
+  rel="stylesheet"
+  href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
+/>
+
+<style>
+.pull-left{ float:left !important; margin-bottom: 1rem !important; }
+.pull-right{ float:right !important; margin-bottom: 1rem !important; }
+</style>
+@end
+
+@section('custom_scripts')
+<!-- DataTables  & Plugins -->
+<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    bsCustomFileInput.init();
+
+    const table = $("#table")
+      .DataTable({
+        ajax: "/api/anggota",
+        columns: [
+          { data: "nisn" },
+          { data: "email", className: "none" },
+          { data: "nama_lengkap" },
+          { data: "jenis_kelamin" },
+          { data: "kelas" },
+          { data: "jurusan" },
+          { data: "created_at", className: "none" },
+          { data: "updated_at", className: "none" },
+          { data: null },
+        ],
+        columnDefs: [
+          {
+            targets: [-2, -3],
+            render: (data) => (new Date(data)).toLocaleDateString("id-ID", {
+              day: 'numeric', month: 'long', year: 'numeric'
+            })
+          },
+          {
+            targets: [-1],
+            render: (data, type, row, meta) => {
+              const id = row.id;
+              return `
+${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
+  type="button"
+  class="btn btn-danger"
+  data-toggle="modal"
+  data-target="#modal-delete"
+  data-email="${row.email}"
+  data-id="${row.id}"
+>
+  <i class="fas fa-trash"></i>
+</button>` : ""}
+<a href="/admin/dashboard/anggota/form?isEditing=true&id=${row.id}">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-email="${row.email}"
+    data-id="${row.id}"
+  >
+    <i class="fas fa-edit"></i>
+  </button>
+</a>
+`;
+            },
+          },
+        ],
+        paging: true,
+        lengthChange: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+        deferRender: true,
+      });
+
+    $("#modal-delete").on("show.bs.modal", function (event) {
+      const email = $(event.relatedTarget).data("email");
+      const id = $(event.relatedTarget).data("id");
+      $(this)
+        .find(".modal-body")
+        .html(`<p class="h5">Yakin hapus data anggota dengan email <b>${email}</b>?</p>`);
+      $(this).find("#id_user").val(id);
+    });
+  });
+</script>
+@end

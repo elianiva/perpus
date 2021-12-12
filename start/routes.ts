@@ -56,11 +56,9 @@ Route.group(() => {
     Route.get("/laporan", "DashboardController.laporanView");
 
     // fall through for /anggota or /admin
-    Route.get("/:type", "DashboardController.userTable");
-    Route.get("/:type/form", "DashboardController.userForm");
-  })
-    .where("type", /(anggota|admin)/)
-    .prefix("/dashboard");
+    Route.get("/:type", "DashboardController.userTable").where("type", /(anggota|admin)/);
+    Route.get("/anggota/form", "DashboardController.userForm");
+  }).prefix("/dashboard");
 })
   .prefix("/admin")
   .middleware(["auth", "admin"]);

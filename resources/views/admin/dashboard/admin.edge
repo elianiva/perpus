@@ -7,7 +7,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: currentPage })
+  @!component('components/sidebar', { active: "admin" })
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -16,7 +16,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">Semua {{ currentPage }}</h1>
+            <h1 class="m-0 text-capitalize">Semua Admin</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -24,18 +24,16 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">{{ currentPage }}</li>
+              <li class="breadcrumb-item active text-capitalize">Admin</li>
             </ol>
           </div>
           <!-- /.col -->
         </div>
-        <a href="/admin/dashboard/{{ currentPage }}/form">
-          <button class="btn btn-primary">
-            <b class="text-white text-capitalize">Tambah {{ currentPage }}</b>
-          </button>
-        </a>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add">
+          <b class="text-white text-capitalize">Tambah Admin</b>
+        </button>
         <button class="btn btn-success ml-2" data-toggle="modal" data-target="#modal-import">
-          <b class="text-white text-capitalize">Import data {{ currentPage }}</b>
+          <b class="text-white text-capitalize">Import data Admin</b>
         </button>
         <!-- /.row -->
       </div>
@@ -68,12 +66,9 @@
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>NISN</th>
                       <th>Email</th>
                       <th data-priority="1">Nama Lengkap</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
-                      <th>Jurusan</th>
+                      <th>Role</th>
                       <th>Ditambahkan pada</th>
                       <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
@@ -82,12 +77,9 @@
                   <tbody></tbody>
                   <tfoot>
                     <tr>
-                      <th>NISN</th>
                       <th>Email</th>
                       <th data-priority="1">Nama Lengkap</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Kelas</th>
-                      <th>Jurusan</th>
+                      <th>Role</th>
                       <th>Ditambahkan pada</th>
                       <th>Terakhir kali diperbarui pada</th>
                       <th>Aksi</th>
@@ -111,17 +103,111 @@
 </div>
 
 @!component('components/import_modal', {
-  name: "anggota",
+  name: "admin",
   fields: [
-    "nisn",
     "email",
+    "password",
     "nama_lengkap",
-    "jenis_kelamin",
-    "kelas",
-    "jurusan",
     "role",
   ]
 })
+
+<div class="modal fade" id="modal-add">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form
+        method="POST"
+        action="/api/admin/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
+      >
+        {{ csrfField() }}
+        <div class="modal-header">
+          <h4 class="modal-title">Konfirmasi</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input name="role" type="hidden" value="ADMIN" />
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name_lengkap">Nama Lengkap</label>
+              <input
+              id="nama_lengkap"
+              name="nama_lengkap"
+              type="text"
+              class="form-control {{ flashMessages.get('errors.nama_lengkap') ? 'is-invalid' : ''}}"
+              placeholder="Masukkan nisn sesuai data kemdikbud"
+              value="{{ data?.nama_lengkap ?? flashMessages.get('nama_lengkap') ?? '' }}"
+              autocomplete="off"
+              />
+              <div class="invalid-feedback">
+                {{ flashMessages.get('errors.nama_lengkap')?.[0] }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Alamat Email</label>
+              <input
+              id="email"
+              name="email"
+              type="email"
+              class="form-control {{ flashMessages.get('errors.email') ? 'is-invalid' : ''}}"
+              placeholder="Masukkan email yang valid"
+              value="{{ data?.email ?? flashMessages.get('email') ?? '' }}"
+              autocomplete="off"
+              />
+              <div class="invalid-feedback">
+                {{ flashMessages.get('errors.email')?.[0] }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                  id="password"
+                  name="password"
+                  type="text"
+                  class="form-control {{ flashMessages.get('errors.password') ? 'is-invalid' : ''}}"
+                  placeholder="Masukkan password"
+                  value="{{ flashMessages.get('password') ?? '' }}"
+                  autocomplete="off"
+                  />
+                  <div class="invalid-feedback">
+                    {{ flashMessages.get('errors.password')?.[0] }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="password_repeat">Ulangi Password</label>
+                  <input
+                  id="password_repeat"
+                  name="password_repeat"
+                  type="text"
+                  class="form-control {{ flashMessages.get('errors.password_repeat') ? 'is-invalid' : ''}}"
+                  placeholder="Ulangi password"
+                  value="{{ flashMessages.get('password') ?? '' }}"
+                  autocomplete="off"
+                  />
+                  <div class="invalid-feedback">
+                    {{ flashMessages.get('errors.password_repeat')?.[0] }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <input id="id_user" name="id_user" type="hidden" />
+          <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Tambah</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 
 <div class="modal fade" id="modal-delete">
   <div class="modal-dialog">
@@ -132,9 +218,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body"></div>
+      <div class="modal-body">
+        Hapus data admin?
+      </div>
       <div class="modal-footer justify-content-between">
-        <form method="POST" action="/api/{{ currentPage }}/hapus?_method=DELETE">
+        <form method="POST" action="/api/admin/hapus?_method=DELETE">
           {{ csrfField() }}
           <input id="id_user" name="id_user" type="hidden" />
           <button type="button" class="btn btn-default mr-2" data-dismiss="modal">Batal</button>
@@ -177,14 +265,11 @@
 
     const table = $("#table")
       .DataTable({
-        ajax: "/api/{{{ currentPage }}}",
+        ajax: "/api/admin",
         columns: [
-          { data: "nisn" },
-          { data: "email", className: "none" },
+          { data: "email" },
           { data: "nama_lengkap" },
-          { data: "jenis_kelamin" },
-          { data: "kelas" },
-          { data: "jurusan" },
+          { data: "role" },
           { data: "created_at", className: "none" },
           { data: "updated_at", className: "none" },
           { data: null },
@@ -206,12 +291,12 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
   class="btn btn-danger"
   data-toggle="modal"
   data-target="#modal-delete"
+  data-email="${row.email}"
   data-id="${row.id}"
-  data-judul="${row.judul}"
 >
   <i class="fas fa-trash"></i>
 </button>` : ""}
-<a href="/admin/dashboard/{{{ currentPage }}}/form?isEditing=true&id=${row.id}">
+<a href="/admin/dashboard/admin/form?isEditing=true&id=${row.id}">
   <button
     type="button"
     class="btn btn-primary"
@@ -234,12 +319,12 @@ ${"{{{currentUserRole}}}" === "SUPERADMIN" ? `<button
         deferRender: true,
       });
 
-    $("#modal-default").on("show.bs.modal", function (event) {
+    $("#modal-delete").on("show.bs.modal", function (event) {
       const email = $(event.relatedTarget).data("email");
       const id = $(event.relatedTarget).data("id");
       $(this)
         .find(".modal-body")
-        .html(`<p class="h5">Yakin hapus data {{{ currentPage }}} dengan email <b>${email}</b>?</p>`);
+        .html(`<p class="h5">Yakin hapus data admin dengan email <b>${email}</b>?</p>`);
       $(this).find("#id_user").val(id);
     });
   });

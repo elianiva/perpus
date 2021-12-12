@@ -38,7 +38,7 @@ export default class DashboardController {
         sedangDipinjam: borrowed[0].total,
         sudahDikembalikan: returned[0].total,
         jumlahRak: rak[0].total,
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
       });
     } catch (err) {
       throw err;
@@ -47,9 +47,8 @@ export default class DashboardController {
 
   public async bukuTable({ view, auth }: HttpContextContract) {
     try {
-      await auth.user?.load("profil");
       return view.render("admin/dashboard/buku", {
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentUserRole: auth.user?.role,
       });
     } catch (err) {
@@ -59,9 +58,8 @@ export default class DashboardController {
 
   public async pinjamanTable({ auth, view }: HttpContextContract) {
     try {
-      await auth.user?.load("profil");
       return view.render("admin/dashboard/pinjaman", {
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentUserRole: auth.user?.role,
       });
     } catch (err) {
@@ -93,12 +91,12 @@ export default class DashboardController {
         const endDate = pinjaman.tglKembali?.toFormat("MM/dd/yyyy");
 
         return view.render("admin/dashboard/pinjaman_form", {
-          currentUserName: auth.user?.profil.nama,
+          currentUserName: auth.user?.nama,
           isEditing,
           data: {
             id,
             semuaBuku: buku.map(({ id, judul }) => ({ id, judul })),
-            semuaAnggota: anggota.map(({ id, profil: { nama } }) => ({ id, nama })),
+            semuaAnggota: anggota.map(({ id, nama }) => ({ id, nama })),
             buku: {
               id: pinjaman.buku[0].id,
               judul: pinjaman.buku[0].judul,
@@ -112,10 +110,10 @@ export default class DashboardController {
       }
 
       return view.render("admin/dashboard/pinjaman_form", {
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         data: {
           semuaBuku: buku.map(({ id, judul }) => ({ id, judul })),
-          semuaAnggota: anggota.map(({ id, profil: { nama } }) => ({ id, nama })),
+          semuaAnggota: anggota.map(({ id, nama }) => ({ id, nama })),
         },
       });
     } catch (err) {
@@ -128,7 +126,7 @@ export default class DashboardController {
       const buku = await Buku.all();
       await auth.user?.load("profil");
       return view.render(`admin/dashboard/transaksi_buku`, {
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentPage: "transaksi_buku",
         data: {
           buku: buku.map((b) => b.serialize({ fields: ["id", "judul", "jumlah"] })),
@@ -155,7 +153,7 @@ export default class DashboardController {
         }
 
         return view.render("admin/dashboard/buku_form", {
-          currentUserName: auth.user?.profil.nama,
+          currentUserName: auth.user?.nama,
           rak: rak.map((r) => r.noRak),
           isEditing,
           data: {
@@ -172,7 +170,7 @@ export default class DashboardController {
       }
 
       return view.render("admin/dashboard/buku_form", {
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         data: {
           rak: rak.map(({ id, noRak }) => ({ id, noRak })),
           kategori: kategori.map(({ kategori }) => kategori),
@@ -187,9 +185,9 @@ export default class DashboardController {
     try {
       const { type } = request.params();
       await auth.user?.load("profil");
-      return view.render("admin/dashboard/user", {
+      return view.render(`admin/dashboard/${type}`, {
         currentPage: type,
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentUserRole: auth.user?.role,
       });
     } catch (err) {
@@ -199,7 +197,6 @@ export default class DashboardController {
 
   public async userForm({ request, response, view, logger, auth }: HttpContextContract) {
     try {
-      const { type } = request.params();
       const { isEditing, id } = request.qs();
 
       const majors = (await Jurusan.all()).map(({ id, nama }) => ({ id, nama }));
@@ -212,16 +209,15 @@ export default class DashboardController {
         }
 
         await user.load("profil", (profil) => profil.preload("jurusan"));
-        return view.render("admin/dashboard/user_form", {
-          currentUserName: user.profil.nama,
-          currentPage: type,
+        return view.render("admin/dashboard/anggota_form", {
+          currentUserName: user.nama,
           isEditing,
           jurusan: majors,
           data: {
             id: user.id,
             nisn: user.profil.nisn,
             email: user.email,
-            nama_lengkap: user.profil.nama,
+            nama_lengkap: user.nama,
             jenis_kelamin: user.profil.jenisKelamin,
             kelas: user.profil.kelas,
             jurusan: user.profil.jurusan?.nama,
@@ -230,10 +226,9 @@ export default class DashboardController {
       }
 
       await auth.user!.load("profil");
-      return view.render("admin/dashboard/user_form", {
+      return view.render("admin/dashboard/anggota_form", {
         jurusan: majors,
-        currentPage: type,
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
       });
     } catch (err) {
       throw err;
@@ -246,7 +241,7 @@ export default class DashboardController {
 
       return view.render(`admin/dashboard/jurusan`, {
         currentPage: "jurusan",
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentUserRole: auth.user?.role,
       });
     } catch (err) {
@@ -260,7 +255,7 @@ export default class DashboardController {
 
       return view.render(`admin/dashboard/rak`, {
         currentPage: "rak",
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentUserRole: auth.user?.role,
       });
     } catch (err) {
@@ -271,17 +266,17 @@ export default class DashboardController {
   public async laporanView({ view, auth }: HttpContextContract) {
     try {
       await auth.user?.load("profil");
-
       return view.render(`admin/dashboard/laporan`, {
         currentPage: "laporan",
-        currentUserName: auth.user?.profil.nama,
+        currentUserName: auth.user?.nama,
         currentUserRole: auth.user?.role,
         data: {
           tables: [
             ["buku", "Buku"],
             ["transaksi_buku", "Transaksi Buku"],
             ["pinjaman", "Peminjaman Buku"],
-            ["user", "User"],
+            ["anggota", "Anggota"],
+            ["admin", "Admin"],
             ["jurusan", "Jurusan"],
             ["rak", "Rak"],
           ],

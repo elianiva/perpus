@@ -6,8 +6,8 @@ import User, { Roles } from "App/Models/User";
 import Jurusan from "App/Models/Jurusan";
 
 const base = {
-  email: schema.string({ trim: true }, [rules.email(), rules.required()]),
   nisn: schema.string({ trim: true }, [rules.required()]),
+  email: schema.string({ trim: true }, [rules.email(), rules.required()]),
   nama_lengkap: schema.string({ trim: true }, [rules.required()]),
   kelas: schema.number([rules.required()]),
   jurusan: schema.number([rules.required()]),
@@ -40,55 +40,89 @@ export default class UserController {
     kelas,
     password,
     role,
-  }) {
+  }: Record<string, any>) {
     const user = await User.create({
+      nama,
       email,
       password,
       role,
     });
 
-    await user.related("profil").create({ nama, jenisKelamin, nisn, kelas, idJurusan });
+    if (role !== Roles.ADMIN && role !== Roles.SUPERADMIN) {
+      await user.related("profil").create({ jenisKelamin, nisn, kelas, idJurusan });
+    }
 
     return user;
   }
 
-  public static async createUserFromRequest({ request }: HttpContextContract) {
-    /* eslint-disable */
-    const {
-      nisn,
-      nama_lengkap: nama,
-      email,
-      kelas,
-      jurusan: idJurusan,
-      jenis_kelamin: jenisKelamin,
-      password,
-      role,
-    } = await request.validate({
-      schema: userSchema,
-      messages: {
-        required: "{{ field }} tidak boleh kosong!",
-        maxLength: "Melebihi batas {{ options.maxLength }} karakter!",
-      },
-    });
-
-    return UserController.createUser({
-      nisn,
-      nama,
-      email,
-      kelas,
-      idJurusan,
-      jenisKelamin,
-      password,
-      role,
-    });
-  }
-
-  public async create(ctx: HttpContextContract) {
+  public async create({ request, response, session }: HttpContextContract) {
     try {
-      const { type } = ctx.request.params();
-      const user = await UserController.createUserFromRequest(ctx);
-      ctx.session.flash({ msg: `Berhasil menambahkan ${type} baru dengan email ${user.email}` });
-      return ctx.response.redirect(`/admin/dashboard/${type}/`);
+      const { type } = request.params();
+
+      if (type === Roles.ADMIN.toLowerCase()) {
+        const {
+          nama_lengkap: nama,
+          email,
+          password,
+          role,
+        } = await request.validate({
+          schema: schema.create({
+            nama_lengkap: schema.string({ trim: true }, [rules.required()]),
+            email: schema.string({ trim: true }, [rules.email(), rules.required()]),
+            password: schema.string.optional({ trim: true }),
+            password_repeat: schema.string.optional({ trim: true }, [rules.confirmed("password")]),
+            role: schema.enum(
+              Object.values(Roles).filter((x) => typeof x !== "number"),
+              [rules.required()]
+            ),
+          }),
+          messages: {
+            required: "{{ field }} tidak boleh kosong!",
+            maxLength: "Melebihi batas {{ options.maxLength }} karakter!",
+          },
+        });
+
+        const user = await UserController.createUser({
+          nama,
+          email,
+          password,
+          role,
+        });
+
+        session.flash({ msg: `Berhasil menambahkan ${type} baru dengan email ${user.email}` });
+        return response.redirect(`/admin/dashboard/${type}/`);
+      }
+
+      const {
+        nisn,
+        nama_lengkap: nama,
+        email,
+        kelas,
+        jurusan: idJurusan,
+        jenis_kelamin: jenisKelamin,
+        password,
+        role,
+      } = await request.validate({
+        schema: userSchema,
+        messages: {
+          required: "{{ field }} tidak boleh kosong!",
+          maxLength: "Melebihi batas {{ options.maxLength }} karakter!",
+        },
+      });
+
+      const user = await UserController.createUser({
+        nisn,
+        nama,
+        email,
+        kelas,
+        idJurusan,
+        jenisKelamin,
+        password,
+        role,
+      });
+
+      session.flash({ msg: `Berhasil menambahkan ${type} baru dengan email ${user.email}` });
+      return response.redirect(`/admin/dashboard/${type}/`);
     } catch (err) {
       throw err;
     }
@@ -116,9 +150,9 @@ export default class UserController {
 
       await user.load("profil");
 
+      user.nama = nama_lengkap;
       user.email = email;
       user.profil.nisn = nisn;
-      user.profil.nama = nama_lengkap;
       user.profil.kelas = kelas;
       user.profil.idJurusan = jurusan;
       user.profil.jenisKelamin = jenis_kelamin;
@@ -137,37 +171,49 @@ export default class UserController {
     }
   }
 
-  public async show({ response, request }: HttpContextContract) {
+  public async show({ response, request, auth }: HttpContextContract) {
     try {
       const { type } = request.params();
 
       let allUsers: User[] | null = null;
+      let data: Record<string, any> = {};
       if (type === Roles.ADMIN.toLowerCase()) {
-        allUsers = await User.query()
-          .where("role", "=", type === "admin" ? Roles.ADMIN : Roles.ANGGOTA)
-          .orWhere("role", "=");
+        if (auth.user?.role === Roles.SUPERADMIN) {
+          allUsers = await User.query()
+            .where("role", "=", Roles.ADMIN)
+            .orWhere("role", "=", Roles.SUPERADMIN);
+        } else {
+          allUsers = await User.query().where("role", "=", Roles.ADMIN);
+        }
+
+        data = allUsers!.map((user) => ({
+          id: user.id,
+          nama_lengkap: user.nama,
+          email: user.email,
+          role: user.role,
+          created_at: user.createdAt,
+          updated_at: user.updatedAt,
+        }));
       } else if (type === Roles.ANGGOTA.toLowerCase()) {
-        allUsers = await User.query()
-          .where("role", "=", type === "admin" ? Roles.ADMIN : Roles.ANGGOTA)
-          .orWhere("role", "=");
+        allUsers = await User.query().where("role", "=", Roles.ANGGOTA);
+
+        // this thing is probably dangerous but i don't care im done with this
+        await Promise.all(
+          allUsers!.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
+        );
+
+        data = allUsers!.map((user) => ({
+          id: user.id,
+          nisn: user.profil.nisn,
+          email: user.email,
+          nama_lengkap: user.nama,
+          jenis_kelamin: user.profil.jenisKelamin === 0 ? "Perempuan" : "Laki Laki",
+          kelas: user.profil.kelas,
+          jurusan: user.profil.jurusan?.nama || "Jurusan tidak tersedia",
+          created_at: user.createdAt,
+          updated_at: user.updatedAt,
+        }));
       }
-
-      // this thing is probably dangerous but i don't care im done with this
-      await Promise.all(
-        allUsers!.map((user) => user.load("profil", (profil) => profil.preload("jurusan")))
-      );
-
-      const data = allUsers!.map((user) => ({
-        id: user.id,
-        nisn: user.profil.nisn,
-        email: user.email,
-        nama_lengkap: user.profil.nama,
-        jenis_kelamin: user.profil.jenisKelamin === 0 ? "Perempuan" : "Laki Laki",
-        kelas: user.profil.kelas,
-        jurusan: user.profil.jurusan?.nama || "Jurusan tidak tersedia",
-        created_at: user.createdAt,
-        updated_at: user.updatedAt,
-      }));
 
       return response.send({ data });
     } catch (err) {
@@ -217,16 +263,21 @@ export default class UserController {
       const wb = XLSX.readFile(Application.tmpPath(path));
       const sheetName = wb.SheetNames[0];
       const worksheet = wb.Sheets[sheetName];
-      const data = XLSX.utils.sheet_to_json(worksheet);
+      const data: Record<string, any> = XLSX.utils.sheet_to_json(worksheet);
 
       // filter unwanted data
       await Promise.all(
-        data.map(async ({ jenis_kelamin, jurusan: namaJurusan, ...fields }) => {
-          const jurusan = await Jurusan.findBy("nama", namaJurusan);
+        data.map(async (d: Record<string, any>) => {
+          if (d.role === Roles.ADMIN || d.role === Roles.SUPERADMIN) {
+            await UserController.createUser(d);
+            return;
+          }
+
+          const jurusan = await Jurusan.findBy("nama", d.nama_jurusan);
           await UserController.createUser({
-            jenisKelamin: jenis_kelamin.toLowerCase() === "laki laki" ? 1 : 0,
+            jenisKelamin: d.jenis_kelamin.toLowerCase() === "laki laki" ? 1 : 0,
             idJurusan: jurusan?.id ?? 0,
-            ...(fields as any), // I don't care anymore lmao
+            ...(d as any), // I don't care anymore lmao
           });
         })
       );

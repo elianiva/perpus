@@ -38,13 +38,7 @@ export default class UserSeeder extends BaseSeeder {
     const rak = await RakFactory.merge(noRak).createMany(JUMLAH_RAK);
 
     const users = await UserFactory.with("profil")
-      .merge([
-        { role: Roles.ADMIN },
-        { role: Roles.ADMIN },
-        { role: Roles.ADMIN },
-        { role: Roles.ADMIN },
-        { role: Roles.ADMIN },
-      ])
+      .merge([{ email: "user@asdf.com", password: "user1234", role: Roles.ANGGOTA }])
       .createMany(JUMLAH_BUKU);
 
     const books = await BukuFactory.merge(
@@ -79,12 +73,9 @@ export default class UserSeeder extends BaseSeeder {
     );
 
     // custom users
-    await UserFactory.with("profil")
-      .merge([
-        { email: "superadmin@asdf.com", password: "admin1234", role: Roles.SUPERADMIN },
-        { email: "admin@asdf.com", password: "admin1234", role: Roles.ADMIN },
-        { email: "user@asdf.com", password: "user1234", role: Roles.ANGGOTA },
-      ])
-      .createMany(3);
+    await UserFactory.merge([
+      { email: "superadmin@asdf.com", password: "admin1234", role: Roles.SUPERADMIN },
+      { email: "admin@asdf.com", password: "admin1234", role: Roles.ADMIN },
+    ]).createMany(2);
   }
 }

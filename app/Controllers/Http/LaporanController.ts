@@ -2,7 +2,7 @@ import Application from "@ioc:Adonis/Core/Application";
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { rules, schema } from "@ioc:Adonis/Core/Validator";
 import Database from "@ioc:Adonis/Lucid/Database";
-import User from "App/Models/User";
+import User, { Roles } from "App/Models/User";
 import XLSX from "xlsx";
 
 export default class LaporansController {
@@ -33,13 +33,18 @@ export default class LaporansController {
         day: "numeric",
       });
 
-      let filteredData: any[];
-      if (tableName === "user") {
+      let result: any[];
+      if (tableName === "admin") {
+        const data = await User.query()
+          .where("role", Roles.ADMIN)
+          .orWhere("role", Roles.SUPERADMIN);
+        result = data.map((u) => u.toJSON());
+      } else if (tableName === "anggota") {
         const data = await User.all();
         await Promise.all(
           data.map((u) => u.load("profil", async (p) => await p.preload("jurusan")))
         );
-        filteredData = data
+        result = data
           .map((u) => u.toJSON())
           .map(
             ({
@@ -70,7 +75,7 @@ export default class LaporansController {
           );
       } else {
         const data = await Database.from(tableName).select("*");
-        filteredData = data.map(({ password, ...item }) => ({ ...item }));
+        result = data.map(({ ...item }) => ({ ...item }));
       }
 
       const workbook = XLSX.utils.book_new();
@@ -81,7 +86,7 @@ export default class LaporansController {
         CreatedDate: new Date(Date.now()),
       };
 
-      const worksheet = XLSX.utils.json_to_sheet(filteredData);
+      const worksheet = XLSX.utils.json_to_sheet(result);
       XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Perpustakaan");
 
       const filepath = Application.tmpPath(`laporan_${tableName}_${tglAwal}-${tglAkhir}.xlsx`);

@@ -6,7 +6,7 @@
   @!component('components/navbar', { currentUserName })
 
   <!-- Main Sidebar Container -->
-  @!component('components/sidebar', { active: `${currentPage}_form` })
+  @!component('components/sidebar')
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -15,7 +15,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-capitalize">{{ isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru` }}</h1>
+            <h1 class="m-0 text-capitalize">{{ isEditing ? `Perbarui Anggota` : `Tambah Anggota Baru` }}</h1>
           </div>
           <!-- /.col -->
           <div class="col-sm-6">
@@ -23,7 +23,7 @@
               <li class="breadcrumb-item">
                 <a href="/admin/dashboard"> Dashboard </a>
               </li>
-              <li class="breadcrumb-item active text-capitalize">{{ currentPage }}</li>
+              <li class="breadcrumb-item active text-capitalize">Anggota</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -48,14 +48,14 @@
               </div>
             @endif
             <div class="card">
-              <div class="card-header text-capitalize">{{ isEditing ? `Perbarui ${currentPage}` : `Tambah ${currentPage} Baru` }}</div>
+              <div class="card-header text-capitalize">{{ isEditing ? `Perbarui Anggota` : `Tambah Anggota Baru` }}</div>
               <div class="card-body">
                 <form
                   method="POST"
-                  action="/api/{{ currentPage }}/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
+                  action="/api/anggota/{{ isEditing ? `edit?id=${data?.id}&_method=PUT` : 'tambah' }}"
                 >
                   {{ csrfField() }}
-                  <input name="role" type="hidden" value="{{ currentPage === 'admin' ? 'ADMIN' : 'ANGGOTA' }}" />
+                  <input name="role" type="hidden" value="ANGGOTA" />
                   <div class="card-body">
                     <div class="form-group">
                       <label for="nisn">NISN</label>

@@ -42,7 +42,7 @@ export default class PinjamanController {
 
             return {
               id: p.id,
-              nama: p.user?.profil?.nama,
+              nama: p.user?.nama,
               buku: {
                 id: p.buku[0]?.id,
                 judul: p.buku[0]?.judul,
@@ -79,7 +79,7 @@ export default class PinjamanController {
       await TransaksiBukuController.add(Kind.KELUAR, {
         id_buku,
         jumlah: 1,
-        alasan: `Dipinjam oleh ${auth.user!.profil.nama}`,
+        alasan: `Dipinjam oleh ${auth.user?.nama}`,
       });
 
       const pinjaman = await Pinjaman.create({
@@ -157,7 +157,7 @@ export default class PinjamanController {
       await TransaksiBukuController.add(Kind.MASUK, {
         id_buku: pinjaman.buku[0].id,
         jumlah: 1,
-        alasan: `Dikembalikan oleh ${auth.user!.profil.nama}`,
+        alasan: `Dikembalikan oleh ${auth.user?.nama}`,
       });
 
       pinjaman.status = Status.DIKEMBALIKAN;

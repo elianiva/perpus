@@ -16,8 +16,8 @@ export default class AnggotaController {
 
       await auth.user!.load("profil");
       return view.render("anggota/index", {
-        currentUserName: auth.user!.profil.nama,
-        currentUserId: auth.user!.id,
+        currentUserName: auth.user?.nama,
+        currentUserId: auth.user?.id,
         data: {
           kategori: categories.map((item) => item.kategori).sort(),
           buku: sortedBooks,
@@ -59,8 +59,8 @@ export default class AnggotaController {
 
       await auth.user!.load("profil");
       return view.render("anggota/pinjaman", {
-        currentUserName: auth.user!.profil.nama,
-        currentUserId: auth.user!.id,
+        currentUserName: auth.user?.nama,
+        currentUserId: auth.user?.id,
         data: {
           pinjaman: bukuPinjaman,
           terlambat: terlambat,
@@ -114,8 +114,8 @@ export default class AnggotaController {
 
       await auth.user!.load("profil");
       return view.render("anggota/kategori", {
-        currentUserName: auth.user!.profil.nama,
-        currentUserId: auth.user!.id,
+        currentUserName: auth.user?.nama,
+        currentUserId: auth.user?.id,
         data: {
           kategori: kategori,
           buku: sortedBooks,
