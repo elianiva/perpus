@@ -3,6 +3,13 @@
 * HARD
 *** TODO Ganti pake soft delete (d)
 
+* TODO
+*** TODO Pisahin table kategori
+*** TODO Sort berdasarkan status (anggota) (TERTUNDA -> DITOLAK -> DIKEMBALIKAN)
+*** TODO Sort berdasarkan aksi (admin) (TERTUNDA -> DITOLAK -> DIKEMBALIKAN)
+*** TODO Nama rak sesuai kategori
+*** TODO Preview laporan
+
 * BACKLOG
 *** DONE Bikin halaman buat generate laporan yg bisa ditentuin tanggal awal-akhirnya
 *** DONE Bikin halaman buat tiap kategori buku

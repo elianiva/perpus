@@ -57,24 +57,24 @@ export default class TransaksiBukuController {
     if (kind === Kind.KELUAR) transaksi.buku.jumlah = transaksi.buku.jumlah - jumlah;
 
     // prevents negative value
-    if (transaksi!.buku.jumlah < 0) transaksi!.buku.jumlah = 0;
+    // if (transaksi!.buku.jumlah < 0) transaksi!.buku.jumlah = 0;
 
     await transaksi!.buku.save();
+    await transaksi!.save();
   }
 
   public async create({ request, response, session }: HttpContextContract) {
-    const { kind } = request.qs();
-
     /* eslint-disable */
-    const { id_buku, alasan, jumlah } = await request.validate({
+    const { id_buku, alasan, jumlah, jenis } = await request.validate({
       schema: schema.create({
         id_buku: schema.number([rules.required()]),
         alasan: schema.string({ trim: true }, [rules.required()]),
         jumlah: schema.number([rules.required()]),
+        jenis: schema.string({ trim: true }, [rules.required()]),
       }),
     });
 
-    await TransaksiBukuController.add(kind === "masuk" ? Kind.MASUK : Kind.KELUAR, {
+    await TransaksiBukuController.add(jenis === "masuk" ? Kind.MASUK : Kind.KELUAR, {
       id_buku,
       alasan,
       jumlah,
